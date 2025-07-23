@@ -1,2 +1,17 @@
+@use '../src/assets/styles/variables' as var;
 @import "tailwindcss";
+@import "primeicons/primeicons.css";
+
+html,
+body, p, h1, h2, h3, h4 {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var.$font-family-base;
+    line-height: var.$line-height-base;
+}
+html, body, app-root {
+    height: 100%;
+    font-size: var.$font-size-sm;
+}
 

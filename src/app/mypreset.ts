@@ -20,17 +20,17 @@ const MyPreset = definePreset(Aura, {
             light: {
                 surface: {
                     0: '#ffffff',
-                    50: '{zinc.50}',
-                    100: '{zinc.100}',
-                    200: '{zinc.200}',
-                    300: '{zinc.300}',
-                    400: '{zinc.400}',
-                    500: '{zinc.500}',
-                    600: '{zinc.600}',
-                    700: '{zinc.700}',
-                    800: '{zinc.800}',
-                    900: '{zinc.900}',
-                    950: '{zinc.950}'
+                    50: '{stone.50}',
+                    100: '{stone.100}',
+                    200: '{stone.200}',
+                    300: '{stone.300}',
+                    400: '{stone.400}',
+                    500: '{stone.500}',
+                    600: '{stone.600}',
+                    700: '{stone.700}',
+                    800: '{stone.800}',
+                    900: '{stone.900}',
+                    950: '{stone.950}'
                 }
             },
             dark: {
