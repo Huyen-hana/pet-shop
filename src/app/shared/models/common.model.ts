@@ -15,3 +15,13 @@ export interface Image {
     idImg?: string;
     routerLink?: string;
 }
+
+export interface FooterSection {
+    title: string;
+    childs: FooterChild[];
+}
+export interface FooterChild {
+name: string;
+params?: string;
+icon?: string
+}
