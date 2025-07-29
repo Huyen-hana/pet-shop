@@ -1,4 +1,57 @@
 <div class="grid grid-rows-[1fr] px-7.5 max-w-[1400px] mx-auto">
-
-    <p class="px-3.75 text-center text-(--p-stone-500)">&copy;2025 PetShop All Rights Reserved.</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-7.5 mt-11.25 max-md:hidden">
+        @for (footerItem of footer; track footerItem.title) {
+            <div>
+                <div class="py-2">
+                    <h2 class="font-semibold text-lg">{{ footerItem.title }}</h2>
+                </div>
+                @if (footerItem.childs.length > 0) {
+                    @for (child of footerItem.childs; track child.name) {
+                        <a
+                            class="block py-1 text-sm"
+                            [routerLink]="['/main', (child.params ? child.params : 'home')]">
+                            {{ child.name }}
+                        </a>
+                    }
+                }
+            </div>
+        }
+    </div>
+    <!-- mobile -->
+    <div class="grid grid-cols-1 md:hidden gap-0 mt-11.25">
+        @for (footerItem of footer; track footerItem.title; let i = $index) {
+            <p-panel [header]="footerItem.title" [toggleable]="true" [collapsed]="i === footer.length - 1 ? false : true" [dt]="amberPanel">
+                @for (child of footerItem.childs; track child.name) {
+                    <a
+                        class="block py-1 text-sm"
+                        [routerLink]="['/main', (child.params ? child.params : 'home')]">
+                        {{ child.name }}
+                    </a>
+                }
+            </p-panel>
+        }
+    </div>      
+    <!-- footer   -->
+    <div class="flex items-center justify-between mt-11.25 mb-7.5">
+        <div>
+            <p class="px-3.75 text-center text-(--p-stone-500) text-sm">&copy;2025 PetShop All Rights Reserved.</p>
+        </div>
+        <div class="flex items-center gap-3 pl-3">
+            <a [routerLink]="['/main/home']">
+                <i class="pi pi-facebook"
+                    style="font-size: 1.5rem; color: var(--primary-color)"
+                ></i>
+            </a>
+            <a [routerLink]="['/main/home']">
+                <i class="pi pi-instagram"
+                    style="font-size: 1.5rem; color: var(--primary-color)"
+                ></i>
+            </a>
+            <a [routerLink]="['/main/home']">
+                <i class="pi pi-tiktok"
+                    style="font-size: 1.5rem; color: var(--primary-color)"
+                ></i>
+            </a>
+        </div>
+    </div>
 </div>
