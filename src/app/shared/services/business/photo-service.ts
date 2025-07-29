@@ -7,14 +7,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class Photo {
-
-  // images?: Image[] = [];
   photoUrl: string = '';
 
   private http = inject(HttpClient);
 
     //fake data
-    images = [
+    images: Image[] = [
       {
         itemImageSrc: 'https://paddy.vn/cdn/shop/files/paddy-D7-GO_1880_x_720_px_f5009950-b3e1-4022-abdc-2c4781e3f2bf.jpg?v=1752640504&width=1880',
         thumbnailImageSrc: '',
@@ -43,7 +41,7 @@ export class Photo {
     ]
 
     //fake brand
-    brands = [
+    brands: any[] = [
       {
         name: 'Nutrience',
         img: 'https://paddy.vn/cdn/shop/files/nutrience_logo_510x.png?v=1671338493'
