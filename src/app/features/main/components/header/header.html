@@ -1,7 +1,7 @@
-<div class="grid grid-rows-[1fr] max-w-[1400px] mx-auto px-7.5 min-h-auto max-lg:relative">
+<div class="grid grid-rows-[1fr] max-w-[var(--max-width-app)] mx-auto px-7.5 min-h-auto max-lg:relative">
     <!-- row 01 -->
     <div class="flex items-center h-12.5 h-22.5 gap-9 py-4.5 max-lg:hidden">
-        <div class="min-w-[155px] flex-shrink-0">
+        <div class="min-w-[var(--logo-width)] flex-shrink-0">
             <a [routerLink]="['/main/home']">
                 <div>
                     <img src="https://i.ibb.co/Y7sY4Tf6/Veterinary-Logo-Pet-Shop-Vector-Graphics-19036061-1-removebg-preview.png"
@@ -21,29 +21,31 @@
                     <div>
                         <i class="pi pi-user text-(--p-surface-0)
                             group-hover:text-(--p-surface-800)
-                            transtion-all duration-100 ease-in-out"
+                            transtion-all duration-200 ease-in-out"
                             [style]="{ 'font-size': '24px' }"
                             >
                         </i>
-
                     </div>
-                    <div class="text-xs text-(--p-surface-0) font-thin
+                    <div class="text-xs text-(--p-surface-0) font-thin select-none
                         group-hover:text-(--p-surface-800)
-                        transtion-all duration-100 ease-in-out"
-                        >Đăng nhập</div>
+                        transtion-all duration-200 ease-in-out"
+                        >Đăng nhập
                     </div>
-                <div class="flex flex-col items-center pl-3 group">
+                </div>
+                
+                <div class="flex flex-col items-center pl-3 cursor-pointer group">
                     <div>
-                        <i class="pi pi-shopping-cart text-(--p-surface-0) cursor-pointer
+                        <i class="pi pi-shopping-cart text-(--p-surface-0)
                             group-hover:text-(--p-surface-800)
-                            transtion-all duration-100 ease-in-out"
+                            transtion-all duration-200 ease-in-out"
                             [style]="{ 'font-size': '24px' }">
                         </i>
                     </div>
-                    <div class="text-xs text-(--p-surface-0) font-thin cursor-pointer
+                    <div class="text-xs text-(--p-surface-0) font-thin select-none
                             group-hover:text-(--p-surface-800)
-                            transtion-all duration-100 ease-in-out"
-                        >Giỏ hàng</div>
+                            transtion-all duration-200 ease-in-out"
+                        >Giỏ hàng
+                    </div>
                 </div>
             </div>
         </div>
@@ -57,11 +59,11 @@
      </div>
 
      <!-- row 03: Mobile -->
-     <div class="bg-(--p-amber-500) max-lg:fixed top-0 right-0 left-0 lg:hidden">
+     <div class="bg-(--p-amber-500) max-lg:fixed top-0 right-0 left-0 lg:hidden z-50">
         <div class="h-12.5 flex items-center sm:gap-6">
             <div class="flex items-center gap-1">
 
-                <!-- left drawer here -->
+                <!-- left drawer here: menu -->
                  <app-drawer [titleMenu]="'Menu'"
                     [category]="category"
                  ></app-drawer>
@@ -72,7 +74,7 @@
             </div>
             
             <div class="flex-1 min-w-0">
-                <div class="min-w-[155px] flex-shrink-0">
+                <div class="min-w-[var(--logo-width)] flex-shrink-0">
                     <a [routerLink]="['/main/home']">
                         <div>
                             <img src="https://i.ibb.co/Y7sY4Tf6/Veterinary-Logo-Pet-Shop-Vector-Graphics-19036061-1-removebg-preview.png"
@@ -103,7 +105,7 @@
         }"
     >
         <div class="bg-(--p-amber-500)">
-            <div class="h-12.5 max-w-[1400px] flex items-center sm:gap-6 mx-auto px-7.5">
+            <div class="h-12.5 max-w-[var(--max-width-app)] flex items-center sm:gap-6 mx-auto px-7.5">
                 <div>
                     <app-megamenu [category]="category"></app-megamenu>
                 </div>
