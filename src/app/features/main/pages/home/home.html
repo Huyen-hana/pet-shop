@@ -1,3 +1,108 @@
-<div class="w-full"></div>
-<div class="w-full"></div>
-<div class="w-full"></div>
+<div class="w-full h-auto max-lg:mt-[var(--mini-header-height)] flex flex-col">
+    <div class="mb-1.25">
+        <app-social-banner></app-social-banner>
+    </div>
+    @if (!policies) {
+        <ng-container>
+            <p class="text-sm text-muted">Không có chính sách nào để hiển thị.</p>
+        </ng-container>
+    } @else {
+        <ng-container>
+            <div class="grid max-md:grid-cols-2 grid-cols-4 gap-1.5">
+                @for (policy of policies; track policy.title) {
+                    <div class="flex items-center justify-center p-2 rounded-md bg-(--p-surface-100) shadow-sm min-h-16.5
+                        transition-transform duration-200 hover:scale-102 cursor-pointer select-none">
+                        <div class="pr-2 flex items-center">
+                            <i [class]="policy.icon" style="font-size: 1.6rem; font-weight: 500; color: var(--primary-color)"></i>
+                        </div>
+                        <div class="text-lg font-semibold leading-[var(--line-height-sm)]">{{ policy.title }}</div>
+                    </div>
+                }
+            </div>
+        </ng-container>
+    }
+</div>
+
+<div class="w-full">
+    <div class="py-2.5">
+        <h2 class="font-semibold text-base md:text-lg">Mua sắm theo giống thú cưng</h2>
+    </div>
+    
+    <div class="grid lg:grid-cols-2 gap-3.75">
+        <div class="overflow-hidden rounded-md">
+            <a [routerLink]="['/main/collections', 'cho']">
+                <img 
+                    class="w-full aspect-[685/197] object-cover 
+                        transition-transform duration-300 hover:scale-105"
+                    src="https://i.ibb.co/Fbn7yHLk/banner02-dog.png" alt="banner02-dog">
+            </a>
+        </div>
+        <div class="overflow-hidden rounded-md">
+            <a [routerLink]="['/main/collections', 'meo']">
+                <img 
+                    class="w-full aspect-[685/197] object-cover
+                        transition-transform duration-300 hover:scale-105"
+                    src="https://i.ibb.co/ksXpTzrk/banner03-cat.png" alt="banner03-cat">
+            </a>
+        </div>
+      
+        <div class="lg:col-span-2 mx-7.5 overflow-hidden rounded-md">
+            <a [routerLink]="['/']">
+                <img 
+                    class="w-full aspect-[295/113] object-cover 
+                        transition-transform duration-300 hover:scale-105"
+                    src="https://i.ibb.co/d32JVFb/banner01.png" alt="banner01">
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- review product card -->
+<div class="w-full">
+    <div class="py-2.5">
+        <h2 class="font-semibold text-base md:text-lg">Được BOSS yêu thích</h2>
+    </div>
+    <div class="grid grid-cols-2 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 gap-2 lg:gap-3.75">
+        <div class="p-4 bg-blue-100 rounded-md shadow-md hover:shadow-xl">
+            card
+        </div>
+        <div class="p-4 bg-blue-100 rounded-md shadow">
+            card
+        </div>
+        <div class="p-4 bg-blue-100 rounded-md shadow">
+            card
+        </div>
+    </div>
+
+    <div class="py-2.5">
+        <h2 class="font-semibold text-base md:text-lg">Hàng Mới về</h2>
+    </div>
+    <div class="grid grid-cols-2 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 gap-2 lg:gap-3.75">
+        <div class="p-4 bg-blue-100 rounded-md shadow">
+            card
+        </div>
+    </div>
+
+    <div class="py-2.5">
+        <h2 class="font-semibold text-base md:text-lg">Thương hiệu BOSS thích</h2>
+    </div>
+    <div class="grid grid-cols-3 xl:grid-cols-8 lg:grid-cols-4 md:grid-cols-3 gap-4">
+        @for (brand of brands; track brand.name) {
+            <div class="p-3 rounded-md shadow-md">
+                <div class="flex flex-col justify-center items-center select-none">
+                    <div class="overflow-hidden">
+                        <a [routerLink]="['/main/collections', brand.name.toLocaleLowerCase().replaceAll(' ', '-')]">
+                            <img 
+                                class="aspect-square object-contain
+                                    transition-transform duration-200 hover:scale-103"
+                                [src]="brand.img" [alt]="brand.name">
+                        </a>
+                    </div>
+                    <div>
+                        <a>{{ brand.name }}</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
