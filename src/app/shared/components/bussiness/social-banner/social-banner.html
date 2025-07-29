@@ -1,0 +1,13 @@
+<div id="galeria">
+    <p-galleria [value]="images" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true" [showItemNavigatorsOnHover]="true" [circular]="true" [responsiveOptions]="responsiveOptions" [numVisible]="2" [containerStyle]="{ 'max-width': 'inherit' }">
+        <ng-template #item let-item>
+            <img 
+                (error)="onImageError($event)"
+                (click)="navigateTo(item.routerLink)"
+                [src]="item.itemImageSrc" style="width: 100%; display: block; cursor: pointer; aspect-ratio: 47 / 18;" />
+        </ng-template>
+        <ng-template #thumbnail let-item>
+            <img [src]="item.thumbnailImageSrc" style="display: block;" />
+        </ng-template>
+    </p-galleria>
+</div>
