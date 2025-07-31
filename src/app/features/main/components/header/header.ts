@@ -1,10 +1,12 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Megamenu } from '../../../../shared/components/layout/megamenu/megamenu';
 import { Drawer } from '../../../../shared/components/ui/drawer/drawer';
 import { ButtonModule } from 'primeng/button';
 import { Category } from '../../../../shared/models/common.model';
+import { User } from '../../../../shared/models/user.model';
+import { UserService } from '../../../../shared/services/user-service/user-service';
 
 
 @Component({
@@ -13,7 +15,7 @@ import { Category } from '../../../../shared/models/common.model';
   templateUrl: './header.html',
   styleUrl: './header.scss'
 })
-export class Header implements OnInit {
+export class Header {
 
   category: Category[] = [
     {
@@ -55,10 +57,6 @@ export class Header implements OnInit {
     { cateId: 'Today\'s Sale' }
   ];
   isNavHidden = false;
-
-  ngOnInit(): void {
-    
-  }
 
   // scroll navBar
   @HostListener('window:scroll', [])
