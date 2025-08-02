@@ -11,26 +11,49 @@ export class UserService {
   private http = inject(HttpClient)
   
   private getAllUser(): Observable<User[]> {
-    return this.http.get<User[]>(this.url)
+    return this.http.get<User[]>(this.url);
   }
   getUserById(id: string): Observable<User> {
-    return this.http.get<User>(`${this.url}/${id}`)
+    return this.http.get<User>(`${this.url}/${id}`);
   }
   
   createUser(user: User): Observable<User> {
     return this.http.post<User>(this.url, user);
   }
-  checkHaveUser(userName: string, email: string): Observable<boolean> {
+
+  checkHaveUser(passWord?: string, email?: string): Observable<{ fullName: string; avatar: string | undefined } | null> {
     return this.getAllUser().pipe(
       map((allUser: User[]) => {
-        return allUser.some((user: User) => 
-          user.fullname === userName && user.email === email
+        const matchedUser = allUser.find((user: User) =>
+          user.passWord.trim() === passWord?.trim() &&
+          user.email.trim().toLowerCase() === email?.trim().toLowerCase()
+        );
+        if (matchedUser) {
+          return {
+            fullName: matchedUser.fullName,
+            avatar: matchedUser.avatar
+          };
+        }
+        return null;
+      }),
+      catchError(error => {
+        console.error('Lỗi khi kiểm tra user:', error);
+        return of(null);
+      })
+    );
+  }
+  
+  checkUserByEmail(email?: string): Observable<boolean> {
+    return this.getAllUser().pipe(
+      map((allUser: User[]) => {
+        return allUser.some(user =>
+          user.email.trim().toLowerCase() === email?.trim().toLowerCase()
         );
       }),
       catchError(error => {
-        console.error('Loi khi kiem tra su ton tai cua nguoi dung: ', error);
-        return of(false)
+        console.error('Lỗi khi kiểm tra email:', error);
+        return of(false);
       })
-    )
+    );
   }
 }
