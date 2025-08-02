@@ -2,6 +2,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChang
 import { provideRouter } from '@angular/router';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import MyPreset from './mypreset'
@@ -21,6 +22,7 @@ export const appConfig: ApplicationConfig = {
             theme: {
                 preset: MyPreset
             }
-        })
+        }),
+    MessageService
   ]
 };

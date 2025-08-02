@@ -8,12 +8,12 @@
         </ng-container>
     } @else {
         <ng-container>
-            <div class="grid max-md:grid-cols-2 grid-cols-4 gap-1.5">
+            <div class="grid max-md:grid-cols-2 grid-cols-4 gap-2">
                 @for (policy of policies; track policy.title) {
-                    <div class="flex items-center justify-center p-2 rounded-md bg-(--p-surface-100) shadow-sm min-h-16.5
-                        transition-transform duration-200 hover:scale-102 cursor-pointer select-none">
+                    <div class="flex items-center justify-center px-3.75 py-2 rounded-md bg-(--p-surface-100) shadow-sm min-h-16.5
+                        transition-transform duration-200 hover:scale-102 hover:shadow-md cursor-pointer select-none">
                         <div class="pr-2 flex items-center">
-                            <i [class]="policy.icon" style="font-size: 1.6rem; font-weight: 500; color: var(--primary-color)"></i>
+                            <i [class]="policy.icon" style="font-size: 1.8rem; font-weight: 500; color: var(--primary-color)"></i>
                         </div>
                         <div class="text-lg font-semibold leading-[var(--line-height-sm)]">{{ policy.title }}</div>
                     </div>
@@ -88,7 +88,7 @@
     </div>
     <div class="grid grid-cols-3 xl:grid-cols-8 lg:grid-cols-4 md:grid-cols-3 gap-4">
         @for (brand of brands; track brand.name) {
-            <div class="p-3 rounded-md shadow-md">
+            <div class="py-3 px-1 rounded-md shadow-md">
                 <div class="flex flex-col justify-center items-center select-none">
                     <div class="overflow-hidden">
                         <a [routerLink]="['/main/collections', brand.name.toLocaleLowerCase().replaceAll(' ', '-')]">

@@ -1,0 +1,61 @@
+<div class="w-full h-auto max-lg:mt-[var(--mini-header-height)]">
+    <div CLASS="pt-5 font-bold text-xl lg:px-3.75">ĐĂNG KÝ TÀI KHOẢN</div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.75 pt-5 lg:px-3.75">
+        <form 
+            (ngSubmit)="onSubmitForm($event)"
+            [formGroup]="formRegister">
+
+            <div class="flex flex-col gap-2">
+                <label class="form-label">Tên</label>
+                <input pInputText pSize="large"
+                    formControlName="username"
+                    name="txtUsername"
+                    type="text" class="form-control">
+    
+                    <app-error-validate 
+                        [control]="formRegister.controls['username']"
+                        [name-control]="'Tên'">
+                    </app-error-validate>
+            </div>
+        
+            <div class="flex flex-col gap-2">
+                <label class="form-label">Email</label>
+                <input pInputText pSize="large"
+                    formControlName="email"
+                    name="txtEmail"
+                    type="email" class="form-control">
+    
+                    <app-error-validate 
+                        [control]="formRegister.controls['email']"
+                        [name-control]="'Email'">
+                    </app-error-validate>
+            </div>
+    
+            <div class="flex flex-col gap-2">
+                <label for="txtPassword" class="form-label">Password</label>
+                <input
+                    pInputText pSize="large"
+                    formControlName="passWord"
+                    name="txtPassWord"
+                    type="password" class="form-control"
+                    >
+                    <app-error-validate 
+                    [control]="formRegister.controls['passWord']"
+                    [name-control]="'PassWord'">
+                    </app-error-validate>
+            </div>
+            <div class="flex justify-start mt-2 gap-3.75">
+                <p-button
+                [disabled]="formRegister.invalid"
+                severity="info"
+                type="submit"
+                label="Đăng Ký" [rounded]="true" [raised]="true" />
+                <p-button
+                (click)="goHome()"
+                type="button"
+                label="Về trang chủ" [rounded]="true" [raised]="true" />
+            </div>
+        </form>
+    </div>
+</div>
+
