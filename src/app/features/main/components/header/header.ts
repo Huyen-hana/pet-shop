@@ -7,11 +7,13 @@ import { ButtonModule } from 'primeng/button';
 import { Category } from '../../../../shared/models/common.model';
 import { User } from '../../../../shared/models/user.model';
 import { UserService } from '../../../../shared/services/user-service/user-service';
+import { AuthService } from '../../../../shared/services/auth-service/auth-service';
+import { UserDrawer } from '../../../../shared/components/ui/user-drawer/user-drawer';
 
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, CommonModule, Megamenu, Drawer, ButtonModule],
+  imports: [RouterLink, CommonModule, Megamenu, Drawer, UserDrawer, ButtonModule],
   templateUrl: './header.html',
   styleUrl: './header.scss'
 })
@@ -57,6 +59,8 @@ export class Header {
     { cateId: 'Today\'s Sale' }
   ];
   isNavHidden = false;
+  private authService = inject(AuthService);
+  isLogedIn: boolean = false;
 
   // scroll navBar
   @HostListener('window:scroll', [])
