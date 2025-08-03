@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class UserService {
-  url: string = 'https://687fdb48f1dcae717b6070d0.mockapi.io/user'
+  url: string = 'https://687fdb48f1dcae717b6070d0.mockapi.io/user';
   private http = inject(HttpClient)
   
   private getAllUser(): Observable<User[]> {
@@ -21,7 +21,7 @@ export class UserService {
     return this.http.post<User>(this.url, user);
   }
 
-  checkHaveUser(passWord?: string, email?: string): Observable<{ fullName: string; avatar: string | undefined } | null> {
+  checkHaveUser(passWord?: string, email?: string): Observable<{ fullName: string; avatar: string | undefined; role: string } | null> {
     return this.getAllUser().pipe(
       map((allUser: User[]) => {
         const matchedUser = allUser.find((user: User) =>
@@ -31,7 +31,8 @@ export class UserService {
         if (matchedUser) {
           return {
             fullName: matchedUser.fullName,
-            avatar: matchedUser.avatar
+            avatar: matchedUser.avatar,
+            role: matchedUser.role
           };
         }
         return null;

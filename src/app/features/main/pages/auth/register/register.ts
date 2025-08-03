@@ -90,7 +90,7 @@ export class Register {
           fullName: username,
           passWord,
           createdAt,
-          role: 'customer',
+          role: 'customer' as 'customer',
           avatar: 'https://avatars.githubusercontent.com/u/95056864',
           phone: ''
         };

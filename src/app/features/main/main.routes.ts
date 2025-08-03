@@ -1,4 +1,5 @@
 import { Routes } from "@angular/router";
+import { loggedInGuard } from "../../shared/guards/logged-in-guard";
 
 export const MAIN_ROUTES: Routes = [
     {
@@ -16,11 +17,13 @@ export const MAIN_ROUTES: Routes = [
             },
             {
                 path: 'auth/register',
-                loadComponent: () => import('../main/pages/auth/register/register').then(m => m.Register)
+                loadComponent: () => import('../main/pages/auth/register/register').then(m => m.Register),
+                canActivate: [loggedInGuard]
             },
             {
                 path: 'auth/forgot-password',
-                loadComponent: () => import('../main/pages/auth/forgot-password/forgot-password').then(m => m.ForgotPassword)
+                loadComponent: () => import('../main/pages/auth/forgot-password/forgot-password').then(m => m.ForgotPassword),
+                canActivate: [loggedInGuard]
             }
         ]
 

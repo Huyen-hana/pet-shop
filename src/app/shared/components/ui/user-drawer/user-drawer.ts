@@ -12,6 +12,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { UserService } from '../../../services/user-service/user-service';
 import { AuthService } from '../../../services/auth-service/auth-service';
+import { customMessageService } from '../../../services/message-service/message-service';
 
 @Component({
   selector: 'app-user-drawer',
@@ -26,32 +27,32 @@ export class UserDrawer implements OnInit, OnDestroy {
   @Input() titleMenu: string = 'User';
   @Input() hiddensmallIcon: boolean = false;
   visibleUser: boolean = false;
-  isLogin: boolean = false;
+  isLogin$: Observable<boolean> | undefined;
   private route = inject(Router);
   username$: Observable<string | null>;
   role: string | null = '';
-  avatar: string | null = '';
+  avatar$: Observable<string | null>;
 
   formLogin!: FormGroup;
   private formBuilder = inject(FormBuilder);
   private userService = inject(UserService);
-  authService = inject(AuthService);
+  private authService = inject(AuthService);
+  private customMessageService = inject(customMessageService);
   subscript: Subscription | undefined;
 
   constructor() {
     this.username$ = this.authService.getUserName();
-    this.avatar = this.authService.getAvatar();
+    this.avatar$ = this.authService.getAvatar();
   }
   
   ngOnInit(): void {
     this.createPlatform();
-    this.authService.isLoggedIn$.subscribe(status => {
-      this.isLogin = status;
-    });
+    this.isLogin$ = this.authService.isLoggedIn$;
+    this.authService.loadUserFromLocalStorage();
   }
   ngOnDestroy(): void {
     if (this.subscript) {
-      this.subscript.unsubscribe()
+      this.subscript.unsubscribe();
     }
   }
 
@@ -67,10 +68,10 @@ export class UserDrawer implements OnInit, OnDestroy {
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
       ]]
-    })
-    this.formLogin.valueChanges.subscribe(formValue => {
+    });
+    // this.formLogin.valueChanges.subscribe(formValue => {
 
-    })
+    // })
   }
 
   get password() {
@@ -85,20 +86,22 @@ export class UserDrawer implements OnInit, OnDestroy {
     this.subscript = this.userService.checkHaveUser(passWord, email).subscribe(isExist => {
       if (!isExist) {
         console.log('chua dang ky');
-      } else {
-        console.log('co user', isExist);
-        const avatar = isExist.avatar || 'assets/default-avatar.png';
-        this.authService.setCurrentUser(isExist.fullName, avatar);
-
+        this.customMessageService.showWarn('Khong the dang nhap', 'Tai khoan chua dang ky.')
+        return;
+      } 
+        const avatar = isExist.avatar ?? 'assets/default-avatar.png';
+        this.authService.setCurrentUser(isExist.fullName, avatar, isExist.role);
         this.authService.login();
+
         this.username$ = this.authService.getUserName();
+        this.avatar$ = this.authService.getAvatar();
         this.route.navigateByUrl('/main/home');
-      }
     });   
   };
   isLogOut(): void {
     this.authService.logOut();
-    this.route.navigate(['/main/home'])
+    this.formLogin.reset();
+    this.route.navigate(['/main/home']);
   };
   // onResetForm() {
   //   this.formLogin.reset();

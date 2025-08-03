@@ -17,17 +17,18 @@ export class AuthService {
   constructor() {
     const isLoggedIn = !localStorage.getItem(this.USER_KEY);
     this._isLoggedIn.next(isLoggedIn);
-  }
+  };
 
   // set user to localStorage
-  setCurrentUser(name: string, avatar: string): void {
+  setCurrentUser(name: string, avatar: string, role: string): void {
     const user = {
       userName: name,
-      avatar: avatar
+      avatar: avatar,
+      role: role
     };
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
     this.currentUserSubject.next(user);
-  }
+  };
 
   getCurrentUser(): {userName: string, avatar: string} | null {
     try {
@@ -45,34 +46,39 @@ export class AuthService {
       }
       return null;
     }  
-  }
-
-  // getUserRole(): string | null {
-  //   const user = this.getCurrentUser();
-  //   return user ? user.role : null;
-  // };
+  };
 
   getUserName(): Observable<string | null> {
-    // const user = this.getCurrentUser();
-    // return of(user ? user.userName : null);
     return this.currentUserSubject.asObservable().pipe(
       map(user => user ? user.userName : null)
     );
-  
+  };
+  getAvatar(): Observable<string | null> {
+    return this.currentUserSubject.asObservable().pipe(
+      map(user => user ? user.avatar : null)
+    );
   };
 
-  getAvatar(): string | null {
-    const user = this.getCurrentUser();
-    return user ? user.avatar : null;
-  }
+  //setup inital user local when destroy component
+  loadUserFromLocalStorage(): void {
+    const userRaw = localStorage.getItem(this.USER_KEY);
+    if (userRaw) {
+      try {
+        const user = JSON.parse(userRaw);
+        this.currentUserSubject.next(user);
+      } catch (e) {
+        console.error('Lỗi khi parse user từ localStorage:', e);
+      };
+    };
+  };
 
   logOut(): void {
     localStorage.removeItem(this.USER_KEY);
     this._isLoggedIn.next(true);
-  }
+  };
   
   login() {
     this._isLoggedIn.next(false);
-  }
+  };
 
 }
