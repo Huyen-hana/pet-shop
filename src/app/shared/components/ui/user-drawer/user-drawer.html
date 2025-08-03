@@ -1,5 +1,5 @@
 
-@if (authService.isLoggedIn$ | async) {
+@if (isLogin$ | async) {
     <p-drawer [(visible)]="visibleUser" [closable]="true" blockScroll="true" position="right">
     
         <ng-template #header>
@@ -20,7 +20,7 @@
     
                     <app-error-validate 
                         [control]="formLogin.controls['email']"
-                        [name-control]="'email'">
+                        [name-control]="'Email'">
                     </app-error-validate>
             </div>
     
@@ -34,7 +34,7 @@
                     >
                     <app-error-validate 
                     [control]="formLogin.controls['passWord']"
-                    [name-control]="'passWord'">
+                    [name-control]="'Mật khẩu'">
                     </app-error-validate>
             </div>
             <div class="flex flex-col mt-1.5 gap-2">
@@ -92,14 +92,12 @@
         <ng-template #header>
             <div class="flex items-center gap-2">
                 <p-avatar 
-                [image]="avatar ? avatar : 'https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png'" 
+                [image]="(avatar$ | async) || 'https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png'" 
                     shape="circle" />
                         <span class="font-bold">{{ username$ | async}}</span>                 
             </div>
         </ng-template>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat.
         </p>
         <ng-template #footer>
             <div class="flex items-center gap-2">
@@ -112,11 +110,11 @@
     </p-drawer>
     @if (!hiddensmallIcon) {
         <div 
-            class="flex items-center"
+            class="flex items-center p-3.75"
             (click)="visibleUser = true">
             <p-avatar
                 [dt]="userAva"
-                [image]="avatar ? avatar : 'https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png'"
+                [image]="(avatar$ | async) || 'https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png'"
                 shape="circle" />
         </div>
     } @else {
@@ -124,11 +122,10 @@
             class="flex flex-col items-center"
             (click)="visibleUser = true">
             <div 
-                class=""
                 (click)="visibleUser = true">
                 <p-avatar
                     [dt]="userAva"
-                    [image]="avatar ? avatar : 'https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png'"
+                    [image]="(avatar$ | async) || 'https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png'"
                     shape="circle" />
             </div>
             <div class="text-xs text-(--p-surface-0) font-thin select-none mb-0.5 max-w-15 truncate

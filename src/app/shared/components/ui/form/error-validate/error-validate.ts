@@ -22,9 +22,9 @@ export class ErrorValidate {
   }
   getErrMess(keyErr: string, value: any) {
     let messages = {
-      'required': `${this.nameControl} is required field`,
-      'minlength': `Please enter at least ${value.requiredLength} characters`,
-      'pattern': `${this.nameControl} is incorrect format`
+      'required': `${this.nameControl} là trường bắt buộc`,
+      'minlength': `Hãy nhập ít nhất ${value.requiredLength} ký tự`,
+      'pattern': `${this.nameControl} phải hợp lệ`
     }
     return messages[keyErr as keyof typeof messages];
   }
