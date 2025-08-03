@@ -3,7 +3,7 @@ export interface User {
     fullName: string;
     email: string;
     passWord: string;
-    role: string;
+    role: 'admin' | 'customer';
     createdAt?: string;
     avatar?: string;
     phone?: string;
