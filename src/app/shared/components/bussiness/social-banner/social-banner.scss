@@ -1,0 +1,29 @@
+:host ::ng-deep #galeria {
+    .p-galleria {
+        border: none
+    }
+    
+    .p-galleria-content {
+        position: relative;
+    }
+
+    .p-galleria-indicator-list {
+        padding: 15px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0
+    }
+    .p-galleria-indicator-button {
+        width: 12px;
+        height: 12px;
+    }
+    .p-galleria-next-icon, .p-galleria-prev-icon {
+        width: 17px;
+        height: 17px;
+    }
+    .p-galleria-nav-button {
+        background: rgba(245, 158, 11, 0.3);
+    }
+
+}

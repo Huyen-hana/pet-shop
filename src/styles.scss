@@ -2,6 +2,17 @@
 @import "tailwindcss";
 @import "primeicons/primeicons.css";
 
+:root {
+    --primary-color: #f59e0b;
+    --max-width-app: 1400px;
+
+    --header-height: 138px;
+    --mini-header-height: 50px;
+    
+    --logo-width: 155px;
+    --line-height-sm: 1.2;
+}
+
 html,
 body, p, h1, h2, h3, h4 {
     margin: 0;
@@ -12,6 +23,7 @@ body, p, h1, h2, h3, h4 {
 }
 html, body, app-root {
     height: 100%;
-    font-size: var.$font-size-sm;
+    font-size: var.$font-size-base;
+    color: var.$text-color;
 }
 

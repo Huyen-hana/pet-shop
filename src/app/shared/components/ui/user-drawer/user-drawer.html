@@ -1,0 +1,138 @@
+
+@if (isLogin$ | async) {
+    <p-drawer [(visible)]="visibleUser" [closable]="true" blockScroll="true" position="right">
+    
+        <ng-template #header>
+            <div class="flex items-center gap-2">
+                <span class="font-bold text-xl">{{ titleMenu }}</span>
+            </div>
+        </ng-template>
+        <form 
+            (ngSubmit)="onSubmitForm()"
+            [formGroup]="formLogin">
+        
+            <div class="flex flex-col gap-2">
+                <label class="form-label">Email</label>
+                <input pInputText pSize="large"
+                    formControlName="email"
+                    name="txtEmail"
+                    type="email" class="form-control">
+    
+                    <app-error-validate 
+                        [control]="formLogin.controls['email']"
+                        [name-control]="'Email'">
+                    </app-error-validate>
+            </div>
+    
+            <div class="flex flex-col gap-2">
+                <label for="txtPassword" class="form-label">Password</label>
+                <input
+                    pInputText pSize="large"
+                    formControlName="passWord"
+                    name="txtPassWord"
+                    type="password" class="form-control"
+                    >
+                    <app-error-validate 
+                    [control]="formLogin.controls['passWord']"
+                    [name-control]="'Mật khẩu'">
+                    </app-error-validate>
+            </div>
+            <div class="flex flex-col mt-1.5 gap-2">
+                <p-button 
+                    [ngStyle]="{'margin': 'auto'}"
+                    [disabled]="formLogin.invalid"
+                    type="submit"
+                    label="Đăng Nhập" [rounded]="true" [raised]="true" />
+    
+                <p-button 
+                    (click)="goResetPass()"
+                    [ngStyle]="{'margin': 'auto'}"
+                    label="Quên mật khẩu" variant="text" severity="secondary" [rounded]="true" />
+    
+                <p-button 
+                    (click)="goRegister()"
+                    [ngStyle]="{'margin': 'auto'}"
+                    severity="info"
+                    type="button"
+                    label="Đăng Ký" [rounded]="true" [raised]="true" />
+            </div>
+        </form>
+    
+    </p-drawer>
+    
+    <!-- hidden minilogo when it larger then lg wide -->
+    @if (!hiddensmallIcon) {
+        <i 
+            (click)="visibleUser = true" icon="pi pi-user"
+            class="pi pi-user text-(--p-surface-0) p-3.75 cursor-pointer"
+            [style]="{ 'font-size': '16px' }">
+        </i>
+    } @else {
+        <div
+            class="flex flex-col items-center"
+            (click)="visibleUser = true">
+            <div>
+                <i class="pi pi-user text-(--p-surface-0)
+                    group-hover:text-(--p-surface-800)
+                    transtion-all duration-200 ease-in-out"
+                    [style]="{ 'font-size': '24px' }"
+                    >
+                </i>
+            </div>
+            <div class="text-xs text-(--p-surface-0) font-thin select-none
+                group-hover:text-(--p-surface-800)
+                transtion-all duration-200 ease-in-out"
+                >Đăng nhập
+            </div>
+        </div>
+    }
+
+} @else {
+    <p-drawer [(visible)]="visibleUser" [closable]="true" blockScroll="true" position="right">
+        <ng-template #header>
+            <div class="flex items-center gap-2">
+                <p-avatar 
+                [image]="(avatar$ | async) || 'https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png'" 
+                    shape="circle" />
+                        <span class="font-bold">{{ username$ | async}}</span>                 
+            </div>
+        </ng-template>
+        <p>
+        </p>
+        <ng-template #footer>
+            <div class="flex items-center gap-2">
+                <button pButton label="Tài khoản" icon="pi pi-user" class="w-full" outlined></button>
+                <button 
+                    (click)="isLogOut()"
+                    pButton label="Đăng xuất" icon="pi pi-sign-out" class="w-full" severity="danger" text></button>
+            </div>
+        </ng-template>
+    </p-drawer>
+    @if (!hiddensmallIcon) {
+        <div 
+            class="flex items-center p-3.75"
+            (click)="visibleUser = true">
+            <p-avatar
+                [dt]="userAva"
+                [image]="(avatar$ | async) || 'https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png'"
+                shape="circle" />
+        </div>
+    } @else {
+        <div
+            class="flex flex-col items-center"
+            (click)="visibleUser = true">
+            <div 
+                (click)="visibleUser = true">
+                <p-avatar
+                    [dt]="userAva"
+                    [image]="(avatar$ | async) || 'https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png'"
+                    shape="circle" />
+            </div>
+            <div class="text-xs text-(--p-surface-0) font-thin select-none mb-0.5 max-w-15 truncate
+                group-hover:text-(--p-surface-800)
+                transtion-all duration-200 ease-in-out"
+                >{{ username$ | async }}
+            </div>
+        </div>
+    }
+}
