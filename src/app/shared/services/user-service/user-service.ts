@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class UserService {
-  url: string = 'https://687fdb48f1dcae717b6070d0.mockapi.io/user';
+  private readonly url: string = 'https://687fdb48f1dcae717b6070d0.mockapi.io/user';
   private http = inject(HttpClient)
   
   private getAllUser(): Observable<User[]> {
