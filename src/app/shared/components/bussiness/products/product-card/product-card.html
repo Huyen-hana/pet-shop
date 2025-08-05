@@ -1,0 +1,65 @@
+
+@if (!product) {
+    <p>Không có dữ liệu sản phẩm.</p>
+} @else {
+    <p-card [style]="{ width: 'auto', overflow: 'hidden' }" [dt]="myAmberCard">
+        <ng-template #header>
+            <div class="relative">
+                <a [routerLink]="['/main/home']">
+                    <img alt="Card" class="w-full aspect-square object-cover" [src]="product?.img" />
+                </a>
+                <div class="absolute top-[-2px] left-0">
+                    @if (product.sale && product.sale > 0) {
+                        <div>
+                            <p-tag severity="danger" value="Giảm giá" [dt]="myAmberTag" />
+                        </div>
+                    } 
+                    @if (!(product.currentStock && product.currentStock > 0)) {
+                        <div>
+                            <p-tag severity="secondary" value="Hết hàng" [dt]="myAmberTag" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #subtitle> 
+            <a 
+                [routerLink]="['/main/home']"
+                class="line-clamp-1 sm:line-clamp-2 font-medium max-sm:text-sm">
+                {{ product.name }}
+            </a>
+        </ng-template>
+        <ng-template #title>
+            <p class="font-semibold text-base text-[var(--primary-color)] max-sm:text-sm">
+                {{ product.brand }}
+            </p>
+        </ng-template>
+        <div class="flex flex-wrap items-center gap-x-1">
+            @if (!(product.sale && product.sale > 0)) {
+                <p
+                    class="font-semibold">{{ product.price *1000 | number:'1.0-0' }}₫
+                </p>
+            } @else {
+                <p 
+                    [ngStyle]="{'text-decoration-line': 'line-through'}"
+                    class="font-semibold text-sm">{{ product.price *1000 | number:'1.0-0' }}₫
+                </p>
+                <p>|</p>
+                <p class="font-semibold text-(--p-red-600)">Sale price</p>
+            }
+        </div>
+        <ng-template #footer>
+            <div class="flex gap-4 mt-1 max-[380px]:hidden">
+                <p-button
+                    [disabled]="!product.currentStock"
+                    size="small"
+                    label="Thêm vào Giỏ Hàng" class="w-full" styleClass="w-full" />
+            </div>
+            <div class="flex flex-row-reverse items-center gap-4 mt-1 min-[380px]:hidden">
+                <p-button 
+                    [disabled]="!product.currentStock"
+                    icon="pi pi-shopping-bag" size="small" />
+            </div>
+        </ng-template>
+    </p-card>
+}
