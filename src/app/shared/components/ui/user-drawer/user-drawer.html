@@ -38,20 +38,20 @@
                     </app-error-validate>
             </div>
             <div class="flex flex-col mt-1.5 gap-2">
-                <p-button 
-                    [ngStyle]="{'margin': 'auto'}"
+                <p-button
+                    styleClass="w-full" 
                     [disabled]="formLogin.invalid"
                     type="submit"
                     label="Đăng Nhập" [rounded]="true" [raised]="true" />
     
-                <p-button 
+                <p-button
                     (click)="goResetPass()"
-                    [ngStyle]="{'margin': 'auto'}"
+                    styleClass="w-full" 
                     label="Quên mật khẩu" variant="text" severity="secondary" [rounded]="true" />
     
-                <p-button 
+                <p-button
                     (click)="goRegister()"
-                    [ngStyle]="{'margin': 'auto'}"
+                    styleClass="w-full" 
                     severity="info"
                     type="button"
                     label="Đăng Ký" [rounded]="true" [raised]="true" />
