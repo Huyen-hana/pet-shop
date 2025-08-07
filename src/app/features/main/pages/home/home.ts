@@ -47,7 +47,7 @@ export class Home implements OnInit {
   };
   ngOnDestroy(): void {
     if (this.subscript) {
-      this.subscript.unsubscribe()
+      this.subscript.unsubscribe();
     };
   };
 

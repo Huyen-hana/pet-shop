@@ -103,18 +103,25 @@ export class UserDrawer implements OnInit, OnDestroy {
     this.formLogin.reset();
     this.route.navigate(['/main/home']);
   };
-  // onResetForm() {
-  //   this.formLogin.reset();
-  // }
 
-  goRegister(): void {
-    this.route.navigateByUrl('/main/auth/register');
+  handleRouter(label: string) {
+    this.visibleUser = false;
+    this.formLogin.reset();
+
+    switch (label) {
+      case 'Quên mật khẩu':
+        this.route.navigateByUrl('/main/auth/forgot-password');
+        break;
+      case 'Đăng Ký':
+        this.route.navigateByUrl('/main/auth/register');
+        break;
+
+      default:
+        this.route.navigateByUrl('/main/home');
+        break;
+    };
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  goResetPass(): void {
-    this.route.navigateByUrl('/main/auth/forgot-password');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }
 
   userAva = {
     root: {

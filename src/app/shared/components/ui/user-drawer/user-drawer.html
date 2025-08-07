@@ -45,12 +45,12 @@
                     label="Đăng Nhập" [rounded]="true" [raised]="true" />
     
                 <p-button
-                    (click)="goResetPass()"
+                    (click)="handleRouter('Quên mật khẩu')"
                     styleClass="w-full" 
                     label="Quên mật khẩu" variant="text" severity="secondary" [rounded]="true" />
     
                 <p-button
-                    (click)="goRegister()"
+                    (click)="handleRouter('Đăng Ký')"
                     styleClass="w-full" 
                     severity="info"
                     type="button"
