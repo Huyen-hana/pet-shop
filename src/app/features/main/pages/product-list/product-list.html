@@ -1,0 +1,41 @@
+<div class="flex flex-col min-h-screen gap-4 max-lg:mt-[var(--mini-header-height)]">
+    <div class="text-2xl font-bold text-center pt-7">
+      Tất cả sản phẩm
+    </div>
+  
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.75">
+      <div class="bg-gray-100 rounded lg:hidden">Filter when less than lg</div>
+      <div class="bg-gray-200 rounded lg:col-start-2">Sort</div>
+    </div>
+  
+    <div class="grid grid-cols-1 lg:grid-cols-[210px_1fr] gap-3.75">
+      <div class="hidden lg:block bg-blue-100 rounded">fillter</div>
+      <div class="min-h-screen rounded">
+        <div class="grid grid-rows-[1fr_auto] gap-2">
+
+            <div class="min-h-screen">
+                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-2 lg:gap-x-3.75 gap-y-7">
+                  @if (!(pagedProducts && pagedProducts.length > 0)) {
+                    <p>Loading products</p>
+                  } @else {
+                      @for (product of pagedProducts; track product.id) {
+                        <div class="shadow-md hover:shadow-xl">
+                          <app-product-card [product]="product"></app-product-card>
+                        </div>
+                      }
+                  }
+                </div>
+            </div>
+        
+            <div class="mt-4">
+              <app-paginator
+                [rows]="itemsPerPage"
+                [totalRecs]="totalRecords"
+                [rowPerOptions]="rowPerOptions"
+                (pageChange)="onPageChange($event)"></app-paginator>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>
+  
