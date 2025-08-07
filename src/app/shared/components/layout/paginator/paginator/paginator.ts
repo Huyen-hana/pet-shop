@@ -8,6 +8,7 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
   styleUrl: './paginator.scss'
 })
 export class Paginator implements OnInit {
+  @Input() rowPerOptions: number[] = [10, 15];
   @Input() totalRecs: number = 0;
   @Input() rows: number = 10;
   @Output() pageChange = new EventEmitter();

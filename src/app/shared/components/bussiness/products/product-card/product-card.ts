@@ -14,6 +14,16 @@ import { RouterLink } from '@angular/router';
 })
 export class ProductCard {
   @Input() product?: Product;
+  salePrice: number = 0;
+  ngOnInit() {
+    this.showSalePrice();
+  };
+
+  showSalePrice() {
+    if (this.product && this.product.sale) {
+      this.salePrice = this.product.price - (this.product.price * this.product.sale / 100);
+    }
+  };
 
   myAmberCard = {
     root: {
