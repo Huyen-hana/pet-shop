@@ -5,7 +5,7 @@
     <p-card [style]="{ width: 'auto', overflow: 'hidden' }" [dt]="myAmberCard">
         <ng-template #header>
             <div class="relative">
-                <a [routerLink]="['/main/home']">
+                <a [routerLink]="['/main/products', product.id]">
                     <img alt="Card" class="w-full aspect-square object-cover" [src]="product?.img" />
                 </a>
                 <div class="absolute top-[-2px] left-0">
@@ -24,7 +24,7 @@
         </ng-template>
         <ng-template #subtitle> 
             <a 
-                [routerLink]="['/main/home']"
+                [routerLink]="['/main/products', product.id]"
                 class="line-clamp-1 sm:line-clamp-2 font-medium max-sm:text-sm">
                 {{ product.name }}
             </a>
@@ -45,7 +45,7 @@
                     class="font-semibold text-sm">{{ product.price *1000 | number:'1.0-0' }}₫
                 </p>
                 <p>|</p>
-                <p class="font-semibold text-(--p-red-600)">Sale price</p>
+                <p class="font-semibold text-(--p-red-600)">{{ salePrice *1000 | number:'1.0-0' }}₫</p>
             }
         </div>
         <ng-template #footer>
