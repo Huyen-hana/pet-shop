@@ -1,0 +1,20 @@
+<p-accordion [value]="0" multiple="true" [dt]="myAmberAccord">
+    @for (menu of menuFilter; track menu.cateId; let i = $index) {
+        <p-accordion-panel [value]="i">
+            <p-accordion-header>{{ menu.cateId }}</p-accordion-header>
+            <p-accordion-content>
+                @for (cateName of menu.cateNameList; track cateName.cateName; let j = $index) {
+                    <div class="flex items-center">
+                        <p-checkbox
+                            [inputId]="'checkbox-' + i + '-' + j" name="categoryGroup"
+                            [value]="cateName.cateName"
+                            [(ngModel)]="selectedCateNames" />
+                        <label [for]="'checkbox-' + i + '-' + j" class="ml-2">
+                            {{ cateName.cateName }}
+                        </label>
+                    </div>
+                }
+            </p-accordion-content>
+        </p-accordion-panel>
+    }
+</p-accordion>
