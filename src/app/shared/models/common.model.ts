@@ -5,6 +5,7 @@ export interface Category {
 export interface CategoryItem {
     cateName: string | string[];
     cateChild?: string[];
+    routerLink?: string[];
 }
 
 export interface Image {

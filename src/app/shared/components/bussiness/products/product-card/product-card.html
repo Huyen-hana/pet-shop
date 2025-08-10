@@ -6,7 +6,7 @@
         <ng-template #header>
             <div class="relative">
                 <a [routerLink]="['/main/products', product.id]">
-                    <img alt="Card" class="w-full aspect-square object-cover" [src]="product?.img" />
+                    <img alt="Card" class="w-full aspect-square object-cover" [src]="product.img" />
                 </a>
                 <div class="absolute top-[-2px] left-0">
                     @if (product.sale && product.sale > 0) {
