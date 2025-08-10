@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuItem } from 'primeng/api';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-panel-menu',
@@ -10,6 +11,7 @@ import { MenuItem } from 'primeng/api';
 })
 export class PanelMenu {
   menu: MenuItem[] = [];
+  activatedRoute = inject(ActivatedRoute);
 
   @Input() category: any[] = [];
 
@@ -33,11 +35,11 @@ export class PanelMenu {
               label,
               items: nameItem.cateChild.map((child: any) => ({
                 label: child,
-                routerLink: ['/main/collections']
+                routerLink: ['/main/collections'],
               }))
             }
           : { label,
-              routerLink: ['/main/collections']
+              routerLink: nameItem.routerLink || ['/main/collections'],
             };
       })
     }));

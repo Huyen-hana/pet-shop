@@ -23,7 +23,9 @@ export class Header {
     {
       cateId: 'Chó',
       cateNameList: [
-        { cateName: 'Đi đến Chó' },
+        { cateName: 'Đi đến Chó',
+          routerLink: ['/main/collections/dog'],
+         },
         {
           cateName: ['Thức ăn cho Chó'],
           cateChild: [
@@ -39,7 +41,9 @@ export class Header {
     {
       cateId: 'Mèo',
       cateNameList: [
-        { cateName: 'Đi dến Mèo' },
+        { cateName: 'Đi dến Mèo',
+          routerLink: ['/main/collections/cat']
+         },
         {
           cateName: 'Thức ăn cho Mèo',
           cateChild: [

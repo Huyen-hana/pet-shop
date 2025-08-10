@@ -2,11 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { Category } from '../../../models/common.model';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-megamenu',
-  imports: [MegaMenuModule, RouterLink],
+  imports: [MegaMenuModule],
   templateUrl: './megamenu.html',
   styleUrl: './megamenu.scss'
 })
@@ -88,7 +87,7 @@ export class Megamenu implements OnInit {
             {
               label: 'Danh mục chung',
               items: [
-                { label: 'Đi đến Chó', routerLink: '/main/collections' },
+                { label: 'Đi đến Chó', routerLink: '/main/collections/dog' },
                 { label: 'Thức ăn cho Chó' },
                 { label: 'Bánh thưởng' },
                 { label: 'Chăm sóc sức khỏe' }
@@ -123,7 +122,7 @@ export class Megamenu implements OnInit {
             {
               label: 'Danh mục chung',
               items: [
-                { label: 'Đi đến mèo', routerLink: '/main/collections' },
+                { label: 'Đi đến mèo', routerLink: '/main/collections/cat' },
                 { label: 'Thức ăn cho Mèo' }
               ]
             }

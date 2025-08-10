@@ -17,7 +17,7 @@ import { customMessageService } from '../../../services/message-service/message-
 @Component({
   selector: 'app-user-drawer',
   imports: [
-    CommonModule, ReactiveFormsModule, RouterLink, FormsModule, ErrorValidate, InputTextModule, AsyncPipe,
+    CommonModule, ReactiveFormsModule, FormsModule, ErrorValidate, InputTextModule, AsyncPipe,
     DrawerModule, AvatarModule, ButtonModule
   ],
   templateUrl: './user-drawer.html',
