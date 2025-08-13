@@ -28,6 +28,10 @@ export const MAIN_ROUTES: Routes = [
             {
                 path: 'collections/:name',
                 loadComponent: () => import('../main/pages/product-list/product-list').then(m => m.ProductList)
+            },
+            {
+                path: 'products/:id',
+                loadComponent: () => import('../main/pages/product-detail/product-detail').then(m => m.ProductDetail)
             }
         ]
 
