@@ -1,0 +1,76 @@
+<div class="space-y-3.75 max-lg:mt-[var(--mini-header-height)]">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-3.75">
+      <div class="col-span-1 xl:col-span-3 md:mr-15">
+        <div class="card">
+            <p-galleria 
+                [value]="demoImages" [thumbnailsPosition]="position"
+                [circular]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '100%' }" [numVisible]="4">
+                <ng-template pTemplate="item" let-item>
+                    <img [src]="item.itemImageSrc"
+                        style="width: 100%; display: block; aspect-ratio: 1 / 1" />
+                </ng-template>
+                <ng-template pTemplate="thumbnail" let-item>
+                    <div class="grid gap-4 justify-center">
+                        <img [src]="item.thumbnailImageSrc" style="width: 100px; display: block" />
+                    </div>
+                </ng-template>
+            </p-galleria>
+        </div>
+      </div>
+  
+      <div class="col-span-1 xl:col-span-2 pt-7 lg:pt-31.25">
+        @if (product && product.name) {
+            <div class="flex flex-col gap-3.75">
+                <div class="text-lg font-semibold">{{ product.name }}</div>
+                <div>Brand: {{ product.brand }}</div>
+                <div class="flex gap-2">
+                    @if (!(product.sale && product.sale > 0)) {
+                        <p
+                            class="font-semibold">{{ product.price *1000 | number:'1.0-0' }}₫
+                        </p>
+                    } @else {
+                        <p 
+                            [ngStyle]="{'text-decoration-line': 'line-through'}"
+                            class="font-semibold text-sm">{{ product.price *1000 | number:'1.0-0' }}₫
+                        </p>
+                        <p>|</p>
+                        <p class="font-semibold text-(--p-red-600)">{{ product.price *1000 | number:'1.0-0' }}₫</p>
+                    }
+                </div>
+                <div>Variants: {{ product.variants }}</div>
+                <div class="flex flex-col">
+                    <p>Quantities:</p>
+                    <div class="mt-2">
+                        <p-buttongroup>
+                            <p-button icon="pi pi-minus" [outlined]="true" [rounded]="true" />
+                            <p-button icon="pi pi-plus" [outlined]="true" [rounded]="true" />
+                        </p-buttongroup>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <p>Total:</p>
+                    <p class="font-semibold">price</p>
+                </div>
+                <p-fluid>
+                    <p-button
+                        [disabled]="!product.currentStock ? true : false"
+                        [label]="!product.currentStock ? 'Out of stock' : 'Add to cart' "
+                        [rounded]="true" [raised]="true" />
+                </p-fluid>
+                <div class="text-sm mt-3.75">
+                    Policies
+                </div>
+            </div>
+
+        } @else {}
+      </div>
+    </div>
+  
+    <div class="mt-7">
+      <div>
+        <h2 class="text-center font-semibold text-lg">Descriptions</h2>
+      </div>
+    </div>
+  </div>
+  
