@@ -88,7 +88,7 @@ export class ProductList {
         // this.products = data;
         this.filterProducts = [...data];
 
-        this.totalRecords = this.products.length;
+        this.totalRecords = data.length;
         this.paginateData();
       },
       error: (error) => {
@@ -130,5 +130,5 @@ export class ProductList {
   };
   isShowFilter() {
     this.isShow = !this.isShow;
-  }
+  };
 }

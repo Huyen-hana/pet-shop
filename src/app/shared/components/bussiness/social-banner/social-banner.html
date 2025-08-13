@@ -1,5 +1,8 @@
 <div id="galeria">
-    <p-galleria [value]="images" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true" [showItemNavigatorsOnHover]="true" [circular]="true" [responsiveOptions]="responsiveOptions" [numVisible]="2" [containerStyle]="{ 'max-width': 'inherit' }">
+    <p-galleria [value]="images" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true"
+        [showItemNavigatorsOnHover]="true"
+        [shouldStopAutoplayByClick]="true"
+        [autoPlay]="true" [circular]="true" [responsiveOptions]="responsiveOptions" [numVisible]="3" [containerStyle]="{ 'max-width': 'inherit' }">
         <ng-template #item let-item>
             <img 
                 (error)="onImageError($event)"
