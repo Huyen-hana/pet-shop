@@ -22,7 +22,7 @@ export class UserService {
     return this.http.get<User[]>(`${this.url}`, { params: queryParams }).pipe(
       map(users => users.length > 0 ? users[0] : null),
       catchError(error => {
-        console.error('Lỗi khi gọi getUserByEmail:', error);
+        console.error('Cannot getUserByEmail:', error);
         return of(null);
       })
     );

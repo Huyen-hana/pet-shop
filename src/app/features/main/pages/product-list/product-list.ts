@@ -9,6 +9,7 @@ import { Category } from '../../../../shared/models/common.model';
 import { FilterPanel } from '../../../../shared/components/layout/filter-panel/filter-panel';
 import { ActivatedRoute } from '@angular/router';
 import { customMessageService } from '../../../../shared/services/message-service/message-service';
+import { Loading } from '../../../../shared/services/loading/loading';
 
 @Component({
   selector: 'app-product-list',
@@ -20,7 +21,9 @@ export class ProductList {
   productService = inject(ProductService);
   activatedRoute = inject(ActivatedRoute);
   messageService = inject(customMessageService);
-  private destroys$ = new Subject<void>()
+  private destroys$ = new Subject<void>();
+  private timeoutId: any;
+  private loadingService = inject(Loading);
   isShow: boolean = false;
   isShowSort: boolean = false;
   products: Product[] = [];
@@ -62,9 +65,13 @@ export class ProductList {
   ngOnDestroy(): void {
     this.destroys$.next();
     this.destroys$.complete();
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    };  
   };
 
   allProducts() {
+    this.loadingService.show();
     this.activatedRoute.params.pipe(
       takeUntil(this.destroys$)
     ).subscribe(params => {
@@ -90,8 +97,12 @@ export class ProductList {
 
         this.totalRecords = data.length;
         this.paginateData();
+        this.timeoutId = setTimeout(() => {
+          this.loadingService.hide();
+        }, 300);
       },
       error: (error) => {
+        this.loadingService.hide();
         this.messageService.showError('Error loading Products', error.message);
       }
     });
@@ -101,8 +112,12 @@ export class ProductList {
       next: (data) => {
         this.products = data;
         this.filterProductsByType(type);
+        this.timeoutId = setTimeout(() => {
+          this.loadingService.hide();
+        }, 300);
       },
       error: (error) => {
+        this.loadingService.hide();
         this.messageService.showError('Error loading Products', error.message);
       }
     });

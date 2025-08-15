@@ -18,6 +18,28 @@ export const routes: Routes = [
         path: 'admin',
         loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES)
     },
-    { path: '**', redirectTo: '/main' }
+    {
+        path: 'error',
+        children: [
+            {
+                path: '404',
+                loadComponent: () => import('./shared/pages/not-found/not-found').then(m => m.NotFound),
+                data: { preload: true }
+
+            },
+            {
+                path: '500',
+                loadComponent: () => import('./shared/pages/server-error/server-error').then(m => m.ServerError)
+            },
+            {
+                path: 'no-connection',
+                loadComponent: () => import('./shared/pages/no-connection/no-connection').then(m => m.NoConnection)
+            }
+        ]
+    },
+    {
+        path: '**',
+        loadComponent: () => import('./shared/pages/not-found/not-found').then(m => m.NotFound)
+    }
 
 ];

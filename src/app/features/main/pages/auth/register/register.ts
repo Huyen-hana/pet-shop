@@ -124,7 +124,7 @@ export class Register {
     const { email, username, passWord } = this.formRegister.value;
   
     if (!email || !username || !passWord) {
-      this.messService.showWarn('Vui lòng điền đầy đủ thông tin', '');
+      this.messService.showWarn('Please fill in all information', '');
       return;
     }
   
@@ -133,7 +133,7 @@ export class Register {
     ).subscribe({
       next: (isExist: boolean) => {
         if (isExist) {
-          this.messService.showWarn('Email đã tồn tại', 'Hãy nhập Email khác.');
+          this.messService.showWarn('Email already exists', 'Please enter another Email.');
           return;
         }
   
@@ -152,19 +152,19 @@ export class Register {
           takeUntilDestroyed(this.destroyRef)
         ).subscribe({
           next: (res) => {
-            this.messService.showSuccess('Đăng kí thành công', '');
+            this.messService.showSuccess('Registered successfully', '');
             if (res) {
               this.formRegister.reset();
             }
           },
           error: (err) => {
-            this.messService.showError('Đăng ký thất bại', err.error?.message || 'Lỗi không xác định');
-          },
-          complete: () => console.log('Hoàn tất xử lý đăng ký')
+            this.messService.showError('Registration failed', err.error?.message || 'Unknown error');
+          }
+          // complete: () => console.log('Hoàn tất xử lý đăng ký')
         });
       },
       error: (err) => {
-        this.messService.showError('Lỗi kiểm tra email', err.error?.message || 'Không thể kiểm tra email');
+        this.messService.showError('Error checking email', err.error?.message || 'Cannot check email');
       }
     });
   }

@@ -1,0 +1,17 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-(--p-surface-50) px-4">
+    <!-- <img src="" alt="No connection" class="w-48 h-48 mb-6" /> -->
+  
+    <h1 class="text-2xl font-semibold mb-2">Unable to connect to server</h1>
+  
+    <div class="text-center max-w-md mb-4">
+        Please check your network connection or try again later. If the problem persists, contact your administrator.
+    </div>
+  
+    <p-button
+        (click)="retryConnection()"
+        [label]="isLoading ? 'Trying again...' : 'Try again'" />
+    @if (errMess) {
+        <div class="mt-4 text-red-600">{{ errMess }}</div>
+    }
+  </div>
+  
