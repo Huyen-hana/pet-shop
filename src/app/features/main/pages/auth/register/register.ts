@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { Router } from '@angular/router';
 import { customMessageService } from '../../../../../shared/services/message-service/message-service';
+import { User } from '../../../../../shared/models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -78,44 +79,96 @@ export class Register {
     return this.formRegister.get('email')
   }
 
+  // onSubmitForm(event: Event) {
+  //   event.preventDefault();
+  //   const { email, username, passWord } = this.formRegister.value;
+  //   this.subscript = this.userService.checkUserByEmail(email).subscribe(isExist => {
+  //     if (!isExist) {
+  //       console.log('Đăng ký thành công', isExist);
+  //       const createdAt = new Date().toISOString();
+  //       let newUser = {
+  //         email,
+  //         fullName: username,
+  //         passWord,
+  //         createdAt,
+  //         role: 'customer' as 'customer',
+  //         avatar: 'https://avatars.githubusercontent.com/u/95056864',
+  //         phone: ''
+  //       };
+
+  //       this.userService.createUser(newUser)
+  //         .pipe(takeUntilDestroyed(this.destroyRef))
+  //         .subscribe({
+  //           next: (res) => {
+  //             this.messService.showSuccess('Đăng kí thành công', '')
+  //             if (res) {
+  //               this.formRegister.reset();
+  //             }
+  //           },
+  //           error: (err) => {
+  //             this.messService.showError('Đăng ký thất bại', err.error?.message);
+  //           },
+  //           complete: () => console.log('Hoàn tất xử lý')
+  //           }
+  //         )
+
+  //     } else {
+  //       this.messService.showWarn('Email đã tồn tại', 'Hãy nhập Email khác.')
+  //     }
+  //   }); 
+  // };
+  
   onSubmitForm(event: Event) {
     event.preventDefault();
+  
     const { email, username, passWord } = this.formRegister.value;
-    this.subscript = this.userService.checkUserByEmail(email).subscribe(isExist => {
-      if (!isExist) {
-        console.log('Đăng ký thành công', isExist);
+  
+    if (!email || !username || !passWord) {
+      this.messService.showWarn('Please fill in all information', '');
+      return;
+    }
+  
+    this.subscript = this.userService.checkUserByEmail(email).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: (isExist: boolean) => {
+        if (isExist) {
+          this.messService.showWarn('Email already exists', 'Please enter another Email.');
+          return;
+        }
+  
         const createdAt = new Date().toISOString();
-        let newUser = {
+        const newUser: User = {
           email,
           fullName: username,
           passWord,
           createdAt,
-          role: 'customer' as 'customer',
+          role: 'customer',
           avatar: 'https://avatars.githubusercontent.com/u/95056864',
           phone: ''
         };
-
-        this.userService.createUser(newUser)
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe({
-            next: (res) => {
-              this.messService.showSuccess('Đăng kí thành công', '')
-              if (res) {
-                this.formRegister.reset();
-              }
-            },
-            error: (err) => {
-              this.messService.showError('Đăng ký thất bại', err.error?.message);
-            },
-            complete: () => console.log('Hoàn tất xử lý')
+  
+        this.userService.createUser(newUser).pipe(
+          takeUntilDestroyed(this.destroyRef)
+        ).subscribe({
+          next: (res) => {
+            this.messService.showSuccess('Registered successfully', '');
+            if (res) {
+              this.formRegister.reset();
             }
-          )
-
-      } else {
-        this.messService.showWarn('Email đã tồn tại', 'Hãy nhập Email khác.')
+          },
+          error: (err) => {
+            this.messService.showError('Registration failed', err.error?.message || 'Unknown error');
+          }
+          // complete: () => console.log('Hoàn tất xử lý đăng ký')
+        });
+      },
+      error: (err) => {
+        this.messService.showError('Error checking email', err.error?.message || 'Cannot check email');
       }
-    }); 
-  };
+    });
+  }
+  
   goHome() {
     this.router.navigate(['/main/home']);
     this.formRegister.reset();

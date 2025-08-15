@@ -8,7 +8,7 @@
         </ng-container>
     } @else {
         <ng-container>
-            <div class="grid max-md:grid-cols-2 grid-cols-4 gap-2">
+            <div class="grid max-[391px]:grid-cols-1 grid-cols-2 lg:grid-cols-4 gap-2">
                 @for (policy of policies; track policy.title) {
                     <div class="flex items-center justify-center px-3.75 py-2 rounded-md bg-(--p-surface-100) shadow-sm min-h-16.5
                         transition-transform duration-200 hover:scale-102 hover:shadow-md cursor-pointer select-none">
@@ -30,7 +30,7 @@
     
     <div class="grid lg:grid-cols-2 gap-3.75">
         <div class="overflow-hidden rounded-md">
-            <a [routerLink]="['/main/collections', 'cho']">
+            <a [routerLink]="['/main/collections', 'dog']">
                 <img 
                     class="w-full aspect-[685/197] object-cover 
                         transition-transform duration-300 hover:scale-105"
@@ -38,7 +38,7 @@
             </a>
         </div>
         <div class="overflow-hidden rounded-md">
-            <a [routerLink]="['/main/collections', 'meo']">
+            <a [routerLink]="['/main/collections', 'cat']">
                 <img 
                     class="w-full aspect-[685/197] object-cover
                         transition-transform duration-300 hover:scale-105"
@@ -47,7 +47,7 @@
         </div>
       
         <div class="lg:col-span-2 mx-7.5 overflow-hidden rounded-md">
-            <a [routerLink]="['/']">
+            <a [routerLink]="['/main/collections', 'all']">
                 <img 
                     class="w-full aspect-[295/113] object-cover 
                         transition-transform duration-300 hover:scale-105"
@@ -60,33 +60,35 @@
 <!-- review product card -->
 <div class="w-full">
     <div class="py-2.5">
-        <h2 class="font-semibold text-base md:text-lg">Được BOSS yêu thích</h2>
+        <h2 class="font-semibold text-lg md:text-xl">Được BOSS yêu thích</h2>
     </div>
-    <div class="grid grid-cols-2 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 gap-2 lg:gap-3.75">
-        <div class="p-4 bg-blue-100 rounded-md shadow-md hover:shadow-xl">
-            card
-        </div>
-        <div class="p-4 bg-blue-100 rounded-md shadow">
-            card
-        </div>
-        <div class="p-4 bg-blue-100 rounded-md shadow">
-            card
-        </div>
+    <div class="grid grid-cols-2 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 gap-y-7 gap-x-2 lg:gap-x-3.75">
+        @if (lovedProducts) {
+            @for (product of lovedProducts; track product.id ) {
+                <div class="shadow-md hover:shadow-xl">
+                    <app-product-card [product]="product"></app-product-card>
+                </div>
+            }
+        }
     </div>
 
     <div class="py-2.5">
-        <h2 class="font-semibold text-base md:text-lg">Hàng Mới về</h2>
+        <h2 class="font-semibold text-lg md:text-xl">Hàng Mới về</h2>
     </div>
-    <div class="grid grid-cols-2 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 gap-2 lg:gap-3.75">
-        <div class="p-4 bg-blue-100 rounded-md shadow">
-            card
-        </div>
+    <div class="grid grid-cols-2 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 gap-y-7 gap-x-2 lg:gap-x-3.75">
+        @if (newProducts) {
+            @for (product of newProducts; track product.id ) {
+                <div class="shadow-md hover:shadow-xl">
+                    <app-product-card [product]="product"></app-product-card>
+                </div>
+            }
+        }
     </div>
 
     <div class="py-2.5">
-        <h2 class="font-semibold text-base md:text-lg">Thương hiệu BOSS thích</h2>
+        <h2 class="font-semibold text-lg md:text-xl">Thương hiệu BOSS thích</h2>
     </div>
-    <div class="grid grid-cols-3 xl:grid-cols-8 lg:grid-cols-4 md:grid-cols-3 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-8 lg:grid-cols-4 gap-4">
         @for (brand of brands; track brand.name) {
             <div class="py-3 px-1 rounded-md shadow-md">
                 <div class="flex flex-col justify-center items-center select-none">

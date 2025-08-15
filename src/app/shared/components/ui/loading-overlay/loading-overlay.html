@@ -1,0 +1,9 @@
+@if (isLoading$ | async) {
+<div class="fixed inset-0 flex bg-(--p-surface-50) items-center justify-center z-50">
+    <p-progress-spinner
+        [dt]="myAmberLoading"
+        strokeWidth="8" fill="transparent"
+        animationDuration=".5s"
+        [style]="{ width: '50px', height: '50px' }" />
+</div>
+}

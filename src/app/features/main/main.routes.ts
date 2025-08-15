@@ -24,6 +24,14 @@ export const MAIN_ROUTES: Routes = [
                 path: 'auth/forgot-password',
                 loadComponent: () => import('../main/pages/auth/forgot-password/forgot-password').then(m => m.ForgotPassword),
                 canActivate: [loggedInGuard]
+            },
+            {
+                path: 'collections/:name',
+                loadComponent: () => import('../main/pages/product-list/product-list').then(m => m.ProductList)
+            },
+            {
+                path: 'products/:id',
+                loadComponent: () => import('../main/pages/product-detail/product-detail').then(m => m.ProductDetail)
             }
         ]
 

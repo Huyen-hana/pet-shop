@@ -1,0 +1,56 @@
+<div class="flex flex-col min-h-screen gap-4 max-lg:mt-[var(--mini-header-height)]">
+    <div class="text-2xl font-bold text-center pt-7">
+      All products
+    </div>
+  
+    <div class="grid grid-cols-2 gap-2">
+      <div class="lg:hidden relative">
+        <i (click)="isShowFilter()" class="pi pi-filter p-2" style="font-size: 1rem"></i>
+        @if (isShow) {
+          <div class="absolute w-full top-6 left-0 z-10 p-2 bg-(--p-surface-0) shadow-md rounded-sm">
+            <app-filter-panel [menuFilter]="menuFilter" ></app-filter-panel>
+          </div>
+        }
+      </div>
+      <div class="lg:col-start-2">
+        <div class="lg:hidden relative text-right">
+          <i class="pi pi-sort p-2" style="font-size: 1rem"></i>
+        </div>
+      </div>
+    </div>
+  
+    <div class="grid grid-cols-1 lg:grid-cols-[210px_1fr] gap-3.75">
+      <!-- filter -->
+      <div class="hidden lg:block">
+        <app-filter-panel [menuFilter]="menuFilter" ></app-filter-panel>
+      </div>
+      <div class="min-h-screen rounded">
+        <div class="grid grid-rows-[1fr_auto] gap-2">
+
+            <div class="min-h-screen">
+              <!-- cards -->
+                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-2 lg:gap-x-3.75 gap-y-7">
+                  @if (!(pagedProducts && pagedProducts.length > 0)) {
+                    <p>There are no products to display.</p>
+                  } @else {
+                      @for (product of pagedProducts; track product.id) {
+                        <div class="shadow-md hover:shadow-xl">
+                          <app-product-card [product]="product"></app-product-card>
+                        </div>
+                      }
+                  }
+                </div>
+            </div>
+        
+            <div class="mt-4">
+              <app-paginator
+                [rows]="itemsPerPage"
+                [totalRecs]="totalRecords"
+                [rowPerOptions]="rowPerOptions"
+                (pageChange)="onPageChange($event)"></app-paginator>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>
+  
