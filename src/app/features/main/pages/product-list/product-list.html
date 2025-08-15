@@ -31,7 +31,7 @@
               <!-- cards -->
                 <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-2 lg:gap-x-3.75 gap-y-7">
                   @if (!(pagedProducts && pagedProducts.length > 0)) {
-                    <p>Loading products</p>
+                    <p>There are no products to display.</p>
                   } @else {
                       @for (product of pagedProducts; track product.id) {
                         <div class="shadow-md hover:shadow-xl">
