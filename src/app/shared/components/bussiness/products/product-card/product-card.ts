@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { Button } from "primeng/button";
 import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../../../models/product.model';
 import { RouterLink } from '@angular/router';
+import { CartService } from '../../../../services/cart-service/cart-service';
 
 @Component({
   selector: 'app-product-card',
@@ -15,6 +16,7 @@ import { RouterLink } from '@angular/router';
 export class ProductCard {
   @Input() product?: Product;
   salePrice: number = 0;
+  private cartService = inject(CartService);
   ngOnInit() {
     this.showSalePrice();
   };
@@ -24,6 +26,11 @@ export class ProductCard {
       this.salePrice = this.product.price - (this.product.price * this.product.sale / 100);
     }
   };
+
+  addProduct(product: Product) {
+    this.cartService.addItem(product, 1);
+    // localStorage.clear();
+  }
 
   myAmberCard = {
     root: {
