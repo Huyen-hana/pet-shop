@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { ButtonGroupModule } from 'primeng/buttongroup';
 import { FluidModule } from 'primeng/fluid';
 import { Subject, switchMap, takeUntil } from 'rxjs';
+import { CartService } from '../../../../shared/services/cart-service/cart-service';
 
 
 @Component({
@@ -22,7 +23,10 @@ export class ProductDetail implements OnInit {
   private destroy$ = new Subject<void>;
   private productService = inject(ProductService);
   private messageService = inject(customMessageService);
+  cartItemService = inject(CartService);
   product: Product | undefined;
+  selectedQuantities: { [productId: string]: number } = {};
+  getQuantity: number = 1;
   private images: any[] = [
     {
       itemImageSrc: 'assets/images/products/demo-img/demo.webp',
@@ -86,6 +90,63 @@ export class ProductDetail implements OnInit {
         this.messageService.showError('', err.message);
       }
     });
+  };
+
+  addProduct(product: Product) {
+    this.cartItemService.addItem(product);
+  };
+
+  // increaseProduct(product: Product) {
+  //   const isIncart = this.cartItemService.isIncart(String(product.id));
+  //   if (isIncart) {
+  //     this.cartItemService.increaseQuantity(String(product.id));
+  //   } else {
+  //     this.cartItemService.addItem(product, 1);
+  //   };
+  // };
+
+  increaseItemQuant(productId: string) {
+    const curent = this.selectedQuantities[productId] || 1;
+    this.selectedQuantities[productId] = curent + 1;
+    this.getQuantity = curent + 1;
+  };
+  decreaseItemQuant(productId: string) {
+    const current = this.selectedQuantities[productId] || 0;
+    if (current > 1) {
+      this.selectedQuantities[productId] = current - 1;
+      this.getQuantity = current - 1;
+    };
+  };
+  addToCart(product: Product) {
+    const id = product.id as string;
+    const quantity = this.selectedQuantities[id] || 1;
+    if (this.cartItemService.isIncart(id)) {
+      const curentQuant = this.cartItemService.getItemQuantity(id);
+      const totalQuant = curentQuant + quantity;
+
+      if (totalQuant > product.currentStock) {
+        this.messageService.showWarn(
+          'Cannot add to cart',
+          `Only ${product.currentStock - curentQuant} items left in stock.`
+        );
+        return;
+      };
+      this.cartItemService.updateQuantity(id, totalQuant);
+    } else {
+      if (quantity > product.currentStock) {
+        this.messageService.showWarn(
+          'Cannot add to cart', `Only ${product.currentStock} items left in stock.`
+        );
+        return;
+      }
+      this.cartItemService.addItem(product, quantity);
+    };
+    delete this.selectedQuantities[id];
+  };
+
+  clearAll() {
+      this.cartItemService.clearCart();
+      this.selectedQuantities = {}; // Xóa số lượng tạm  
   };
 
   responsiveOptions: any[] = [
