@@ -32,6 +32,10 @@ export const MAIN_ROUTES: Routes = [
             {
                 path: 'products/:id',
                 loadComponent: () => import('../main/pages/product-detail/product-detail').then(m => m.ProductDetail)
+            },
+            {
+                path: 'cart',
+                loadComponent: () => import('../main/pages/cart-page/cart-page').then(m => m.CartPage)
             }
         ]
 

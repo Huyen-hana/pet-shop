@@ -45,7 +45,6 @@
                 <div class="flex flex-col">
                     <p>Quantities:
                         <span class="ml-2">
-                            <!-- {{ cartItemService.getItemQuantity(product.id.toString()) }} -->
                             {{ selectedQuantities[product.id] || 1 }}
                         </span>
                     </p>
@@ -57,16 +56,13 @@
                             <p-button
                                 (click)="increaseItemQuant(product.id.toString())"
                                 icon="pi pi-plus" [outlined]="true" [rounded]="true" />
-                            <p-button
-                                (click)="clearAll()"
-                                icon="pi pi-trash" [outlined]="true" [rounded]="true" />
                         </p-buttongroup>
                     </div>
                 </div>
                 <div class="flex gap-2">
                     <p>Total:</p>
                     <p class="font-semibold">
-                        {{ cartItemService.getTotalPrice(product.price, product.sale ?? 0, getQuantity) *1000 | number:'1.0-0' }}₫
+                        {{ cartItemService.getTotalPrice(product.price, product.sale ?? 0, getQuantity(product.id.toString())) *1000 | number:'1.0-0' }}₫
                     </p>
                 </div>
                 <p-fluid>

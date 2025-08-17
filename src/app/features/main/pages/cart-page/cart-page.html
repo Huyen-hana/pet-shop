@@ -1,0 +1,110 @@
+<div class="max-lg:mt-[var(--mini-header-height)]">
+    <div class="pt-5 font-bold text-xl lg:px-3.75">YOUR CART</div>
+    @if (cartService.isEmpty()) {
+        <div class="max-lg:mt-[var(--mini-header-height)] pt-5">emptycart</div>
+    } @else {
+        <div class="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-4 pt-5">
+            <div>
+                <p-table [value]="cartItems()" [tableStyle]="{ 'min-width': '50rem' }">
+                    <ng-template #header>
+                        <tr>
+                            <th style="width:10%">Image</th>
+                            <th style="width:36%">Name</th>
+                            <th style="width:16%">Price</th>
+                            <th style="width:22%">Quantity</th>
+                            <th style="width:16%">Total</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template #body let-product>
+                        <tr>
+                            <td>
+                                <a [routerLink]="['/main/products', product.id]">
+                                    <img
+                                        [src]="product.image"
+                                        [alt]="product.name"
+                                        class="w-24 rounded"
+                                    />
+                                </a>
+                            </td>
+                            <td >
+                                <div class="line-clamp-2">
+                                    <a [routerLink]="['/main/products', product.id]">
+                                        {{ product.name }}
+                                    </a>
+                                </div>
+                                <div>Variants</div>
+                            </td>
+                            <td>
+                                {{ cartService.getDiscountedPrice(product.price, product.sale) *1000 | number:'1.0-0' }}₫
+                            </td>
+                            <td>
+                                <span class="ml-auto font-semibold">
+                                    {{ cartService.getItemQuantity(product.id) }}
+                                </span>
+                                <div class="mt-2">
+                                    <p-buttongroup>
+                                        <p-button
+                                            (click)="decreaseQuant(product.id)"
+                                            icon="pi pi-minus" [outlined]="true" [rounded]="true" />                                 
+                                        <p-button
+                                            (click)="increaseQuant(product.id)"
+                                            icon="pi pi-plus" [outlined]="true" [rounded]="true" />
+                                    </p-buttongroup>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="font-semibold">
+                                    {{
+                                        cartService.getTotalPrice(
+                                        product.price,
+                                        product.sale,
+                                        cartService.getItemQuantity(product.id)
+                                        ) *1000 | number:'1.0-0'
+                                    }}₫
+                                </div>
+                            </td>
+                            <td>
+                                <p-button
+                                    (click)="clearAll()"
+                                    icon="pi pi-times" [outlined]="true" [rounded]="true" size="small" />
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template #footer>
+                        <tr>
+                            <td colspan="6">In total there are {{ cartItems() ? cartItems().length : 0 }} products.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+          
+            <div class="">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.75 xl:block">
+                <div class="flex flex-col gap-3">
+                    <div class="font-semibold text-2xl">TOTAL PRICE</div>
+                    <div class="flex flex-col gap-2">
+                        <label for="promotional-code">Promotional code</label>
+                        <input pInputText id="promotional-code" />
+                    </div>
+                    <div class="flex gap-2 items-center justify-between">
+                        <div class="font-semibold">Total price:</div>
+                        <div class="font-semibold text-2xl">
+                            {{ cartService.totalPrice() *1000 | number:'1.0-0' }}₫</div>
+                    </div>
+                </div>
+    
+                <div class="flex flex-col gap-3 mt-5.25">
+                    <a [routerLink]="['/main/home']">
+                        <p-button
+                            label="Go to checkout" fluid [raised]="true" severity="secondary" />
+                    </a>
+                    <a [routerLink]="['/main/home']">
+                        <p-button
+                            label="Continue shopping" [raised]="true" fluid />
+                    </a>
+                </div>
+              </div>
+            </div>
+        </div>          
+    }
+</div>
