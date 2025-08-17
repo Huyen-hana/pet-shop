@@ -24,9 +24,8 @@ export class ProductDetail implements OnInit {
   private productService = inject(ProductService);
   private messageService = inject(customMessageService);
   cartItemService = inject(CartService);
-  product: Product | undefined;
+  product!: Product;
   selectedQuantities: { [productId: string]: number } = {};
-  getQuantity: number = 1;
   private images: any[] = [
     {
       itemImageSrc: 'assets/images/products/demo-img/demo.webp',
@@ -59,6 +58,7 @@ export class ProductDetail implements OnInit {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.selectedQuantities = {};
   };
   renderProduct() {
     this.activatedRoute.params.pipe(
@@ -96,25 +96,14 @@ export class ProductDetail implements OnInit {
     this.cartItemService.addItem(product);
   };
 
-  // increaseProduct(product: Product) {
-  //   const isIncart = this.cartItemService.isIncart(String(product.id));
-  //   if (isIncart) {
-  //     this.cartItemService.increaseQuantity(String(product.id));
-  //   } else {
-  //     this.cartItemService.addItem(product, 1);
-  //   };
-  // };
-
   increaseItemQuant(productId: string) {
     const curent = this.selectedQuantities[productId] || 1;
     this.selectedQuantities[productId] = curent + 1;
-    this.getQuantity = curent + 1;
   };
   decreaseItemQuant(productId: string) {
     const current = this.selectedQuantities[productId] || 0;
     if (current > 1) {
       this.selectedQuantities[productId] = current - 1;
-      this.getQuantity = current - 1;
     };
   };
   addToCart(product: Product) {
@@ -144,10 +133,10 @@ export class ProductDetail implements OnInit {
     delete this.selectedQuantities[id];
   };
 
-  clearAll() {
-      this.cartItemService.clearCart();
-      this.selectedQuantities = {}; // Xóa số lượng tạm  
+  getQuantity(productId: string): number {
+    return this.selectedQuantities[productId] || 1;
   };
+
 
   responsiveOptions: any[] = [
     {

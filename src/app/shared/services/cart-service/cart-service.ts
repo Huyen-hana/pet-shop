@@ -19,7 +19,7 @@ export class CartService {
     return this.cartItems().reduce((sum, item) => sum + (this.getFinalPrice(item) * item.quantity), 0);
   });
   
-  readonly isEmpty = computed(() => this.cartItems.length === 0);
+  readonly isEmpty = computed(() => this.cartItems().length === 0);
 
   constructor() {
     effect(() => {
