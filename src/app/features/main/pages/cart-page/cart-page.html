@@ -1,7 +1,9 @@
 <div class="max-lg:mt-[var(--mini-header-height)]">
     <div class="pt-5 font-bold text-xl lg:px-3.75">YOUR CART</div>
     @if (cartService.isEmpty()) {
-        <div class="max-lg:mt-[var(--mini-header-height)] pt-5">emptycart</div>
+        <div class="pt-5">
+            <app-empty-cart></app-empty-cart>
+        </div>
     } @else {
         <div class="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-4 pt-5">
             <div>
