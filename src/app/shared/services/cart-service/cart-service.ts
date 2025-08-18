@@ -166,6 +166,13 @@ export class CartService {
     return sanitized;
   };
 
+  removeItem(productId: String): void {
+    const currentItems = this.cartItems();
+    const filterdItems = currentItems.filter(item => 
+      item.id !== productId
+    );
+    this.cartItems.set(filterdItems);
+  };
   clearCart() {
     this.cartItems.set([]);
     localStorage.removeItem(this.CART_STORAGE_KEY);
