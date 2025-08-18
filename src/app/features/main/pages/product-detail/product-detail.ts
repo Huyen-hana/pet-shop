@@ -121,6 +121,7 @@ export class ProductDetail implements OnInit {
         return;
       };
       this.cartItemService.updateQuantity(id, totalQuant);
+      this.messageService.showSuccess('Success', 'Product has been added to cart');
     } else {
       if (quantity > product.currentStock) {
         this.messageService.showWarn(
@@ -128,7 +129,10 @@ export class ProductDetail implements OnInit {
         );
         return;
       }
-      this.cartItemService.addItem(product, quantity);
+      const added = this.cartItemService.addItem(product, quantity);
+      if (added) {
+        this.messageService.showSuccess('Success', 'Product has been added to cart');
+      };
     };
     delete this.selectedQuantities[id];
   };
@@ -136,7 +140,6 @@ export class ProductDetail implements OnInit {
   getQuantity(productId: string): number {
     return this.selectedQuantities[productId] || 1;
   };
-
 
   responsiveOptions: any[] = [
     {
