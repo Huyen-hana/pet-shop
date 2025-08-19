@@ -1,0 +1,94 @@
+<p-drawer [visible]="visible" blockScroll="true" position="right"
+    (onHide)="onDrawerHide()">
+    
+    <ng-template #header>
+        <div class="flex items-center gap-2">
+            <span class="font-bold text-xl">Your mini cart</span>
+        </div>
+    </ng-template>
+
+    <div>
+        @if (!cartService.isEmpty()) {
+            <p-dataview #dv [value]="cartItems()" >
+                <ng-template #list let-items>
+                    <div class="grid grid-cols-12 gap-y-9 grid-nogutter">
+                        @for (item of items; track item.id) {
+                            <div class="col-span-12" class="col-span-12">
+                                <div
+                                    class="flex flex-col sm:flex-row sm:items-center gap-2 shadow-md"
+                                >
+                                    <div class="relative">
+                                        <a
+                                            (click)="goProductDetail(item.id)"
+                                            [routerLink]="['/main/products']">
+                                            <img
+                                                class="block xl:block mx-auto aspect-square rounded-border w-[40%] sm:w-12"
+                                                [src]="item.image"
+                                                [alt]="item.name"
+                                            />
+                                        </a>
+                                    </div>
+                                    <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-3 pb-3.75">
+                                        <div class="flex flex-row md:flex-col justify-between items-start gap-2">
+                                            <div>
+                                                <div class="line-clamp-2 mb-2">
+                                                    <a 
+                                                        (click)="goProductDetail(item.id)"
+                                                        [routerLink]="['/main/products']">
+                                                        {{ item.name }}
+                                                    </a>
+                                                </div>
+                                                <div class="flex flex-col justify-between">
+                                                    <span class="text-sm">Quantities: {{
+                                                        cartService.getItemQuantity(item.id)
+                                                        }}
+                                                    </span>
+                                                    <span class="text-sm text-(--p-surface-500)">Variants: </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col md:items-end gap-3">
+                                            <span class="font-semibold">
+                                                {{
+                                                    cartService.getTotalPrice(
+                                                    item.price,
+                                                    item.sale,
+                                                    cartService.getItemQuantity(item.id)
+                                                    ) *1000 | number:'1.0-0'
+                                                }}₫
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </ng-template>
+            </p-dataview>
+        } @else {
+            <app-empty-cart></app-empty-cart>
+        }
+    </div>
+
+    <ng-template #footer>
+        @if (!cartService.isEmpty()) {
+            <div class="flex flex-col items-center gap-2">
+                <div class="flex justify-between w-full mb-3">
+                    <span>Total:</span>
+                    <span class="font-semibold text-xl">
+                        {{ cartService.totalPrice() *1000 | number:'1.0-0' }}₫
+                    </span>
+                </div>
+                <button
+                    pButton label="Go to checkout"
+                    class="w-full" severity="secondary" [rounded]="true" [raised]="true">
+                </button>
+                <button
+                    (click)="goCartPage()" 
+                    pButton label="Go to cart page" [rounded]="true" [raised]="true"
+                    class="w-full">
+                </button>
+            </div>
+        }
+    </ng-template>
+</p-drawer>

@@ -25,7 +25,9 @@
                     ></app-user-drawer>
                 </div>
                 
-                <div class="flex flex-col items-center pl-3 cursor-pointer group">
+                <div
+                    (click)="!isCartPage && (visibleMiniCart = !visibleMiniCart)"
+                    class="flex flex-col items-center pl-3 cursor-pointer group">
                     <div>
                         <i class="pi pi-shopping-cart text-(--p-surface-0)
                             group-hover:text-(--p-surface-800)
@@ -33,11 +35,17 @@
                             [style]="{ 'font-size': '24px' }">
                         </i>
                     </div>
-                    <div class="text-xs text-(--p-surface-0) font-thin select-none
+                    <div
+                        class="text-xs text-(--p-surface-0) font-thin select-none
                             group-hover:text-(--p-surface-800)
                             transtion-all duration-200 ease-in-out"
                         >Giỏ hàng
                     </div>
+                    
+                    <!-- mini-cart -->
+                    <app-mini-cart
+                        [(visible)]="visibleMiniCart">
+                    </app-mini-cart>
                 </div>
             </div>
         </div>
@@ -82,7 +90,9 @@
                     [titleMenu]="'Đăng nhập'"
                 ></app-user-drawer>
 
-                <i class="pi pi-shopping-bag text-(--p-surface-0) p-3.75 cursor-pointer"
+                <i
+                    (click)="!isCartPage && (visibleMiniCart = !visibleMiniCart)"
+                    class="pi pi-shopping-bag text-(--p-surface-0) p-3.75 cursor-pointer"
                     [style]="{ 'font-size': '16px' }">
                 </i>
             </div>
@@ -108,8 +118,10 @@
                             [style]="{ 'font-size': '20px' }">
                         </i>
 
-                        <i class="pi pi-shopping-cart text-(--p-surface-0) p-3.75 cursor-pointer"
-                        [style]="{ 'font-size': '22px' }">
+                        <i
+                            (click)="!isCartPage && (visibleMiniCart = !visibleMiniCart)"
+                            class="pi pi-shopping-cart text-(--p-surface-0) p-3.75 cursor-pointer"
+                            [style]="{ 'font-size': '22px' }">
                         </i>
                     </div>
                 </div>
