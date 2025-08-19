@@ -1,6 +1,6 @@
 import { Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Megamenu } from '../../../../shared/components/layout/megamenu/megamenu';
 import { Drawer } from '../../../../shared/components/ui/drawer/drawer';
 import { ButtonModule } from 'primeng/button';
@@ -9,15 +9,18 @@ import { User } from '../../../../shared/models/user.model';
 import { UserService } from '../../../../shared/services/user-service/user-service';
 import { AuthService } from '../../../../shared/services/auth-service/auth-service';
 import { UserDrawer } from '../../../../shared/components/ui/user-drawer/user-drawer';
+import { MiniCart } from '../../../../shared/components/bussiness/cart/mini-cart/mini-cart';
 
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, CommonModule, Megamenu, Drawer, UserDrawer, ButtonModule],
+  imports: [RouterLink, CommonModule, Megamenu, Drawer, UserDrawer, MiniCart, ButtonModule],
   templateUrl: './header.html',
   styleUrl: './header.scss'
 })
 export class Header {
+  private router = inject(Router);
+  visibleMiniCart: boolean = false;
 
   category: Category[] = [
     {
@@ -71,5 +74,9 @@ export class Header {
   onScroll(): void {
     const y = window.scrollY;
     this.isNavHidden = y > 138;  
-  }  
+  };
+  get isCartPage(): boolean {
+    return this.router.url === '/main/cart';
+  };
+
 }

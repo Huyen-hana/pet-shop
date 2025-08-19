@@ -1,9 +1,9 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../../../shared/services/product-service/product-service';
 import { Product } from '../../../../shared/models/product.model';
 import { customMessageService } from '../../../../shared/services/message-service/message-service';
-import { Galleria, GalleriaModule } from 'primeng/galleria';
+import { GalleriaModule } from 'primeng/galleria';
 import { ImageModule } from 'primeng/image';
 import { ButtonModule } from 'primeng/button';
 import { ButtonGroupModule } from 'primeng/buttongroup';
@@ -26,28 +26,7 @@ export class ProductDetail implements OnInit {
   cartItemService = inject(CartService);
   product!: Product;
   selectedQuantities: { [productId: string]: number } = {};
-  private images: any[] = [
-    {
-      itemImageSrc: 'assets/images/products/demo-img/demo.webp',
-      title: '1',
-      thumbnailImageSrc: 'assets/images/products/demo-img/demo-thumb.jpg'
-    },       
-    {
-      itemImageSrc: 'assets/images/products/demo-img/demo.webp',
-      title: '1',
-      thumbnailImageSrc: 'assets/images/products/demo-img/demo-thumb.jpg'
-    },
-    {
-      itemImageSrc: 'assets/images/products/demo-img/cat-demo.webp',
-      title: '1',
-      thumbnailImageSrc: 'assets/images/products/demo-img/cat-demo-thumb.jpg'
-    },
-    {
-      itemImageSrc: 'assets/images/products/demo-img/cat-demo.webp',
-      title: '1',
-      thumbnailImageSrc: 'assets/images/products/demo-img/cat-demo-thumb.jpg'
-    }
-  ];
+  private images: any[] = [];
   get demoImages() {
     return this.images;
   };
@@ -69,22 +48,19 @@ export class ProductDetail implements OnInit {
     ).subscribe({
       next: (data) => {
         this.product = data;
-        this.images.unshift(
-          {
-            itemImageSrc: `assets/images/products/img/id${data.id}.webp`,
-            thumbnailImageSrc: `assets/images/products/img/id${data.id}-thumb.jpg`,
-            title: `${data.name}`
-          },          {
-            itemImageSrc: `assets/images/products/img/id${data.id}.webp`,
-            thumbnailImageSrc: `assets/images/products/img/id${data.id}-thumb.jpg`,
-            title: `${data.name}`
-          },          
-          {
-            itemImageSrc: `assets/images/products/img/id${data.id}.webp`,
-            thumbnailImageSrc: `assets/images/products/img/id${data.id}-thumb.jpg`,
-            title: `${data.name}`
-          }
-      )
+
+        this.images = [];
+
+        const imagePath = `assets/images/products/img/id${data.id}.webp`;
+        const thumbPath = `assets/images/products/img/id${data.id}-thumb.jpg`;
+      
+        this.images = Array.from({ length: 5 }, (_, i) => ({
+          itemImageSrc: imagePath,
+          thumbnailImageSrc: thumbPath,
+          title: `${data.name} - ${i + 1}`
+        }));      
+
+        // this.images = [...newImages, ...this.images];
       },
       error: (err) => {
         this.messageService.showError('', err.message);
