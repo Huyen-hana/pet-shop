@@ -1,0 +1,48 @@
+<p-table 
+    [value]="data"
+    [columns]="columns"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [paginator]="paginator"
+    [rows]="rows"
+    [sortMode]="sortable ? 'multiple' : 'single'"
+    >
+    <!-- Header -->
+    <ng-template pTemplate="header">
+        @if (!headerTemplate) {
+            <tr>
+            @for (col of columns; track col.field) {
+                <th [pSortableColumn]="col.field">
+                    <div class="flex items-center gap-2">
+                        {{ col.header }}
+                        <p-sortIcon [field]="col.field" />
+                    </div>
+                </th>
+            }
+            </tr>
+        } @else {
+            <ng-container *ngTemplateOutlet="headerTemplate; context: { columns: columns }"></ng-container>
+        }
+    </ng-template>
+  
+    <!-- Body -->
+    <ng-template pTemplate="body" let-rowData>
+        @if (!rowTemplate) {
+            <tr>
+            @for (col of columns; track col.field) {
+                <td>{{ rowData[col.field] }}</td>
+            }
+            </tr>
+        } @else {
+            <ng-container *ngTemplateOutlet="rowTemplate; context: { $implicit: rowData, columns: columns }"></ng-container>
+        }
+    </ng-template>
+
+    <!-- Footer -->
+    <ng-template pTemplate="footer">
+        @if (footerTemplate) {
+            <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+        }        
+    </ng-template>
+      
+</p-table>
+  
