@@ -1,6 +1,7 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { CartItem } from '../../models/common.model';
 import { customMessageService } from '../message-service/message-service';
+import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,12 @@ export class CartService {
   private message = inject(customMessageService);
   private readonly CART_STORAGE_KEY = 'shopping-cart';
   private cartItems = signal<CartItem[]>(this.loadCartFormLocal());
+  private _visibleMiniCart = new BehaviorSubject<boolean>(false);
+  visibleMiniCart$ = this._visibleMiniCart.asObservable().pipe(distinctUntilChanged());
 
   readonly items = this.cartItems.asReadonly();
   readonly totalItems = computed(() => {
-    this.cartItems().reduce((sum, item) => sum + item.quantity, 0);
+    return this.cartItems().reduce((sum, item) => sum + item.quantity, 0);
   }
   );
   readonly totalPrice = computed(() => {
@@ -25,6 +28,13 @@ export class CartService {
     effect(() => {
       this.saveCartToLocal(this.cartItems());
     });
+  };
+
+  toggleMiniCart() {
+    this._visibleMiniCart.next(!this._visibleMiniCart.value);
+  };
+  setCartVisibility(value: boolean) {
+    this._visibleMiniCart.next(value);
   };
 
   addItem(product: Omit<CartItem, 'quantity'> | any , quantity: number = 1): boolean {
