@@ -1,26 +1,27 @@
-import { Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, computed, HostListener, inject } from '@angular/core';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Megamenu } from '../../../../shared/components/layout/megamenu/megamenu';
 import { Drawer } from '../../../../shared/components/ui/drawer/drawer';
 import { ButtonModule } from 'primeng/button';
+import { BadgeModule } from 'primeng/badge';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { Category } from '../../../../shared/models/common.model';
-import { User } from '../../../../shared/models/user.model';
-import { UserService } from '../../../../shared/services/user-service/user-service';
 import { AuthService } from '../../../../shared/services/auth-service/auth-service';
 import { UserDrawer } from '../../../../shared/components/ui/user-drawer/user-drawer';
 import { MiniCart } from '../../../../shared/components/bussiness/cart/mini-cart/mini-cart';
+import { CartService } from '../../../../shared/services/cart-service/cart-service';
 
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, CommonModule, Megamenu, Drawer, UserDrawer, MiniCart, ButtonModule],
+  imports: [RouterLink, CommonModule, Megamenu, Drawer, UserDrawer, MiniCart, ButtonModule, BadgeModule, OverlayBadgeModule, AsyncPipe],
   templateUrl: './header.html',
   styleUrl: './header.scss'
 })
 export class Header {
   private router = inject(Router);
-  visibleMiniCart: boolean = false;
+  cartService = inject(CartService);
 
   category: Category[] = [
     {
@@ -66,8 +67,8 @@ export class Header {
     { cateId: 'Today\'s Sale' }
   ];
   isNavHidden = false;
-  private authService = inject(AuthService);
   isLogedIn: boolean = false;
+  totalItems = computed(() => this.cartService.totalItems());
 
   // scroll navBar
   @HostListener('window:scroll', [])
@@ -78,5 +79,9 @@ export class Header {
   get isCartPage(): boolean {
     return this.router.url === '/main/cart';
   };
-
+  toggleMiniCart() {
+    if (!this.isCartPage) {
+      this.cartService.toggleMiniCart();
+    }; 
+  };
 }
