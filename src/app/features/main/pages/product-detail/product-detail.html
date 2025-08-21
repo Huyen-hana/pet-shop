@@ -20,7 +20,7 @@
       </div>
   
       <div class="col-span-1 xl:col-span-2 pt-7 lg:pt-31.25">
-        @if (product && product.name) {
+        @if (product && product.name && product.id) {
             <div class="flex flex-col gap-3.75">
                 <div class="text-lg font-semibold">{{ product.name }}</div>
                 <div>Brand: {{ product.brand }}</div>
@@ -32,28 +32,42 @@
                     } @else {
                         <p 
                             [ngStyle]="{'text-decoration-line': 'line-through'}"
-                            class="font-semibold text-sm">{{ product.price *1000 | number:'1.0-0' }}₫
+                            class="font-semibold text-sm">
+                            {{ product.price *1000 | number:'1.0-0' }}₫
                         </p>
                         <p>|</p>
-                        <p class="font-semibold text-(--p-red-600)">{{ product.price *1000 | number:'1.0-0' }}₫</p>
+                        <p class="font-semibold text-(--p-red-600)">
+                            {{ cartItemService.getDiscountedPrice(product.price, product.sale) *1000 | number:'1.0-0' }}₫
+                        </p>
                     }
                 </div>
                 <div>Variants: {{ product.variants }}</div>
                 <div class="flex flex-col">
-                    <p>Quantities:</p>
+                    <p>Quantities:
+                        <span class="ml-2">
+                            {{ selectedQuantities[product.id] || 1 }}
+                        </span>
+                    </p>
                     <div class="mt-2">
                         <p-buttongroup>
-                            <p-button icon="pi pi-minus" [outlined]="true" [rounded]="true" />
-                            <p-button icon="pi pi-plus" [outlined]="true" [rounded]="true" />
+                            <p-button
+                                (click)="decreaseItemQuant(product.id.toString())"
+                                icon="pi pi-minus" [outlined]="true" [rounded]="true" />
+                            <p-button
+                                (click)="increaseItemQuant(product.id.toString())"
+                                icon="pi pi-plus" [outlined]="true" [rounded]="true" />
                         </p-buttongroup>
                     </div>
                 </div>
                 <div class="flex gap-2">
                     <p>Total:</p>
-                    <p class="font-semibold">price</p>
+                    <p class="font-semibold">
+                        {{ cartItemService.getTotalPrice(product.price, product.sale ?? 0, getQuantity(product.id.toString())) *1000 | number:'1.0-0' }}₫
+                    </p>
                 </div>
                 <p-fluid>
                     <p-button
+                        (click)="addToCart(product)"
                         [disabled]="!product.currentStock ? true : false"
                         [label]="!product.currentStock ? 'Out of stock' : 'Add to cart' "
                         [rounded]="true" [raised]="true" />
