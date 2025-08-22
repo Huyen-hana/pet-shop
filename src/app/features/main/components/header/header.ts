@@ -2,6 +2,7 @@ import { Component, computed, HostListener, inject } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Megamenu } from '../../../../shared/components/layout/megamenu/megamenu';
+import { Search } from '../../../../shared/components/ui/search/search';
 import { Drawer } from '../../../../shared/components/ui/drawer/drawer';
 import { ButtonModule } from 'primeng/button';
 import { BadgeModule } from 'primeng/badge';
@@ -11,17 +12,27 @@ import { AuthService } from '../../../../shared/services/auth-service/auth-servi
 import { UserDrawer } from '../../../../shared/components/ui/user-drawer/user-drawer';
 import { MiniCart } from '../../../../shared/components/bussiness/cart/mini-cart/mini-cart';
 import { CartService } from '../../../../shared/services/cart-service/cart-service';
+import { ProductService } from '../../../../shared/services/product-service/product-service';
+import { customMessageService } from '../../../../shared/services/message-service/message-service';
+import { Product } from '../../../../shared/models/product.model';
+import { Subject, takeUntil } from 'rxjs';
+import { SearchService } from '../../../../shared/services/search-service/search-service';
 
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, CommonModule, Megamenu, Drawer, UserDrawer, MiniCart, ButtonModule, BadgeModule, OverlayBadgeModule, AsyncPipe],
+  imports: [RouterLink, CommonModule, Megamenu, Search, Drawer, UserDrawer, MiniCart, ButtonModule, BadgeModule, OverlayBadgeModule, AsyncPipe],
   templateUrl: './header.html',
   styleUrl: './header.scss'
 })
 export class Header {
   private router = inject(Router);
   cartService = inject(CartService);
+  private productService = inject(ProductService);
+  private messService = inject(customMessageService);
+  private destroy$ = new Subject<void>();
+  searchService = inject(SearchService);
+  allProducts: Product[] = [];
 
   category: Category[] = [
     {
@@ -70,6 +81,18 @@ export class Header {
   isLogedIn: boolean = false;
   totalItems = computed(() => this.cartService.totalItems());
 
+  ngOnInit(): void {
+    this.loadAllProducts();
+  };
+  private loadAllProducts(): void {
+    this.productService.getAll()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (products) => this.allProducts = products,
+      error: () => this.messService.showError('Error', 'Failed to load products')
+    });
+  };
+
   // scroll navBar
   @HostListener('window:scroll', [])
   onScroll(): void {
@@ -83,5 +106,8 @@ export class Header {
     if (!this.isCartPage) {
       this.cartService.toggleMiniCart();
     }; 
+  };
+  toggleSearch(): void {
+    this.searchService.toggle();
   };
 }
