@@ -5,13 +5,28 @@
             <p-accordion-content>
                 @for (cateName of menu.cateNameList; track cateName.cateName; let j = $index) {
                     <div class="flex items-center">
-                        <p-checkbox
-                            [inputId]="'checkbox-' + i + '-' + j" name="categoryGroup"
-                            [value]="cateName.cateName"
-                            [(ngModel)]="selectedCateNames" />
-                        <label [for]="'checkbox-' + i + '-' + j" class="ml-2">
-                            {{ cateName.cateName }}
-                        </label>
+                        @if (menuName === 'filter') {
+                            <p-checkbox
+                                [inputId]="'checkbox-' + i + '-' + j" name="categoryGroup"
+                                [value]="cateName.cateName"
+                                [(ngModel)]="selectedCateNames"
+                                
+                                 />
+                            <label [for]="'checkbox-' + i + '-' + j" class="ml-2">
+                                {{ cateName.cateName }}
+                            </label>
+                        }
+                        @if (menuName === 'sort') {
+                            <p-radiobutton
+                                (ngModelChange)="onSortChange($event)"
+                                name="sortGroup-{{ panelId }}"
+                                [value]="cateName.cateName"
+                                [(ngModel)]="selectedCateName"
+                                [inputId]="'radio-' + panelId + '-' + i" />
+                            <label [for]="'radio-' + panelId + '-' + i" class="ml-2">
+                                {{ cateName.cateName }}
+                            </label>
+                        }
                     </div>
                 }
             </p-accordion-content>
