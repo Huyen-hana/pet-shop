@@ -3,26 +3,56 @@
       All products
     </div>
   
-    <div class="grid grid-cols-2 gap-2">
-      <div class="lg:hidden relative">
+    <div class="flex justify-between gap-2">
+      <div class="flex-1 lg:hidden relative">
         <i (click)="isShowFilter()" class="pi pi-filter p-2" style="font-size: 1rem"></i>
-        @if (isShow) {
-          <div class="absolute w-full top-6 left-0 z-10 p-2 bg-(--p-surface-0) shadow-md rounded-sm">
-            <app-filter-panel [menuFilter]="menuFilter" ></app-filter-panel>
-          </div>
-        }
+        <p-drawer
+          blockScroll="true"
+          header="Filter" [(visible)]="isShow" position="bottom" [style]="{ 'min-height': '60vh' }">
+          @if (isShow) {
+            <app-filter-panel
+              [menuName]="'filter'"
+              [menuFilter]="menuFilter" ></app-filter-panel>
+          }
+        </p-drawer>
       </div>
-      <div class="lg:col-start-2">
-        <div class="lg:hidden relative text-right">
-          <i class="pi pi-sort p-2" style="font-size: 1rem"></i>
-        </div>
+
+      <div class="flex-1 lg:hidden relative text-right">
+        <i
+          (click)="isShowSort()"
+          class="pi pi-sort p-2" style="font-size: 1rem"></i>
+        <p-drawer
+          blockScroll="true"
+          header="Sort" [(visible)]="showSort" position="bottom" [style]="{ 'min-height': '60vh' }">
+          @if (showSort) {
+            <app-filter-panel
+              [panelId]="'drawer-sort'"
+              [menuName]="'sort'"
+              (sortChanged)="onSortChanged($event)"
+              [menuFilter]="sortFilter" ></app-filter-panel>
+          }
+      </p-drawer>
       </div>
     </div>
   
     <div class="grid grid-cols-1 lg:grid-cols-[210px_1fr] gap-3.75">
       <!-- filter -->
       <div class="hidden lg:block">
-        <app-filter-panel [menuFilter]="menuFilter" ></app-filter-panel>
+        @if (!isShow) {
+          <app-filter-panel
+            [menuName]="'filter'"
+            [panelId]="'drawer-filter'"
+            [menuFilter]="menuFilter"
+          ></app-filter-panel>
+        }
+        @if (!showSort) {
+          <app-filter-panel
+            [menuName]="'sort'"
+            [panelId]="'drawer-sort'"
+            (sortChanged)="onSortChanged($event)"
+            [menuFilter]="sortFilter"
+        ></app-filter-panel>
+        }
       </div>
       <div class="min-h-screen rounded">
         <div class="grid grid-rows-[1fr_auto] gap-2">
