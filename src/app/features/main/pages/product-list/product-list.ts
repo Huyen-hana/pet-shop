@@ -3,17 +3,18 @@ import { Product } from '../../../../shared/models/product.model';
 import { Paginator } from '../../../../shared/components/layout/paginator/paginator/paginator';
 import { PaginatorState } from 'primeng/paginator';
 import { ProductService } from '../../../../shared/services/product-service/product-service';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { ProductCard } from '../../../../shared/components/bussiness/products/product-card/product-card';
 import { Category } from '../../../../shared/models/common.model';
 import { FilterPanel } from '../../../../shared/components/layout/filter-panel/filter-panel';
+import { DrawerModule } from 'primeng/drawer';
 import { ActivatedRoute } from '@angular/router';
 import { customMessageService } from '../../../../shared/services/message-service/message-service';
 import { Loading } from '../../../../shared/services/loading/loading';
 
 @Component({
   selector: 'app-product-list',
-  imports: [ProductCard, Paginator, FilterPanel],
+  imports: [ProductCard, Paginator, FilterPanel, DrawerModule],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss'
 })
@@ -25,7 +26,7 @@ export class ProductList {
   private timeoutId: any;
   private loadingService = inject(Loading);
   isShow: boolean = false;
-  isShowSort: boolean = false;
+  showSort: boolean = false;
   products: Product[] = [];
   pagedProducts: Product[] = [];
   filterProducts: Product[] = [];
@@ -53,11 +54,15 @@ export class ProductList {
     }
   ];
   sortFilter: Category[] = [
-    { cateId: 'Giá từ cao đến thấp' },
-    { cateId: 'Giá từ thấp đến cao' },
-    { cateId: 'Ngày từ mới đến cũ' },
-    { cateId: 'Ngày từ cũ đến mới' }
-  ]
+    { cateId: 'Sort by',
+      cateNameList: [
+        { cateName: 'Low to high' },
+        { cateName: 'High to low' },
+        { cateName: 'New to old' },
+        { cateName: 'Old to new' },
+      ]
+     },
+  ];
 
   ngOnInit(): void {
     this.allProducts();
@@ -92,14 +97,13 @@ export class ProductList {
   private loadProducts(): void {
     this.productService.getAll().subscribe({
       next: (data) => {
-        // this.products = data;
         this.filterProducts = [...data];
 
         this.totalRecords = data.length;
         this.paginateData();
         this.timeoutId = setTimeout(() => {
           this.loadingService.hide();
-        }, 300);
+        }, 100);
       },
       error: (error) => {
         this.loadingService.hide();
@@ -114,7 +118,7 @@ export class ProductList {
         this.filterProductsByType(type);
         this.timeoutId = setTimeout(() => {
           this.loadingService.hide();
-        }, 300);
+        }, 100);
       },
       error: (error) => {
         this.loadingService.hide();
@@ -146,4 +150,35 @@ export class ProductList {
   isShowFilter() {
     this.isShow = !this.isShow;
   };
+  isShowSort() {
+    this.showSort = !this.showSort;
+  };
+
+  onSortChanged(event: { source: string; value: string[] }) {
+    const selected = event.value[0];
+    let sorted = [...this.filterProducts];
+  
+    switch (selected) {
+      case 'Low to high':
+        sorted.sort((a, b) => a.price - b.price);
+        break;
+      case 'High to low':
+        sorted.sort((a, b) => b.price - a.price);
+        break;
+      case 'New to old':
+        sorted.sort((a, b) => this.safeDate(b.createdAt) - this.safeDate(a.createdAt));
+        break;
+      case 'Old to new':
+        sorted.sort((a, b) => this.safeDate(a.createdAt) - this.safeDate(b.createdAt));
+        break;
+    };
+  
+    this.filterProducts = sorted;
+    this.totalRecords = sorted.length;
+    this.paginateData();
+  };
+  safeDate(dateStr?: string): number {
+    return dateStr ? new Date(dateStr).getTime() : 0;
+  };
+  
 }
