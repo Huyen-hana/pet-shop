@@ -1,0 +1,37 @@
+<div class="relative w-full lg:max-w-2xl">
+    <i class="pi pi-search text-gray-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10"></i>
+
+    <p-autocomplete [(ngModel)]="searchText" [dt]="autocomplete"
+        [suggestions]="filteredProduct"
+        (completeMethod)="onSearch($event)"
+        (onSelect)="onSelectProduct($event)"
+        field="name"
+        delay="400"
+        placeholder="Search ..."
+        minLength="1"
+        forceSelection="true"
+        showClear="true"
+        lazy="true"
+        optionLabel="name"
+        fluid
+        [inputStyle]="{ 'padding-left': '2.5rem', 'padding-right': '2.5rem' }"
+    >
+    <ng-template let-product #item>
+        <div class="flex items-center max-sm:max-w-full gap-2">
+            <img
+                [src]="`assets/images/products/img/id${product.id}-thumb.jpg`"
+                class="w-10 sm:w-15" />
+            <div class="max-sm:max-w-[250px] truncate whitespace-nowrap">{{ product.name }}</div>
+        </div>
+    </ng-template>
+        <ng-template #header>
+            <div class="font-medium px-3 py-2">Available products</div>
+        </ng-template>
+        <!-- <ng-template #footer>
+            <div class="px-3 py-3">
+                <p-button label="See more" fluid severity="secondary" text size="small" icon="pi pi-plus" />
+            </div>
+        </ng-template> -->
+    </p-autocomplete>
+
+</div>
