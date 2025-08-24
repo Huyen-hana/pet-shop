@@ -28,7 +28,7 @@ export class FilterPanel {
         value: [value]
       }
     );
-    console.log(value)
+    // console.log(value)
   };  
 
   myAmberAccord = {
