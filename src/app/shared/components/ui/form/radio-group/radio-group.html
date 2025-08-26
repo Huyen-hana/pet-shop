@@ -1,0 +1,43 @@
+<div class="mb-6">
+    <div class="text-xl font-semibold mb-2">{{name}}</div>
+    <div class="flex flex-col gap-2">
+
+        @for (category of categories; track category.key; let i = $index) {
+            @if (category.desc) {
+              <p-accordion [value]="-1">
+                <p-accordion-panel [value]="i">
+                  <p-accordion-header>
+                    <div class="field-checkbox flex items-center">
+                      <p-radiobutton
+                        [value]="category"
+                        formControlName="selectedCategory"
+                        [name]="groupName"
+                        [inputId]="category.key"
+                        (onClick)="selectValue(category)" />
+                      <label [for]="category.key" class="ml-2">{{ category.name }}</label>
+                    </div>
+                  </p-accordion-header>
+                  <p-accordion-content>
+                    @for (line of category.desc; track line) {
+                        <div class="text-sm">{{ line }}</div>
+                      }          
+                  </p-accordion-content>
+                </p-accordion-panel>
+              </p-accordion>
+            } @else {
+                <div class="field-checkbox flex items-center px-4.5">
+                  <p-radiobutton
+                      [value]="category"
+                      formControlName="selectedCategory"
+                      [name]="groupName"
+                      [inputId]="category.key"
+                      (onClick)="selectValue(category)" />
+                  <label [for]="category.key" class="ml-2">{{ category.name }}</label>
+                  <span class="ml-auto font-semibold pl-2 self-start">
+                    {{ category.price *1000 | number:'1.0-0' }}₫
+                  </span>
+                </div>
+            }
+        }
+    </div>
+</div>
