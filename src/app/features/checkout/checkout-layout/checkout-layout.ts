@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { CheckoutHeader } from '../components/checkout-header/checkout-header';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-checkout-layout',
-  imports: [],
+  imports: [RouterOutlet , CheckoutHeader],
   templateUrl: './checkout-layout.html',
   styleUrl: './checkout-layout.scss'
 })

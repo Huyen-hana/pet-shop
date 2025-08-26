@@ -117,12 +117,8 @@ export class CartService {
     return safePrice - (safePrice * safeSale / 100);
   };
   getTotalPrice(price: number, sale: number, quantity: number = 1): number {
-    const safePrice = price ?? 0;
-    const safeSale = sale ?? 0;
-    const safeQuantity = quantity ?? 1;
-  
-    const discountedPrice = safePrice - (safePrice * safeSale / 100);
-    return discountedPrice * safeQuantity;  
+    const discountedPrice = price * (1 - sale / 100);
+    return discountedPrice * quantity;
   };
 
   getFinalPrice(item: CartItem): number {
