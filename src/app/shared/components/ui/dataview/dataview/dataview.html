@@ -1,0 +1,56 @@
+<p-dataview #dv [value]="cartService.items()">
+    <ng-template #list let-items>
+        <div class="grid grid-cols-12 gap-4 sm:gap-2 grid-nogutter">
+            @for (item of items; track item.id) {
+                <div class="col-span-12 bg-(--p-surface-100) rounded-md">
+                    <div
+                        class="flex flex-col sm:flex-row sm:items-center p-4 gap-4"
+                    >
+                        <div class="w-35 sm:w-15 relative max-sm:mx-auto">
+                            @if (!headerTemplate) {
+                                <img
+                                    class="block xl:block mx-auto rounded-border w-full md:w-12 rounded"
+                                    [src]="`assets/images/products/img/id${item.id}-thumb.jpg`"
+                                    [alt]="item.name"
+                                />
+                                <p-badge
+                                    [value]="cartService.getItemQuantity(item.id)"
+                                    class="absolute top-0 left-0 sm:left-1"
+                                    badgeSize="small"
+                                />
+                            } @else {
+                                <ng-container *ngTemplateOutlet="headerTemplate; context: { $implicit: item }"></ng-container>
+                            }
+                        </div>
+                        <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-4">
+                            <div class="flex flex-row md:flex-col justify-between items-start gap-2">
+                                <div>
+                                    @if (!nameTemplate) {
+                                        <div class="mt-2 line-clamp-2">{{ item.name }}</div>
+                                    } @else {
+                                        <ng-container *ngTemplateOutlet="nameTemplate; context: { $implicit: item }"></ng-container>
+                                    }
+                                    <span class="text-sm text-(--p-surface-500)">Variants:</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col md:items-end gap-2 sm:gap-1.5">
+                                <span class="font-semibold">{{
+                                    cartService.getTotalPrice(
+                                        item.price,
+                                        item.sale,
+                                        cartService.getItemQuantity(item.id)
+                                    ) *1000 | number:'1.0-0'
+                                }}₫</span>
+                                <div class="flex flex-row-reverse sm:flex-row gap-2">
+                                    @if (buttonTemplate) {
+                                        <ng-container *ngTemplateOutlet="buttonTemplate; context: { $implicit: item }"></ng-container>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </ng-template>
+</p-dataview>
