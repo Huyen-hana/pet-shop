@@ -9,6 +9,9 @@ import { RadioGroup } from '../../../../shared/components/ui/form/radio-group/ra
 import { Dataview } from '../../../../shared/components/ui/dataview/dataview/dataview';
 import { CartService } from '../../../../shared/services/cart-service/cart-service';
 import { EmptyCart } from "../../../../shared/components/bussiness/cart/empty-cart/empty-cart";
+import { OrderStatus, PaymentMethod, ProductInOrder, ShippingMethod } from '../../../../shared/models/order.model';
+import { UserService } from '../../../../shared/services/user-service/user-service';
+import { customMessageService } from '../../../../shared/services/message-service/message-service';
 
 @Component({
   selector: 'app-confirmation',
@@ -24,8 +27,11 @@ import { EmptyCart } from "../../../../shared/components/bussiness/cart/empty-ca
 export class Confirmation implements OnInit {
   orderForm!: FormGroup;
   private formBuilder = inject(FormBuilder);
+  private userService = inject(UserService);
+  private messService = inject(customMessageService);
   cartService = inject(CartService);
   shippingPrice = signal<number>(0);
+  isLoading: boolean = false;
 
   totalPrice = computed(() => {
     return this.cartService.totalPrice() + this.shippingPrice();
@@ -112,6 +118,50 @@ export class Confirmation implements OnInit {
   };
 
   onSubmitForm(event: Event) {
-    console.log(this.orderForm.value)
+    this.isLoading = true;
+    console.log(this.orderForm.value);
+    const formValue = this.orderForm.value;
+    const cartItems: ProductInOrder[] = this.cartService.items().map(item => ({
+      productId: item.id,
+      productName: item.name,
+      unitPrice: this.cartService.getDiscountedPrice(item.price, item.sale),
+      quantity: item.quantity,
+      productType: '',
+      imageUrl: item.image ?? ''
+    }));
+    const orderData = {
+      orderId: this.generateFakeOrderId(),
+      phone: formValue.phone,
+      email: formValue.email,
+      name: formValue.username,
+      address: formValue.address,
+      shippingMethod: formValue.selectedCategory1.name as ShippingMethod,
+      paymentMethod: formValue.selectedCategory2.key as PaymentMethod,
+      cart: cartItems,
+      shippingFee: formValue.selectedCategory1.price,
+      totalAmount: this.cartService.totalPrice(),
+      orderStatus: 'Pending Confirmation' as OrderStatus,
+      createdAt: new Date().toISOString()
+    };
+    
+    if (orderData) {
+      this.userService.createOrder(orderData).subscribe({
+        next: (res) => {
+          this.cartService.clearCart();
+          this.orderForm.reset();
+          this.messService.showSuccess('Success', 'Order created successfully!');
+          this.isLoading = false;
+        },
+        error: (err) => {
+          this.messService.showError('Error', 'Failed to create order. Please try again.');
+          this.isLoading = false;
+        }
+      });
+    }
+  };
+  generateFakeOrderId(): string {
+    const timestamp = Date.now().toString().slice(-6);
+    const randomStr = Math.random().toString(36).substring(2, 6).toUpperCase();
+    return `ORD-${timestamp}-${randomStr}`;
   };
 }
