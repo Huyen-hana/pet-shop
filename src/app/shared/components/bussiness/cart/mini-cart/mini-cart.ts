@@ -7,10 +7,12 @@ import { CartService } from '../../../../services/cart-service/cart-service';
 import { Router, RouterLink } from '@angular/router';
 import { EmptyCart } from "../empty-cart/empty-cart";
 import { Subject, takeUntil } from 'rxjs';
+import { Dataview } from '../../../ui/dataview/dataview/dataview';
+import { Badge } from "primeng/badge";
 
 @Component({
   selector: 'app-mini-cart',
-  imports: [DrawerModule, DataViewModule, ButtonModule, CommonModule, RouterLink, EmptyCart],
+  imports: [DrawerModule, DataViewModule, ButtonModule, CommonModule, RouterLink, Dataview, EmptyCart, Badge],
   templateUrl: './mini-cart.html',
   styleUrl: './mini-cart.scss'
 })
@@ -32,6 +34,7 @@ export class MiniCart implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.onDrawerHide();
   };
 
   onDrawerHide() {

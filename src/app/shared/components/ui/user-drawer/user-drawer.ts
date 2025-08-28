@@ -32,6 +32,7 @@ export class UserDrawer implements OnInit, OnDestroy {
   username$: Observable<string | null>;
   role: string | null = '';
   avatar$: Observable<string | null>;
+  isLoading: boolean = false;
 
   formLogin!: FormGroup;
   private formBuilder = inject(FormBuilder);
@@ -76,17 +77,18 @@ export class UserDrawer implements OnInit, OnDestroy {
 
   get password() {
     return this.formLogin.get('password')
-  }
+  };
   get email() {
     return this.formLogin.get('email')
-  }
+  };
 
   onSubmitForm() {
+    this.isLoading = true;
     const { email, passWord } = this.formLogin.value;
     this.subscript = this.userService.checkHaveUser(passWord, email).subscribe(isExist => {
       if (!isExist) {
-        console.log('chua dang ky');
-        this.customMessageService.showWarn('Khong the dang nhap', 'Tai khoan chua dang ky.')
+        this.customMessageService.showWarn('Cannot log in', 'Unregistered account.');
+        this.isLoading = false;
         return;
       } 
         const avatar = isExist.avatar ?? 'assets/default-avatar.png';
@@ -95,7 +97,13 @@ export class UserDrawer implements OnInit, OnDestroy {
 
         this.username$ = this.authService.getUserName();
         this.avatar$ = this.authService.getAvatar();
-        this.route.navigateByUrl('/main/home');
+        this.isLoading = false;
+
+        if (isExist.role === 'admin') {
+          this.route.navigate(['/admin/dashboard'])
+        } else {
+          this.formLogin.reset();
+        }
     });   
   };
   isLogOut(): void {
@@ -121,12 +129,12 @@ export class UserDrawer implements OnInit, OnDestroy {
         break;
     };
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  };
 
   userAva = {
     root: {
       width: '20px',
       height: '20px'
     }
-  }
+  };
 }

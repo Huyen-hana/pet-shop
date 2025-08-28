@@ -10,62 +10,46 @@
 
     <div>
         @if (!cartService.isEmpty()) {
-            <p-dataview #dv [value]="cartItems()" >
-                <ng-template #list let-items>
-                    <div class="grid grid-cols-12 gap-y-9 grid-nogutter">
-                        @for (item of items; track item.id) {
-                            <div class="col-span-12" class="col-span-12">
-                                <div
-                                    class="flex flex-col sm:flex-row sm:items-center gap-2 shadow-md"
-                                >
-                                    <div class="relative">
-                                        <a
-                                            (click)="goProductDetail(item.id)"
-                                            [routerLink]="['/main/products']">
-                                            <img
-                                                class="block xl:block mx-auto aspect-square rounded-border w-[40%] sm:w-12"
-                                                [src]="item.image"
-                                                [alt]="item.name"
-                                            />
-                                        </a>
-                                    </div>
-                                    <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-3 pb-3.75">
-                                        <div class="flex flex-row md:flex-col justify-between items-start gap-2">
-                                            <div>
-                                                <div class="line-clamp-2 mb-2">
-                                                    <a 
-                                                        (click)="goProductDetail(item.id)"
-                                                        [routerLink]="['/main/products']">
-                                                        {{ item.name }}
-                                                    </a>
-                                                </div>
-                                                <div class="flex flex-col justify-between">
-                                                    <span class="text-sm">Quantities: {{
-                                                        cartService.getItemQuantity(item.id)
-                                                        }}
-                                                    </span>
-                                                    <span class="text-sm text-(--p-surface-500)">Variants: </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col md:items-end gap-3">
-                                            <span class="font-semibold">
-                                                {{
-                                                    cartService.getTotalPrice(
-                                                    item.price,
-                                                    item.sale,
-                                                    cartService.getItemQuantity(item.id)
-                                                    ) *1000 | number:'1.0-0'
-                                                }}₫
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </ng-template>
-            </p-dataview>
+
+            <ng-template #customHeader let-item>
+                <a (click)="goProductDetail(item.id)"
+                    class="cursor-pointer">
+                    <img
+                      class="block xl:block mx-auto rounded-border w-full md:w-12 rounded"
+                      [src]="`assets/images/products/img/id${item.id}-thumb.jpg`"
+                      [alt]="item.name"
+                    />
+                    <p-badge
+                        [value]="cartService.getItemQuantity(item.id)"
+                        class="absolute top-0 left-0 sm:left-1"
+                        badgeSize="small"
+                    />              
+                </a>
+            </ng-template>
+            
+            <app-dataview
+                [headerTemplate]="customHeader"
+                [nameTemplate]="customName"
+                [buttonTemplate]="customButton"
+            ></app-dataview>
+
+            <ng-template #customName let-item>
+                <a (click)="goProductDetail(item.id)"
+                    class="cursor-pointer">
+                    <div class="mt-2 line-clamp-2">{{ item.name }}</div>
+                </a>
+            </ng-template>
+
+            <ng-template #customButton let-item>
+                <p-button
+                (click)="cartService.removeItem(item.id)"
+                icon="pi pi-trash"
+                class="flex-start sm:flex-initial whitespace-nowrap ml-auto text-(--p-surface-500)"
+                [raised]="true"
+                severity="secondary"
+                [size]="'small'"
+            />
+            </ng-template>
         } @else {
             <app-empty-cart></app-empty-cart>
         }
@@ -81,6 +65,7 @@
                     </span>
                 </div>
                 <button
+                    [routerLink]="['/checkout/confirmation']"
                     pButton label="Go to checkout"
                     class="w-full" severity="secondary" [rounded]="true" [raised]="true">
                 </button>
