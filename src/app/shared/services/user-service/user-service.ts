@@ -2,12 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { User } from '../../models/user.model';
 import { Observable, catchError, map, of } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Order } from '../../models/order.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private readonly url: string = 'https://687fdb48f1dcae717b6070d0.mockapi.io/user';
+  private readonly orderUrl: string = 'https://687fdb48f1dcae717b6070d0.mockapi.io/order';
   private http = inject(HttpClient);
   
   private getAllUser(): Observable<User[]> {
@@ -74,6 +76,10 @@ export class UserService {
         return of(false);
       })
     );
+  };
+
+  createOrder(orderData: Order): Observable<Order> {
+    return this.http.post<Order>(this.orderUrl, orderData);
   };
   
 }

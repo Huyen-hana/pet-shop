@@ -1,17 +1,16 @@
 export interface Order {
+    orderId: string;
     phone: string;
     email: string;
-    firstName: string;
-    lastName: string;
-    country: string;
+    name: string;
     address: string;
-    city: string;
     shippingMethod: ShippingMethod;
     paymentMethod: PaymentMethod;
     cart: ProductInOrder[];
     shippingFee: number;
     totalAmount: number;
     orderStatus: OrderStatus;
+    createdAt: string;
 };
 export type PaymentMethod = 'COD' | 'Bank Transfer';
 

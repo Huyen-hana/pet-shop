@@ -39,6 +39,7 @@
             </div>
             <div class="flex flex-col mt-1.5 gap-2">
                 <p-button
+                    [loading]="isLoading"
                     styleClass="w-full" 
                     [disabled]="formLogin.invalid"
                     type="submit"
