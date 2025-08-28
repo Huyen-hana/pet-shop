@@ -160,14 +160,13 @@ export class Register {
           error: (err) => {
             this.messService.showError('Registration failed', err.error?.message || 'Unknown error');
           }
-          // complete: () => console.log('Hoàn tất xử lý đăng ký')
         });
       },
       error: (err) => {
         this.messService.showError('Error checking email', err.error?.message || 'Cannot check email');
       }
     });
-  }
+  };
   
   goHome() {
     this.router.navigate(['/main/home']);

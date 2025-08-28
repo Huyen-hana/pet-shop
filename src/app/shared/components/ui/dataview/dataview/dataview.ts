@@ -1,13 +1,12 @@
 import { Component, inject, Input, TemplateRef } from '@angular/core';
 import { DataViewModule } from 'primeng/dataview';
-import { Button } from "primeng/button";
 import { BadgeModule } from 'primeng/badge';
 import { CartService } from '../../../../services/cart-service/cart-service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dataview',
-  imports: [DataViewModule, Button, BadgeModule, CommonModule],
+  imports: [DataViewModule, BadgeModule, CommonModule],
   templateUrl: './dataview.html',
   styleUrl: './dataview.scss'
 })
