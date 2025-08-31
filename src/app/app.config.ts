@@ -29,7 +29,8 @@ export const appConfig: ApplicationConfig = {
         providePrimeNG({
             theme: {
                 preset: MyPreset
-            }
+            },
+            ripple: true
         }),
     MessageService
   ]
