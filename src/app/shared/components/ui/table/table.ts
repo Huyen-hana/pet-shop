@@ -10,7 +10,7 @@ import { TableModule } from 'primeng/table';
 })
 export class Table {
   @Input() data: any[] = [];
-  @Input() columns: { field: string; header: string }[] = [];
+  @Input() columns: { field: string; header: string; sortable?: boolean }[] = [];
 
   @Input() headerTemplate?:  TemplateRef<any>;
   @Input() rowTemplate?: TemplateRef<any>;

@@ -1,7 +1,7 @@
 <p-table 
     [value]="data"
     [columns]="columns"
-    [tableStyle]="{ 'min-width': '50rem' }"
+    [tableStyle]="{ 'min-width': '35rem' }"
     [paginator]="paginator"
     [rows]="rows"
     [sortMode]="sortable ? 'multiple' : 'single'"
@@ -11,12 +11,18 @@
         @if (!headerTemplate) {
             <tr>
             @for (col of columns; track col.field) {
-                <th [pSortableColumn]="col.field">
-                    <div class="flex items-center gap-2">
+                @if (!col.sortable) {
+                    <th>
                         {{ col.header }}
-                        <p-sortIcon [field]="col.field" />
-                    </div>
-                </th>
+                    </th>                
+                } @else {
+                    <th [pSortableColumn]="col.field">
+                        <div class="flex items-center gap-2">
+                            {{ col.header }}
+                            <p-sortIcon [field]="col.field" />
+                        </div>
+                    </th>
+                }
             }
             </tr>
         } @else {
