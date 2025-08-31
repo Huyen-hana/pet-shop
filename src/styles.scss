@@ -8,6 +8,7 @@
 
     --header-height: 138px;
     --mini-header-height: 50px;
+    --admin-header-height: 56px;
     
     --logo-width: 155px;
     --line-height-sm: 1.2;
@@ -26,4 +27,71 @@ html, body, app-root {
     font-size: var.$font-size-base;
     color: var.$text-color;
 }
+
+@keyframes slidedown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideup {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.animate-slidedown {
+  animation: slidedown 0.4s ease forwards;
+}
+
+.animate-slideup {
+  animation: slideup 0.4s ease forwards;
+}
+
+.animate-hidden {
+  display: none !important;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.6rem;
+  border-radius: 4px;
+  color: var(--p-surface-600);
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.trigger:hover {
+  border-radius: 8px;
+  background-color: var(--p-primary-50);
+  color: var(--p-primary-700)
+}
+.trigger.selected {
+  background-color: var(--p-primary-100); /* Màu nền cố định khi đã chọn */
+  color: var(--p-primary-800);            /* Màu chữ khi đã chọn */
+  border-radius: 8px;
+}
+
+.content {
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+}
+
+
+
+  
+  
+  
 
