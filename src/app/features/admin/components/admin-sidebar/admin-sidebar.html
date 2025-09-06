@@ -15,7 +15,6 @@
                         class="py-4 pr-1 flex items-center justify-between text-surface-700 cursor-pointer p-ripple"
                     >
                         <span class="font-medium">{{ group.label }}</span>
-                        <!-- <i class="pi pi-chevron-down text-(--p-surface-400)"></i> -->
                     </div>
                     <ul class="list-none p-0 m-0 overflow-hidden">
                         @for (item of group.items; track item.key) {
@@ -39,7 +38,8 @@
                                         @for (child of item.items; track child.key) {
                                             <li>
                                                 <a
-                                                    [routerLink]="child.routerLink"
+                                                    (click)="onItemClick($event)"
+                                                    [routerLink]="[child.routerLink, child.key]"
                                                     pRipple
                                                     class="flex items-center cursor-pointer px-3 py-1 rounded-border text-surface-600 hover:bg-surface-100 duration-150 transition-colors trigger p-ripple"
                                                 >
@@ -54,6 +54,7 @@
                             } @else {
                                 <li>
                                     <a
+                                        (click)="onItemClick($event)"
                                         [routerLink]="item.routerLink"
                                         pRipple class="trigger p-ripple">
                                         <i [class]="item.icon"></i>

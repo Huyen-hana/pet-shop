@@ -1,0 +1,70 @@
+<div class="lg:ml-[280px] flex-1 py-7 lg:pr-7 max-lg:px-7">
+    <div class="bg-(--p-surface-0) flex flex-row justify-between p-4 rounded-lg">
+        <div>
+            <p-button
+                (click)="addProduct()"
+                label="New" icon="pi pi-plus" severity="secondary" />
+        </div>
+        <div>
+            <p-button label="Export" icon="pi pi-upload" severity="secondary" />
+        </div>
+    </div>
+    <div class="flex flex-col xl:flex-wrap gap-7 mt-7">
+        <div class="grid grid-cols-1 bg-(--p-surface-0) gap-7 p-7 rounded-lg">
+            
+            <app-table
+                [data]="products()"
+                [columns]="cartColumns"
+                [rowTemplate]="customRow"
+                [captionMode]="'search'"
+                [paginator]="true"
+                [rows]="10">
+            ></app-table>
+
+            <ng-template #customRow let-product let-columns="columns">
+                <tr style="color: var(--p-surface-600)">
+                    <td>
+                        {{ product.id }}
+                    </td>
+                    <td class="truncate-2 min-w-75">
+                        {{ product.name }}
+                    </td>
+                    <td>
+                        <img [src]="`assets/images/products/img/id${product.id}-thumb.jpg`" [alt]="product.name" class="w-15 rounded" />
+                    </td>
+                    <td>
+                        {{ product.price }}
+                    </td>
+                    <td>
+                        {{ product.category }}
+                    </td>
+                    <td>
+                        <p-tag
+                            [severity]="getSevere(product.currentStock)"
+                            [value]="product.currentStock ? 'INSTOCK' : 'OUTOFSTOCK'"
+                            [rounded]="true" />
+                    </td>
+                    <td>
+                        <div class="flex gap-2">
+                            <p-button
+                                (click)="editProduct(product)"
+                                icon="pi pi-pencil"
+                                [outlined]="true"
+                                [rounded]="true"
+                                size="small"
+                            />
+                            <p-button
+                                (click)="deleteProduct(product.id)"
+                                icon="pi pi-trash"
+                                [outlined]="true"
+                                [rounded]="true"
+                                size="small"
+                            />
+                        </div>
+                    </td>
+                </tr>
+            
+            </ng-template>
+        </div>
+    </div>
+</div>

@@ -1,10 +1,10 @@
-<div class=" mt-[var(--admin-header-height)] bg-(--p-surface-100)">
-    <div class="flex flex-col lg:flex-row min-h-[calc(100vh-var(--admin-header-height))]">
-        @if (isDesktop$ | async) {
+<!-- <div class=" mt-[var(--admin-header-height)] bg-(--p-surface-100)">
+    <div class="flex flex-col lg:flex-row min-h-[calc(100vh-var(--admin-header-height))]"> -->
+        <!-- @if (isDesktop$ | async) {
             <div class="lg:w-[280px] fixed top-[var(--admin-header-height)] left-0 h-[calc(100dvh-var(--admin-header-height))] bg-(--p-surface-100) p-7">
                 <app-admin-sidebar></app-admin-sidebar>
             </div>
-        }
+        } -->
         
         <div class="lg:ml-[280px] flex-1 py-7 lg:pr-7 max-lg:px-7">
             <div class="flex flex-col xl:flex-wrap gap-7">
@@ -37,10 +37,10 @@
                         <span class="text-lg font-semibold">Recent Sales</span>
 
                         <app-table
-                            [data]="items"
+                            [data]="state.reccentSales()"
                             [columns]="cartColumns"
                             [paginator]="true"
-                            [rows]="2">
+                            [rows]="5">
                         </app-table>
                     </div>
                 
@@ -65,6 +65,6 @@
                 
             </div>
         </div>
-    </div>
+    <!-- </div>
 
-</div>
+</div> -->

@@ -7,7 +7,7 @@
                     icon="pi pi-bars" [rounded]="true" [text]="true" severity="secondary" />
                     
                 <div class="bg-(--p-surface-0) h-full rounded-md">
-                    <p-drawer #drawerRef [(visible)]="visible" [closable]="false">
+                    <p-drawer #drawerRef [(visible)]="visible" [closable]="false" blockScroll="true">
                         <ng-template #header>
                             <div class="w-full flex items-center justify-between pl-4 pr-6 shrink-0">
                                 <span class="font-semibold block text-2xl text-primary">Your Logo</span>
@@ -16,7 +16,7 @@
                             </div>
                         </ng-template>
                         
-                        <app-admin-sidebar></app-admin-sidebar>
+                        <app-admin-sidebar (closeDrawer)="closeCallback($event)"></app-admin-sidebar>
                     </p-drawer>
                 </div>
             }

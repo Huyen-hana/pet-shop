@@ -8,11 +8,11 @@ import { CartService } from '../../../../shared/services/cart-service/cart-servi
 import { ButtonGroup } from "primeng/buttongroup";
 import { DecimalPipe } from '@angular/common';
 import { EmptyCart } from '../../../../shared/components/bussiness/cart/empty-cart/empty-cart';
-import { Table } from "../../../../shared/components/ui/table/table";
+import { myTable } from "../../../../shared/components/ui/table/table";
 
 @Component({
   selector: 'app-cart-page',
-  imports: [EmptyCart, ButtonModule, InputTextModule, FluidModule, RouterLink, ButtonGroup, DecimalPipe, Table],
+  imports: [EmptyCart, ButtonModule, InputTextModule, FluidModule, RouterLink, ButtonGroup, DecimalPipe, myTable],
   templateUrl: './cart-page.html',
   styleUrl: './cart-page.scss'
 })

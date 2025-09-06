@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { DrawerModule } from 'primeng/drawer';
 import { StyleClass } from 'primeng/styleclass';
 import { MenuCategory } from '../../../../shared/models/common.model';
@@ -11,6 +11,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './admin-sidebar.scss'
 })
 export class AdminSidebar {
+  @Output() closeDrawer = new EventEmitter<Event>();
   menuItems: MenuCategory[] = [
     {
       key: 'home',
@@ -31,7 +32,16 @@ export class AdminSidebar {
         { key: 'form-layout', label: 'Form Layout', routerLink: undefined, icon: 'pi pi-fw pi-id-card' },
         { key: 'input', label: 'Input', routerLink: undefined, icon: 'pi pi-fw pi-id-card' },
         { key: 'button', label: 'Button', routerLink: undefined, icon: 'pi pi-fw pi-id-card' },
-        { key: 'table', label: 'Table', routerLink: undefined, icon: 'pi pi-fw pi-id-card' },
+        { key: 'table', label: 'Table', icon: 'pi pi-fw pi-id-card',
+          items: [
+            {
+              key: 'tbProducts', label: 'Products', routerLink: `/admin/ui-kid/table`
+            },
+            {
+              key: 'tbUsers', label: 'Users', routerLink: '/admin'
+            }
+          ]
+         },
         { key: 'list', label: 'List', routerLink: undefined, icon: 'pi pi-fw pi-id-card' },
         { key: 'tree', label: 'Tree', routerLink: undefined, icon: 'pi pi-fw pi-id-card' },
         { key: 'panel', label: 'Panel', routerLink: undefined, icon: 'pi pi-fw pi-id-card' },
@@ -92,5 +102,9 @@ export class AdminSidebar {
       ]
     }  
   ];
+
+  onItemClick(event: Event): void {
+    this.closeDrawer.emit(event);
+  };
   
 }

@@ -1,10 +1,10 @@
 export interface Product {
     name: string,
     id?: string | number,
-    img: string,
+    img?: string,
     category?: string,
     cateChild?: string,
-    type: 'cho'| 'meo',
+    type: ProductType,
     brand: string,
     price: number,
     sale?: number,
@@ -12,3 +12,5 @@ export interface Product {
     createdAt?: string;
     variants: string[];
 }
+
+export type ProductType = '' | 'dog' | 'cat';
