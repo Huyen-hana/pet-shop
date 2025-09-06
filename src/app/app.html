@@ -1,3 +1,5 @@
     <app-loading-overlay></app-loading-overlay>
     <router-outlet></router-outlet>
-    <p-toast [dt]="myAmberToast" position="bottom-left" />
+    <p-toast position="bottom-left" [breakpoints]="{ '640px': { width: '100%', right: '0', left: '0' } }" />
+
+    <p-confirmdialog key="globalConfirm" />

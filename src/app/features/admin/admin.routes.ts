@@ -15,6 +15,10 @@ export const ADMIN_ROUTES: Routes = [
             {
                 path: 'dashboard',
                 loadComponent: () => import('../admin/pages/dashboard/dashboard').then(m => m.Dashboard)
+            },
+            {
+                path: 'ui-kid/table/:name',
+                loadComponent: () => import('../admin/pages/products-management/products-management').then(m => m.ProductsManagement)
             }
         ]
     }
