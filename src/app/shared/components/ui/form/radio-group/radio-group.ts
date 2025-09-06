@@ -1,12 +1,12 @@
-import { Component, EventEmitter, forwardRef, Input, Output, signal } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { AccordionModule } from 'primeng/accordion';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-radio-group',
-  imports: [RadioButtonModule, AccordionModule, CommonModule],
+  imports: [RadioButtonModule, AccordionModule, CommonModule, FormsModule],
   templateUrl: './radio-group.html',
   styleUrl: './radio-group.scss',
   providers: [
@@ -28,22 +28,25 @@ export class RadioGroup implements ControlValueAccessor {
 
   @Output() priceChange = new EventEmitter<number>();
 
-  writeValue(value: any): void {
+  writeValue(value: string | null): void {
     this.value = value;
   };
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: string | null) => void): void {
     this.onChange = fn;
   };
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: ()=> void): void {
     this.onTouched = fn;
   };
 
   selectValue(value: any): void {
-    this.value = value;
-    this.onChange(value);
-    this.priceChange.emit(value.price)
+    this.value = value
+    this.onChange(this.value);
+    this.onTouched();
+    if (value.price) {
+      this.priceChange.emit(value.price)
+    };
   };
 
 }
