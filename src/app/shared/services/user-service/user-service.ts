@@ -12,7 +12,7 @@ export class UserService {
   private readonly orderUrl: string = 'https://687fdb48f1dcae717b6070d0.mockapi.io/order';
   private http = inject(HttpClient);
   
-  private getAllUser(): Observable<User[]> {
+  getAllUser(): Observable<User[]> {
     return this.http.get<User[]>(this.url);
   };
   private getUserById(id: number): Observable<User> {

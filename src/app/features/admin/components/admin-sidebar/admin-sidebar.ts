@@ -35,10 +35,10 @@ export class AdminSidebar {
         { key: 'table', label: 'Table', icon: 'pi pi-fw pi-id-card',
           items: [
             {
-              key: 'tbProducts', label: 'Products', routerLink: `/admin/ui-kid/table`
+              key: 'tbProducts', label: 'Products', routerLink: `/admin/ui-kid/table/tbProducts`
             },
             {
-              key: 'tbUsers', label: 'Users', routerLink: '/admin'
+              key: 'tbUsers', label: 'Users', routerLink: '/admin/ui-kid/table/tbUsers'
             }
           ]
          },
@@ -62,13 +62,13 @@ export class AdminSidebar {
         { key: 'landing', label: 'Landing', routerLink: undefined, icon: 'pi pi-fw pi-id-card' },
         { key: 'auth', label: 'Auth',
           items: [
-            { key: 'login', label: 'Login', routerLink: undefined },
-            { key: 'register', label: 'Register', routerLink: undefined }
+            { key: 'login', label: 'Login', routerLink: '' },
+            { key: 'register', label: 'Register', routerLink: '' }
           ]  
         },
-        { key: 'crud', label: 'Crud', routerLink: undefined, icon: 'pi pi-fw pi-id-card' },
-        { key: 'not-found', label: 'Not Found', routerLink: undefined, icon: 'pi pi-fw pi-id-card' },
-        { key: 'empty', label: 'Empty', routerLink: undefined, icon: 'pi pi-fw pi-id-card' }
+        { key: 'crud', label: 'Crud', icon: 'pi pi-fw pi-id-card' },
+        { key: 'not-found', label: 'Not Found', icon: 'pi pi-fw pi-id-card' },
+        { key: 'empty', label: 'Empty', icon: 'pi pi-fw pi-id-card' }
       ]
     },
     {
