@@ -5,7 +5,7 @@
     [paginator]="paginator"
     [rows]="rows"
     [sortMode]="sortable ? 'multiple' : 'single'"
-    [globalFilterFields]="['name', 'category', 'id']"
+    [globalFilterFields]="globalFilterFields"
     [expandedRowKeys]="expandedRows"
     [dataKey]="dataKey"
     >
@@ -64,7 +64,7 @@
         @if (!rowTemplate) {
             <tr>
             @for (col of columns; track col.field) {
-                <!-- <td>{{ rowData[col.field] }}</td> -->
+
                 <td class="text-(--p-surface-600)">
                     @if (isImagePath(rowData[col.field])) {
                         <img [src]="rowData[col.field]" alt="Image" style="max-width: 40px; max-height: 40px; border-radius: 4px;" />
@@ -84,7 +84,7 @@
         @if (captionMode === 'expand' && exRowTemplate) {
             <tr>
                 <td class="text-(--p-surface-600)">
-                    <ng-container *ngTemplateOutlet="exRowTemplate; context: { $implicit: exRowData }"></ng-container>
+                    <ng-container *ngTemplateOutlet="exRowTemplate; context: { $implicit: rowData }"></ng-container>
                 </td>
             </tr>
         }

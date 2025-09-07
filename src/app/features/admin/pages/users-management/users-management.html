@@ -1,0 +1,55 @@
+<div class="lg:ml-[280px] flex-1 py-7 lg:pr-7 max-lg:px-7">
+    <div class="flex flex-col xl:flex-wrap gap-7">
+        <div class="grid grid-cols-1 bg-(--p-surface-0) gap-7 p-7 border-1 border-(--p-surface-200) rounded-lg">
+            <div class="text-xl font-semibold">User list</div>
+            <app-table
+                [data]="users()"
+                [columns]="cartColumns"
+                [rowTemplate]="customRow"
+                [captionMode]="'search'"
+                [paginator]="true"
+                [rows]="10"
+                [globalFilterFields]="['id', 'email', 'phone', 'role']"
+            ></app-table>
+
+            <ng-template #customRow let-user let-columns="columns">
+                <tr style="color: var(--p-surface-600)">
+                    <td>
+                        {{ user.id }}
+                    </td>
+                    <td class="truncate-2 min-w-75">
+                        {{ user.email }}
+                    </td>
+                    @if (user.phone) {
+                        <td>
+                            {{ user.phone }}
+                        </td>
+                    } @else {
+                        <td class="color-(--p-surface-300)">none</td>
+                    }
+                    <td>
+                        {{ user.fullName }}
+                    </td>
+                    <td>
+                        {{ user.role }}
+                    </td>
+                    <td>
+                        {{ user.createdAt | dateTime }}
+                    </td>
+                </tr>
+            </ng-template>
+        </div>
+
+        <div class="grid grid-cols-1 bg-(--p-surface-0) gap-7 p-7 border-1 border-(--p-surface-200) rounded-lg">
+            <div class="text-xl font-semibold">Order list</div>
+            <app-table
+                [data]="users()"
+                [columns]="cartColumns"
+                [captionMode]="'expand'"
+                [paginator]="true"
+                [rows]="8"
+                [globalFilterFields]="['id', 'email', 'phone']"
+            ></app-table>
+        </div>
+    </div>
+</div>

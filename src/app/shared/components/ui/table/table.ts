@@ -28,6 +28,7 @@ export class myTable {
 
   @Input() sortable: boolean = false;
   @Input() searchable: boolean = false;
+  @Input() globalFilterFields: any[] = [];
   @Input() dataKey: string = '';
   @Input() captionMode: 'search' | 'expand' | 'none' = 'none';
 
