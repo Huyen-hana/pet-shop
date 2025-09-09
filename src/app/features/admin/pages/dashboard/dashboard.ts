@@ -16,9 +16,9 @@ import { ProductState } from '../../../../shared/services/state/product-state';
 export class Dashboard {
   public state = inject(ProductState);
 
-  constructor() {
-    console.log(this.state.reccentSales())
-  }
+  // constructor() {
+  //   console.log(this.state.reccentSales())
+  // }
 
   summaryCard: SummaryCard[] = [
     { title: 'Orders', data: '152', subtitle: ['24 new', 'since last visit'], icon: 'pi pi-shopping-cart' },

@@ -12,22 +12,22 @@
                     @for (item of summaryCard; track item.title) {
                     <div class="bg-(--p-surface-0) p-7 rounded-md">
                         
-                            <div class="flex justify-between mb-4">
-                                <div>
-                                    <span class="text-(--p-surface-500)">{{ item.title }}</span>
-                                    <div class="font-medium text-xl">
-                                        {{ item.data }}
-                                    </div>
-                                </div>
-                                <div class="flex items-center justify-center bg-(--p-primary-100) dark:bg-blue-400/10 rounded-md" style="width: 2.2rem; height: 2.2rem;">
-                                    <i [ngClass]="[item.icon, 'text-(--p-primary-600)']"></i>
+                        <div class="flex justify-between mb-4">
+                            <div>
+                                <span class="text-(--p-surface-500)">{{ item.title }}</span>
+                                <div class="font-medium text-xl">
+                                    {{ item.data }}
                                 </div>
                             </div>
-                            @if (item.subtitle.length >= 0) {
-                                <span class="text-(--p-primary-color)">{{ item.subtitle[0] }}</span>
-                                <span class="text-(--p-surface-500) text-sm ml-2">{{ item.subtitle[1] }}</span>
-                            }
+                            <div class="flex items-center justify-center bg-(--p-primary-100) dark:bg-blue-400/10 rounded-md" style="width: 2.2rem; height: 2.2rem;">
+                                <i [ngClass]="[item.icon, 'text-(--p-primary-600)']"></i>
+                            </div>
                         </div>
+                        @if (item.subtitle.length >= 0) {
+                            <span class="text-(--p-primary-color)">{{ item.subtitle[0] }}</span>
+                            <span class="text-(--p-surface-500) text-sm ml-2">{{ item.subtitle[1] }}</span>
+                        }
+                    </div>
                     }
                   
                 </div>
