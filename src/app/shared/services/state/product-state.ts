@@ -3,15 +3,14 @@ import { ProductService } from '../product-service/product-service';
 import { customMessageService } from '../message-service/message-service';
 import { Loading } from '../loading/loading';
 import { finalize, map, Subject, takeUntil } from 'rxjs';
-import { Order, ProductInOrder } from '../../models/order.model';
+import { ProductInOrder } from '../../models/order.model';
 import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductState {
-  // products = signal<Order[]>([]);
-  reccentSales= signal<ProductInOrder[]>([]);
+  reccentSales = signal<ProductInOrder[]>([]);
 
   private productService = inject(ProductService);
   private mesService = inject(customMessageService);

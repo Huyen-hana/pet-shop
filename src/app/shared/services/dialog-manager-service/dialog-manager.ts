@@ -43,11 +43,17 @@ export class DialogManager {
       header,
       message,
       icon: 'pi pi-exclamation-triangle',
-      accept: () => result$.next(true),
-      reject: () => result$.next(false),
+      accept: () => {
+        result$.next(true);
+        result$.complete();
+      },
+      reject: () => {
+        result$.next(false);
+        result$.complete();
+      },
       key: 'globalConfirm'
     });
-    return firstValueFrom(result$)
+    return firstValueFrom(result$);
   };
 
 }

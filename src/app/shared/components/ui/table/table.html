@@ -75,20 +75,52 @@
             }
             </tr>
         } @else {
-            <ng-container *ngTemplateOutlet="rowTemplate; context: { $implicit: rowData, columns: columns, expanded: expanded }"></ng-container>
+            <tr style="color: var(--p-surface-600)">
+                @if (captionMode === 'expand') {
+                    <td>
+                        <p-button type="button" pRipple [pRowToggler]="rowData" [text]="true" severity="secondary" [rounded]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+                    </td>
+                }
+                <ng-container *ngTemplateOutlet="rowTemplate; context: { $implicit: rowData, columns: columns, expanded: expanded }"></ng-container>
+            </tr>
         }
 
     </ng-template>
     
-    <ng-template p-template='expandedrow' let-rowData let-exRowData>
+    <ng-template #expandedrow let-rowData>
         @if (captionMode === 'expand' && exRowTemplate) {
-            <tr>
-                <td class="text-(--p-surface-600)">
-                    <ng-container *ngTemplateOutlet="exRowTemplate; context: { $implicit: rowData }"></ng-container>
-                </td>
-            </tr>
+          <tr>
+            <td [attr.colspan]="columns.length">
+                <div class="p-4">
+                    <div class="mb-2 text-(--p-surface-500)">Orders for {{ rowData.name }}</div>
+                    
+                    <p-table [value]="rowData.cart" [dataKey]="'productId'">
+                        <!-- ex header -->
+                        <ng-template pTemplate="header">
+                            <tr>
+                                @for (col of exRowcolums; track col.field) {
+                                    <th [pSortableColumn]="col.field">
+                                        <div class="flex items-center gap-2">
+                                            {{ col.header }}
+                                            <p-sortIcon [field]="col.field" />
+                                        </div>
+                                    </th>
+                                }
+                            </tr>            
+                        </ng-template>
+                        <!-- ex body -->
+                        <ng-template pTemplate="body" let-exRowData>
+                            <tr style="color: var(--p-surface-700)">
+                                <ng-container *ngTemplateOutlet="exRowTemplate; context: { $implicit: exRowData }"></ng-container>
+                            </tr>
+                        </ng-template>    
+                    </p-table>
+                </div>
+            </td>
+          </tr>
         }
-    </ng-template>
+      </ng-template>
+      
 
     <!-- Footer -->
     <ng-template pTemplate="footer">
