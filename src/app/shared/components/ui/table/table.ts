@@ -7,16 +7,18 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { Product } from '../../../models/product.model';
 import { Button } from "primeng/button";
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-table',
-  imports: [NgTemplateOutlet, CommonModule, TableModule, IconFieldModule, InputIconModule, InputTextModule, Button],
+  imports: [NgTemplateOutlet, CommonModule, TableModule, IconFieldModule, InputIconModule, InputTextModule, Button, ButtonModule],
   templateUrl: './table.html',
   styleUrl: './table.scss'
 })
 export class myTable {
   @Input() data!: any[];
   @Input() columns: { field: string; header: string; sortable?: boolean }[] = [];
+  @Input() exRowcolums: { field: string; header: string; sortable?: boolean }[] = [];
 
   @Input() headerTemplate?:  TemplateRef<any>;
   @Input() rowTemplate?: TemplateRef<any>;
@@ -52,7 +54,7 @@ export class myTable {
   };
   expandAll() {
     // dataKey: id
-    this.expandedRows = this.data.reduce((acc, p) => (acc[p.id] = true) && acc, {});
+    this.expandedRows = this.data.reduce((acc, p) => (acc[p[this.dataKey]] = true) && acc, {});
   };
   collapseAll() {
     this.expandedRows = {};

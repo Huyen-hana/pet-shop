@@ -13,7 +13,6 @@
             ></app-table>
 
             <ng-template #customRow let-user let-columns="columns">
-                <tr style="color: var(--p-surface-600)">
                     <td>
                         {{ user.id }}
                     </td>
@@ -36,20 +35,46 @@
                     <td>
                         {{ user.createdAt | dateTime }}
                     </td>
-                </tr>
             </ng-template>
         </div>
 
         <div class="grid grid-cols-1 bg-(--p-surface-0) gap-7 p-7 border-1 border-(--p-surface-200) rounded-lg">
             <div class="text-xl font-semibold">Order list</div>
             <app-table
-                [data]="users()"
-                [columns]="cartColumns"
+                [data]="orders()"
+                [columns]="orderCartColumns"
+                [exRowcolums]="orderCartColEx"
+                [dataKey]="'orderId'"
+                [rowTemplate]="customOrderRow"
+                [exRowTemplate]="exRow"
                 [captionMode]="'expand'"
                 [paginator]="true"
-                [rows]="8"
-                [globalFilterFields]="['id', 'email', 'phone']"
+                [rows]="7"
+                [globalFilterFields]="['orderId', 'email', 'phone']"
             ></app-table>
+
+            <ng-template #customOrderRow let-order let-columns="columns">
+                <td>{{ order.orderId }}</td>
+                <td>{{ order.email }}</td>
+                <td>{{ order.phone }}</td>
+                <td>{{ order.address }}</td>
+                <td>{{ order.paymentMethod }}</td>
+                <td>{{ order.createdAt | dateTime }}</td>
+                <td>{{ order.totalAmount }}</td>
+                <td>
+                    <p-tag
+                        [severity]="getSevere(order.orderStatus)"
+                        [value]="getStatus(order.orderStatus)"
+                        [rounded]="true" />
+                </td>
+            </ng-template>
+
+            <ng-template #exRow let-product>
+                <td>{{ product.productId }}</td>
+                <td>{{ product.productName }}</td>
+                <td>{{ product.unitPrice }}</td>
+                <td>{{ product.quantity }}</td>
+            </ng-template>
         </div>
     </div>
 </div>
