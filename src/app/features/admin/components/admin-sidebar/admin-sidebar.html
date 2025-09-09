@@ -1,0 +1,77 @@
+
+<div class="flex flex-col h-full bg-(--p-surface-0) rounded-md">
+    <div class="overflow-y-auto">
+        <ul class="list-none px-4 m-0">
+            @for (group of menuItems; track group.key) {
+
+                <li>
+                    <div
+                        pRipple
+                        pStyleClass="@next"
+                        enterFromClass="hidden"
+                        enterActiveClass="animate-slidedown"
+                        leaveToClass="hidden"
+                        leaveActiveClass="animate-slideup"
+                        class="py-4 pr-1 flex items-center justify-between text-surface-700 cursor-pointer p-ripple"
+                    >
+                        <span class="font-medium">{{ group.label }}</span>
+                    </div>
+                    <ul class="list-none p-0 m-0 overflow-hidden">
+                        @for (item of group.items; track item.key) {
+                            @if (item.items) {
+                                <li>
+                                    <a
+                                        pRipple
+                                        pStyleClass="@next"
+                                        enterFromClass="hidden"
+                                        enterActiveClass="animate-slidedown"
+                                        leaveToClass="hidden"
+                                        leaveActiveClass="animate-slideup"
+                                        class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors trigger p-ripple"
+                                    >
+                                        <i class="pi pi-chart-line mr-2"></i>
+                                        <span>{{ item.label }}</span>
+                                        <i class="pi pi-chevron-down ml-auto text-(--p-surface-400)"></i>
+                                    </a>
+
+                                    <ul class="list-none pl-4 m-0 overflow-hidden">
+                                        @for (child of item.items; track child.key) {
+                                            <li>
+                                                <a
+                                                    (click)="onItemClick($event)"
+                                                    [routerLink]="[child.routerLink]"
+                                                    pRipple
+                                                    class="flex items-center cursor-pointer px-3 py-1 rounded-border text-surface-600 hover:bg-surface-100 duration-150 transition-colors trigger p-ripple"
+                                                >
+                                                    <i class="mr-2"></i>
+                                                    <span>{{ child.label }}</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>                    
+                                </li>
+                                
+                            } @else {
+                                <li>
+                                    <a
+                                        (click)="onItemClick($event)"
+                                        [routerLink]="item.routerLink"
+                                        pRipple class="trigger p-ripple">
+                                        <i [class]="item.icon"></i>
+                                        <span class="ml-2">{{ item.label }}</span>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+            } 
+            
+            
+
+        </ul>
+    </div>
+</div>
+
+      
+    

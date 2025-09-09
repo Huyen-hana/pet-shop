@@ -1,0 +1,40 @@
+<div class="px-7 bg-(--p-surface-0) h-[var(--admin-header-height)] fixed top-0 left-0 right-0 z-997">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            @if (!(isDesktop$ | async)) {
+                <p-button
+                    (click)="toggleDrawer()"
+                    icon="pi pi-bars" [rounded]="true" [text]="true" severity="secondary" />
+                    
+                <div class="bg-(--p-surface-0) h-full rounded-md">
+                    <p-drawer #drawerRef [(visible)]="visible" [closable]="false" blockScroll="true">
+                        <ng-template #header>
+                            <div class="w-full flex items-center justify-between pl-4 pr-6 shrink-0">
+                                <span class="font-semibold block text-2xl text-primary">Your Logo</span>
+                                    <p-button
+                                        type="button" (click)="closeCallback($event)" icon="pi pi-times" rounded="true" outlined="true" styleClass="h-8 w-8"></p-button>
+                            </div>
+                        </ng-template>
+                        
+                        <app-admin-sidebar (closeDrawer)="closeCallback($event)"></app-admin-sidebar>
+                    </p-drawer>
+                </div>
+            }
+            <a [routerLink]="['/admin/dashboard']">
+                <img src="https://i.ibb.co/Y7sY4Tf6/Veterinary-Logo-Pet-Shop-Vector-Graphics-19036061-1-removebg-preview.png"
+                    alt="LogoDemo"
+                    class="w-full h-14 object-cover text-(--p-surface-0) pr-2">
+            </a>
+        </div>
+        <div>
+            <p-button
+                class="hidden lg:inline-block"
+                icon="pi pi-user" [rounded]="true" [text]="true" severity="secondary" />
+
+            <p-button
+                class=" lg:hidden"
+                [rounded]="true" [text]="true" severity="secondary"
+                icon="pi pi-ellipsis-v"/>
+        </div>
+    </div>
+</div>

@@ -1,12 +1,13 @@
 import { Component, inject, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Toast } from 'primeng/toast';
-import { filter, pipe, Subject, takeUntil } from 'rxjs';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { LoadingOverlay } from "./shared/components/ui/loading-overlay/loading-overlay";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Toast, LoadingOverlay],
+  imports: [RouterOutlet, Toast, ConfirmDialogModule, LoadingOverlay],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -23,14 +24,9 @@ export class App implements OnDestroy {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       })
   };
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   };
-  
-  myAmberToast = {
-    root: {
-      width: '300px'
-    }
-  }
 }

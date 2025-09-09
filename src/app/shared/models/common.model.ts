@@ -36,3 +36,33 @@ export interface CartItem {
     image?: string;
     currentStock: number;
 };
+
+export interface MenuCategory {
+    key: string;
+    label: string;
+    items: MenuChild[]
+};
+export interface MenuChild {
+    key: string;
+    label: string;
+    icon?: string;
+    routerLink?: string;
+    items?: MenuChild[]
+};
+
+export interface SummaryCard {
+    title: string;
+    data: string;
+    subtitle: string[];
+    icon: string;
+    color?: string;
+    bgColor?: string
+};
+
+export interface BestSellingItem {
+    name: string;
+    data: number;
+    category: string;
+    color: string;
+    backGround: string
+};

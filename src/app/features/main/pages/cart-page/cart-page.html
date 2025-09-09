@@ -27,57 +27,55 @@
 
             <!-- Body -->
             <ng-template #customRow let-product let-columns="columns">
-                <tr>
-                    <td>
-                        <a [routerLink]="['/main/products', product.id]">
-                        <img [src]="product.image" [alt]="product.name" class="w-24 rounded" />
-                        </a>
-                    </td>
-                    <td>
-                        <div class="line-clamp-2">
-                            <a [routerLink]="['/main/products', product.id]">{{ product.name }}</a>
-                        </div>
-                        <div class="text-sm text-(--p-surface-500)">Variants</div>
-                    </td>
-                    <td>
-                        {{ cartService.getDiscountedPrice(product.price, product.sale) * 1000 | number:'1.0-0' }}₫
-                    </td>
-                    <td>
-                        <span class="ml-auto font-semibold">
-                            {{ cartService.getItemQuantity(product.id) }}
-                        </span>
-                        <div class="mt-2">
-                            <p-buttongroup>
-                                <p-button (click)="decreaseQuant(product.id)" icon="pi pi-minus" [outlined]="true" [rounded]="true" />
-                                <p-button (click)="increaseQuant(product.id)" icon="pi pi-plus" [outlined]="true" [rounded]="true" />
-                            </p-buttongroup>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="font-semibold">
-                        {{
-                            cartService.getTotalPrice(product.price, product.sale, cartService.getItemQuantity(product.id)) * 1000
-                            | number:'1.0-0'
-                        }}₫
-                        </div>
-                    </td>
-                    <td>
-                        <p-button
-                            (click)="cartService.removeItem(product.id)"
-                            icon="pi pi-times"
-                            [outlined]="true"
-                            [rounded]="true"
-                            size="small"
-                        />
-                    </td>
-                </tr>
+                <td>
+                    <a [routerLink]="['/main/products', product.id]">
+                    <img [src]="product.image" [alt]="product.name" class="w-24 rounded" />
+                    </a>
+                </td>
+                <td>
+                    <div class="line-clamp-2">
+                        <a [routerLink]="['/main/products', product.id]">{{ product.name }}</a>
+                    </div>
+                    <div class="text-sm text-(--p-surface-500)">Variants</div>
+                </td>
+                <td>
+                    {{ cartService.getDiscountedPrice(product.price, product.sale) * 1000 | number:'1.0-0' }}₫
+                </td>
+                <td>
+                    <span class="ml-auto font-semibold">
+                        {{ cartService.getItemQuantity(product.id) }}
+                    </span>
+                    <div class="mt-2">
+                        <p-buttongroup>
+                            <p-button (click)="decreaseQuant(product.id)" icon="pi pi-minus" [outlined]="true" [rounded]="true" />
+                            <p-button (click)="increaseQuant(product.id)" icon="pi pi-plus" [outlined]="true" [rounded]="true" />
+                        </p-buttongroup>
+                    </div>
+                </td>
+                <td>
+                    <div class="font-semibold">
+                    {{
+                        cartService.getTotalPrice(product.price, product.sale, cartService.getItemQuantity(product.id)) * 1000
+                        | number:'1.0-0'
+                    }}₫
+                    </div>
+                </td>
+                <td>
+                    <p-button
+                        (click)="cartService.removeItem(product.id)"
+                        icon="pi pi-times"
+                        [outlined]="true"
+                        [rounded]="true"
+                        size="small"
+                    />
+                </td>
             </ng-template>
              <!-- Footer -->
             <ng-template #customfooter>
                 <tr>
                     <td colspan="6">
                         <div class="flex items-center justify-between">
-                            <span>
+                            <span class="text-(--p-surface-500)">
                                 In total there are {{ cartItems() ? cartItems().length : 0 }} products.
                             </span>
                             <p-button

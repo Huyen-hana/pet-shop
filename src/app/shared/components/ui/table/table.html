@@ -1,22 +1,57 @@
-<p-table 
+<p-table #dt2
     [value]="data"
     [columns]="columns"
-    [tableStyle]="{ 'min-width': '50rem' }"
+    [tableStyle]="{ 'min-width': '35rem' }"
     [paginator]="paginator"
     [rows]="rows"
     [sortMode]="sortable ? 'multiple' : 'single'"
+    [globalFilterFields]="globalFilterFields"
+    [expandedRowKeys]="expandedRows"
+    [dataKey]="dataKey"
     >
+
+    <ng-template #caption>
+        @switch (captionMode) {
+            @case ('none') {}
+            @case ('search') {
+                <div class="flex">
+                    <p-iconfield iconPosition="left" class="ml-auto">
+                        <p-inputicon>
+                            <i class="pi pi-search"></i>
+                        </p-inputicon>
+                        <input
+                            pInputText type="text" 
+                            (input)="onGlobalFilter($event)"
+                            placeholder="Search keyword" />
+                    </p-iconfield>
+                </div>
+            }
+            @case ('expand') {
+                <div class="flex flex-wrap justify-end gap-2">
+                    <p-button label="Expand All" icon="pi pi-plus" text (onClick)="expandAll()" />
+                    <p-button label="Collapse All" icon="pi pi-minus" text (onClick)="collapseAll()" />
+                </div>
+            }
+        }
+    </ng-template>
+
     <!-- Header -->
     <ng-template pTemplate="header">
         @if (!headerTemplate) {
             <tr>
             @for (col of columns; track col.field) {
-                <th [pSortableColumn]="col.field">
-                    <div class="flex items-center gap-2">
+                @if (!col.sortable) {
+                    <th>
                         {{ col.header }}
-                        <p-sortIcon [field]="col.field" />
-                    </div>
-                </th>
+                    </th>                
+                } @else {
+                    <th [pSortableColumn]="col.field">
+                        <div class="flex items-center gap-2">
+                            {{ col.header }}
+                            <p-sortIcon [field]="col.field" />
+                        </div>
+                    </th>
+                }
             }
             </tr>
         } @else {
@@ -25,23 +60,73 @@
     </ng-template>
   
     <!-- Body -->
-    <ng-template pTemplate="body" let-rowData>
+    <ng-template pTemplate="body" let-rowData let-expanded="expanded">
         @if (!rowTemplate) {
             <tr>
             @for (col of columns; track col.field) {
-                <td>{{ rowData[col.field] }}</td>
+
+                <td class="text-(--p-surface-600)">
+                    @if (isImagePath(rowData[col.field])) {
+                        <img [src]="rowData[col.field]" alt="Image" style="max-width: 40px; max-height: 40px; border-radius: 4px;" />
+                    } @else {
+                        {{ rowData[col.field] }}
+                    }
+                </td>
             }
             </tr>
         } @else {
-            <ng-container *ngTemplateOutlet="rowTemplate; context: { $implicit: rowData, columns: columns }"></ng-container>
+            <tr style="color: var(--p-surface-600)">
+                @if (captionMode === 'expand') {
+                    <td>
+                        <p-button type="button" pRipple [pRowToggler]="rowData" [text]="true" severity="secondary" [rounded]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+                    </td>
+                }
+                <ng-container *ngTemplateOutlet="rowTemplate; context: { $implicit: rowData, columns: columns, expanded: expanded }"></ng-container>
+            </tr>
         }
+
     </ng-template>
+    
+    <ng-template #expandedrow let-rowData>
+        @if (captionMode === 'expand' && exRowTemplate) {
+          <tr>
+            <td [attr.colspan]="columns.length">
+                <div class="p-4">
+                    <div class="mb-2 text-(--p-surface-500)">Orders for {{ rowData.name }}</div>
+                    
+                    <p-table [value]="rowData.cart" [dataKey]="'productId'">
+                        <!-- ex header -->
+                        <ng-template pTemplate="header">
+                            <tr>
+                                @for (col of exRowcolums; track col.field) {
+                                    <th [pSortableColumn]="col.field">
+                                        <div class="flex items-center gap-2">
+                                            {{ col.header }}
+                                            <p-sortIcon [field]="col.field" />
+                                        </div>
+                                    </th>
+                                }
+                            </tr>            
+                        </ng-template>
+                        <!-- ex body -->
+                        <ng-template pTemplate="body" let-exRowData>
+                            <tr style="color: var(--p-surface-700)">
+                                <ng-container *ngTemplateOutlet="exRowTemplate; context: { $implicit: exRowData }"></ng-container>
+                            </tr>
+                        </ng-template>    
+                    </p-table>
+                </div>
+            </td>
+          </tr>
+        }
+      </ng-template>
+      
 
     <!-- Footer -->
     <ng-template pTemplate="footer">
         @if (footerTemplate) {
             <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
-        }        
+        }
     </ng-template>
       
 </p-table>

@@ -1,0 +1,108 @@
+@if (isEditMode && product.id) {
+    <div class="mb-4">
+        <img
+            class="rounded-md border border-(--p-surface-300) shadow-md"
+            [src]="`assets/images/products/img/id${product.id}-thumb.jpg`" alt="thumb.jpg">
+    </div>
+}
+<form 
+    (ngSubmit)="onSubmitForm($event)"
+    [formGroup]="editForm">
+    <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2">
+            <label class="form-label">Image link</label>
+            <input pInputText
+                formControlName="img"
+                name="img"
+                type="text" class="form-control">
+    
+        </div>
+        <div class="flex flex-col gap-2">
+            <label class="form-label">Name</label>
+            <input pInputText
+                formControlName="name"
+                name="name"
+                type="text" class="form-control">
+        </div>
+
+        @if (isEditMode && product.id) {
+            <div class="flex flex-col gap-2">
+                <label class="form-label">Brand</label>
+                <input pInputText
+                    formControlName="brand"
+                    name="brand"
+                    type="text" class="form-control" readonly>
+            </div>
+        } @else {
+            <div class="flex flex-col gap-2">
+                <label class="form-label">Brand</label>
+                <input pInputText
+                    formControlName="brand"
+                    name="brand"
+                    type="text" class="form-control" >
+            </div>
+        }
+    </div>
+    <div class="flex flex-col sm:flex-row gap-4 mt-6">
+        <div class="sm:flex-1">
+            <div class="font-semibold">Type</div>
+            <app-radio-group
+                [name]="''"
+                [categories]="typeCate"
+                [groupName]="'type'"
+                formControlName="type"
+                >
+            </app-radio-group>
+        </div>
+        <div class="sm:flex-1">
+            <div class="font-semibold">Category</div>
+            <app-radio-group
+                [name]="''"
+                [categories]="categories"
+                [groupName]="'category'"
+                formControlName="category">
+            </app-radio-group>
+        </div>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-4">
+        <div class="flex-1">
+            <label class="form-label">CurrentStock</label>
+            <p-inputnumber
+                formControlName="currentStock"
+                name="currentStock"
+                mode="decimal"
+                inputId="currentStock" [useGrouping]="false"
+                class="w-full mt-2" />
+        </div>
+        <div class="flex-1">
+            <label class="form-label">Price</label>
+            <p-inputnumber
+                formControlName="price"
+                name="price"
+                mode="decimal"
+                inputId="price" [useGrouping]="false"
+                class="w-full mt-2" />
+        </div>
+    </div>
+    
+    <div class="flex flex-row-reverse gap-4 my-4">
+        <button
+            type="button"
+            (click)="close()"
+            [raised]="true"  severity="secondary"
+            pButton>
+                <i class="pi pi-times" pButtonIcon></i>
+                <span pButtonLabel>Cancel</span>
+        </button>
+
+        <button
+            type="submit"
+            [disabled]="editForm.invalid"
+            [raised]="true"
+            pButton>
+                <i class="pi pi-check" pButtonIcon></i>
+                <span pButtonLabel>Save</span>
+        </button>
+    </div>
+</form>
+

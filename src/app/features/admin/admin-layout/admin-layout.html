@@ -1,4 +1,14 @@
+<app-admin-header></app-admin-header>
 
-<main>
-    <router-outlet></router-outlet>
-</main>
+<div class=" mt-[var(--admin-header-height)] bg-(--p-surface-100)">
+    <div class="flex flex-col lg:flex-row"></div>
+    @if (isDesktop$ | async) {
+        <div class="lg:w-[280px] fixed top-[var(--admin-header-height)] left-0 h-[calc(100dvh-var(--admin-header-height))] bg-(--p-surface-100) p-7">
+            <app-admin-sidebar></app-admin-sidebar>
+        </div>
+    }
+    <main>
+        <router-outlet></router-outlet>
+    </main>
+</div>
+

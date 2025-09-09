@@ -1,0 +1,20 @@
+<span class="text-lg font-semibold">Best Selling Products</span>
+<ul class="list-none pt-4 m-0">
+    @for (item of bestSelling; track item.name) {
+        <li class="flex flex-col md:flex-row md:justify-between md:items-center md:gap-7 mb-6">
+            <div>
+                <span class="text-surface-900 dark:text-surface-0 font-medium mr-2 mb-1 md:mb-0">{{ item.name }}</span>
+                <div class="mt-1 text-(--p-surface-500)">{{ item.category }}</div>
+            </div>
+            <div class="mt-2 md:mt-0 flex items-center">
+                <div [ngClass]="['bg-(--p-surface-200)', 'dark:bg-(--p-surface-500)', 'rounded-md', 'overflow-hidden w-40', 'lg:w-24']" style="height: 8px;">
+                    <!-- range -->
+                    <div [ngClass]="[item.backGround, 'h-full']" [style]="`width: ${item.data}%`"></div>
+                </div>
+                <span [ngClass]="[item.color, 'ml-4', 'font-medium']" class="whitespace-nowrap">% {{ item.data }}</span>
+            </div>
+        </li>
+    }
+    
+</ul>
+
