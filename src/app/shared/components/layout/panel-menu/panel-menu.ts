@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuItem } from 'primeng/api';
 import { ActivatedRoute } from '@angular/router';
@@ -14,11 +14,12 @@ export class PanelMenu {
   activatedRoute = inject(ActivatedRoute);
 
   @Input() category: any[] = [];
+  @Output() itemClicked = new EventEmitter<void>();
 
   ngOnInit(): void {
-    console.log(this.category)
+    // console.log(this.category)
     this.renderPanelMenu();
-  }
+  };
 
   renderPanelMenu() {
     this.menu = (this.category || []).map(parent => ({
@@ -36,15 +37,17 @@ export class PanelMenu {
               items: nameItem.cateChild.map((child: any) => ({
                 label: child,
                 routerLink: ['/main/collections'],
+                command: () => this.itemClicked.emit()
               }))
             }
           : { label,
               routerLink: nameItem.routerLink || ['/main/collections'],
+              command: () => this.itemClicked.emit()
             };
       })
     }));
   
-  }
+  };
 
   //define color scheme for amber panel
   amberPanel = {

@@ -16,6 +16,7 @@ export class FilterPanel {
   @Input() menuFilter: Category[] = [];
   @Input() menuName: string = '';
   @Output() sortChanged = new EventEmitter<{ source: string; value: string[] }>();
+  @Output() closeDrawer = new EventEmitter<void>();
   @Input() panelId: string = '';
   selectedCateName: string = '';
   selectedCateNames: string[] = [];
@@ -29,6 +30,7 @@ export class FilterPanel {
       }
     );
     // console.log(value)
+    this.closeDrawer.emit();
   };  
 
   myAmberAccord = {

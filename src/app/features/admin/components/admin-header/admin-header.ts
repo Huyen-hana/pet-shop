@@ -1,17 +1,16 @@
-import {  Component, inject, OnInit, ViewChild } from '@angular/core';
+import {  Component, inject, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Button } from "primeng/button";
 import { AdminSidebar } from '../admin-sidebar/admin-sidebar';
 import { Drawer } from 'primeng/drawer';
 import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
-import { Menu } from 'primeng/menu';
 import { TailwindBreakpoint } from '../../../../shared/services/tailwind-breakpoint/tailwind-breakpoint';
 
 
 @Component({
   selector: 'app-admin-header',
-  imports: [RouterLink, CommonModule, Button, AdminSidebar, Drawer, Menu],
+  imports: [RouterLink, CommonModule, Button, AdminSidebar, Drawer],
   templateUrl: './admin-header.html',
   styleUrl: './admin-header.scss'
 })

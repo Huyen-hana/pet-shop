@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Product } from '../../../../shared/models/product.model';
 import { Paginator } from '../../../../shared/components/layout/paginator/paginator/paginator';
 import { PaginatorState } from 'primeng/paginator';
@@ -56,8 +56,8 @@ export class ProductList {
   sortFilter: Category[] = [
     { cateId: 'Sort by',
       cateNameList: [
-        { cateName: 'Low to high' },
-        { cateName: 'High to low' },
+        { cateName: 'Price Low to high' },
+        { cateName: 'Price High to low' },
         { cateName: 'New to old' },
         { cateName: 'Old to new' },
       ]
@@ -159,10 +159,10 @@ export class ProductList {
     let sorted = [...this.filterProducts];
   
     switch (selected) {
-      case 'Low to high':
+      case 'Price Low to high':
         sorted.sort((a, b) => a.price - b.price);
         break;
-      case 'High to low':
+      case 'Price High to low':
         sorted.sort((a, b) => b.price - a.price);
         break;
       case 'New to old':

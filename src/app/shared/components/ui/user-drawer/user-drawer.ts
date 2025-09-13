@@ -18,8 +18,9 @@ import { customMessageService } from '../../../services/message-service/message-
   selector: 'app-user-drawer',
   imports: [
     CommonModule, ReactiveFormsModule, FormsModule, ErrorValidate, InputTextModule, AsyncPipe,
-    DrawerModule, AvatarModule, ButtonModule
-  ],
+    DrawerModule, AvatarModule, ButtonModule,
+    RouterLink
+],
   templateUrl: './user-drawer.html',
   styleUrl: './user-drawer.scss'
 })
@@ -30,7 +31,7 @@ export class UserDrawer implements OnInit, OnDestroy {
   isLogin$: Observable<boolean> | undefined;
   private route = inject(Router);
   username$: Observable<string | null>;
-  role: string | null = '';
+  role$: Observable<string | null>;
   avatar$: Observable<string | null>;
   isLoading: boolean = false;
 
@@ -44,7 +45,8 @@ export class UserDrawer implements OnInit, OnDestroy {
   constructor() {
     this.username$ = this.authService.getUserName();
     this.avatar$ = this.authService.getAvatar();
-  }
+    this.role$ = this.authService.getRole();
+  };
   
   ngOnInit(): void {
     this.createPlatform();

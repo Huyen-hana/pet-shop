@@ -1,26 +1,19 @@
 <ng-container>
     @if (titleMenu === 'Menu') {
-        <p-drawer [header]="titleMenu"
+        <p-drawer
+            [header]="titleMenu"
             [(visible)]="visibleMenu" position="left"
             blockScroll="true">
         
-            <app-panel-menu [category]="category"></app-panel-menu>
+            <app-panel-menu
+                (itemClicked)="visibleMenu = false"
+                [category]="category">
+            </app-panel-menu>
         
         </p-drawer>
         <i class="pi pi-bars text-(--p-surface-0) p-3.75 cursor-pointer"
             [style]="{ 'font-size': '23px' }"
             (click)="visibleMenu = true">
         </i>
-    }
-</ng-container>
-
-<ng-container>
-    @if (titleMenu === 'User') {
-        <p-drawer [header]="titleMenu"
-            [(visible)]="visibleMenu" position="right"
-            blockScroll="true">
-        
-            <app-panel-menu [category]="category"></app-panel-menu>
-        </p-drawer>
     }
 </ng-container>

@@ -8,7 +8,7 @@ import { PanelMenu } from '../../layout/panel-menu/panel-menu';
   templateUrl: './drawer.html',
   styleUrl: './drawer.scss'
 })
-export class Drawer {
+export class menuDrawer {
   visibleMenu: boolean = false;
 
   @Input() titleMenu: string = 'Menu'

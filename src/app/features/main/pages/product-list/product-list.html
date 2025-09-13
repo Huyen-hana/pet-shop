@@ -3,12 +3,13 @@
       All products
     </div>
   
+    <!-- filter / sort < lg -->
     <div class="flex justify-between gap-2">
       <div class="flex-1 lg:hidden relative">
         <i (click)="isShowFilter()" class="pi pi-filter p-2" style="font-size: 1rem"></i>
         <p-drawer
           blockScroll="true"
-          header="Filter" [(visible)]="isShow" position="bottom" [style]="{ 'min-height': '60vh' }">
+          header="Filter" [(visible)]="isShow" position="bottom" [style]="{ 'min-height': '40vh' }">
           @if (isShow) {
             <app-filter-panel
               [menuName]="'filter'"
@@ -23,20 +24,20 @@
           class="pi pi-sort p-2" style="font-size: 1rem"></i>
         <p-drawer
           blockScroll="true"
-          header="Sort" [(visible)]="showSort" position="bottom" [style]="{ 'min-height': '60vh' }">
-          @if (showSort) {
+          header="Sort" [(visible)]="showSort" position="bottom" [style]="{ 'min-height': '40vh' }">
+
             <app-filter-panel
               [panelId]="'drawer-sort'"
               [menuName]="'sort'"
               (sortChanged)="onSortChanged($event)"
+              (closeDrawer)="showSort = false"
               [menuFilter]="sortFilter" ></app-filter-panel>
-          }
-      </p-drawer>
+        </p-drawer>
       </div>
     </div>
   
     <div class="grid grid-cols-1 lg:grid-cols-[210px_1fr] gap-3.75">
-      <!-- filter -->
+      <!-- filter / sort > lg -->
       <div class="hidden lg:block">
         @if (!isShow) {
           <app-filter-panel

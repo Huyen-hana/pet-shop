@@ -26,10 +26,9 @@ export class ProductDetail implements OnInit {
   cartItemService = inject(CartService);
   product!: Product;
   selectedQuantities: { [productId: string]: number } = {};
-  private images: any[] = [];
-  get demoImages() {
-    return this.images;
-  };
+  images: any[] = [];
+  displayBasic: boolean = false;
+  activeIndex: number = 0;
   
   ngOnInit(): void {
     this.renderProduct();
@@ -49,7 +48,7 @@ export class ProductDetail implements OnInit {
       next: (data) => {
         this.product = data;
 
-        this.images = [];
+        // this.images = [];
 
         const imagePath = `assets/images/products/img/id${data.id}.webp`;
         const thumbPath = `assets/images/products/img/id${data.id}-thumb.jpg`;
@@ -57,7 +56,8 @@ export class ProductDetail implements OnInit {
         this.images = Array.from({ length: 5 }, (_, i) => ({
           itemImageSrc: imagePath,
           thumbnailImageSrc: thumbPath,
-          title: `${data.name} - ${i + 1}`
+          title: `${data.name} - ${i + 1}`,
+          alt: `${data.name} - ${i + 1}`
         }));      
 
         // this.images = [...newImages, ...this.images];
@@ -115,6 +115,11 @@ export class ProductDetail implements OnInit {
 
   getQuantity(productId: string): number {
     return this.selectedQuantities[productId] || 1;
+  };
+
+  openFullScreen(i: number) {
+    this.activeIndex = i;
+    this.displayBasic = true;  
   };
 
   responsiveOptions: any[] = [

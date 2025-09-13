@@ -58,6 +58,11 @@ export class AuthService {
       map(user => user ? user.avatar : null)
     );
   };
+  getRole(): Observable<string | null> {
+    return this.currentUserSubject.asObservable().pipe(
+      map(user => user ? user.role : null)
+    );
+  };
 
   //setup inital user local when destroy component
   loadUserFromLocalStorage(): void {

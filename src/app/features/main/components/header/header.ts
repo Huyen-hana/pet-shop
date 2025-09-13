@@ -3,12 +3,11 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Megamenu } from '../../../../shared/components/layout/megamenu/megamenu';
 import { Search } from '../../../../shared/components/ui/search/search';
-import { Drawer } from '../../../../shared/components/ui/drawer/drawer';
+import { menuDrawer } from '../../../../shared/components/ui/drawer/drawer';
 import { ButtonModule } from 'primeng/button';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { Category } from '../../../../shared/models/common.model';
-import { AuthService } from '../../../../shared/services/auth-service/auth-service';
 import { UserDrawer } from '../../../../shared/components/ui/user-drawer/user-drawer';
 import { MiniCart } from '../../../../shared/components/bussiness/cart/mini-cart/mini-cart';
 import { CartService } from '../../../../shared/services/cart-service/cart-service';
@@ -21,7 +20,7 @@ import { SearchService } from '../../../../shared/services/search-service/search
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, CommonModule, Megamenu, Search, Drawer, UserDrawer, MiniCart, ButtonModule, BadgeModule, OverlayBadgeModule, AsyncPipe],
+  imports: [RouterLink, CommonModule, Megamenu, Search, menuDrawer, UserDrawer, MiniCart, ButtonModule, BadgeModule, OverlayBadgeModule, AsyncPipe],
   templateUrl: './header.html',
   styleUrl: './header.scss'
 })

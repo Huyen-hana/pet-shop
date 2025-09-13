@@ -4,11 +4,14 @@
       <div class="col-span-1 xl:col-span-3 md:mr-15">
         <div class="card">
             <p-galleria 
-                [value]="demoImages" [thumbnailsPosition]="position"
-                [circular]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '100%' }" [numVisible]="4">
-                <ng-template pTemplate="item" let-item>
+                [value]="images" [thumbnailsPosition]="position"
+                [circular]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '100%' }" [numVisible]="4"
+                >
+                <ng-template pTemplate="item" let-item let-index="index">
                     <img [src]="item.itemImageSrc"
-                        style="width: 100%; display: block; aspect-ratio: 1 / 1" />
+                        style="width: 100%; display: block; aspect-ratio: 1 / 1; cursor: crosshair;"
+                        (click)=" openFullScreen(index)"
+                />
                 </ng-template>
                 <ng-template pTemplate="thumbnail" let-item>
                     <div class="grid gap-4 justify-center">
@@ -16,6 +19,19 @@
                     </div>
                 </ng-template>
             </p-galleria>
+            
+            @if (images.length && displayBasic) {
+                <p-galleria
+                    [value]="images"
+                    [(visible)]="displayBasic"
+                    [fullScreen]="true"
+                    [showThumbnails]="false"
+                    >
+                    <ng-template pTemplate="item" let-item>
+                        <img [src]="item.itemImageSrc" style="width: 100%; height: 100vh; object-fit: contain; display: block" />
+                    </ng-template>
+                </p-galleria>
+            }
         </div>
       </div>
   
