@@ -47,6 +47,7 @@
             <div class="flex justify-start mt-2 gap-3.75">
                 <p-button
                     [disabled]="formRegister.invalid"
+                    [loading]="isLoading"
                     severity="info"
                     type="submit"
                     label="Đăng Ký" [rounded]="true" [raised]="true" />

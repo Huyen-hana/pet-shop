@@ -11,9 +11,13 @@ export class ErrorHandler {
   handleError(error: any) {
     console.error('Error occurred: ', error);
     if(error instanceof HttpErrorResponse) {
+      const isUserEmailCheck = error.url?.includes('/user') && error.url?.includes('?email=');
+      
       switch (error.status) {
-        case 404: 
-          this.router.navigate(['/error/404'])
+        case 404:
+          if (!isUserEmailCheck) {
+            this.router.navigate(['/error/404']);
+          }
           break;
         case 500: 
           this.router.navigate(['/error/500'])

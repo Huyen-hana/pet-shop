@@ -8,7 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../../../shared/services/user-service/user-service';
-import { Subscription } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { Router } from '@angular/router';
 import { customMessageService } from '../../../../../shared/services/message-service/message-service';
@@ -33,6 +33,7 @@ export class Register {
   subscriptNewUser: Subscription | undefined;
   private destroyRef = inject(DestroyRef);
   private messService = inject(customMessageService);
+  isLoading: boolean = false;
 
   ngOnInit(): void {
     this.createPlatform();
@@ -45,7 +46,7 @@ export class Register {
     if (this.subscriptNewUser) {
       this.subscriptNewUser.unsubscribe()
     };
-  }
+  };
 
   createPlatform() {
     this.formRegister = this.formBuilder.group({
@@ -65,10 +66,10 @@ export class Register {
         Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
       ]]
     })
-    this.formRegister.valueChanges.subscribe(formValue => {
+    // this.formRegister.valueChanges.subscribe(formValue => {
 
-    })
-  }
+    // })
+  };
   get username() {
     return this.formRegister.get('username')
   }
@@ -77,63 +78,26 @@ export class Register {
   }
   get email() {
     return this.formRegister.get('email')
-  }
-
-  // onSubmitForm(event: Event) {
-  //   event.preventDefault();
-  //   const { email, username, passWord } = this.formRegister.value;
-  //   this.subscript = this.userService.checkUserByEmail(email).subscribe(isExist => {
-  //     if (!isExist) {
-  //       console.log('Đăng ký thành công', isExist);
-  //       const createdAt = new Date().toISOString();
-  //       let newUser = {
-  //         email,
-  //         fullName: username,
-  //         passWord,
-  //         createdAt,
-  //         role: 'customer' as 'customer',
-  //         avatar: 'https://avatars.githubusercontent.com/u/95056864',
-  //         phone: ''
-  //       };
-
-  //       this.userService.createUser(newUser)
-  //         .pipe(takeUntilDestroyed(this.destroyRef))
-  //         .subscribe({
-  //           next: (res) => {
-  //             this.messService.showSuccess('Đăng kí thành công', '')
-  //             if (res) {
-  //               this.formRegister.reset();
-  //             }
-  //           },
-  //           error: (err) => {
-  //             this.messService.showError('Đăng ký thất bại', err.error?.message);
-  //           },
-  //           complete: () => console.log('Hoàn tất xử lý')
-  //           }
-  //         )
-
-  //     } else {
-  //       this.messService.showWarn('Email đã tồn tại', 'Hãy nhập Email khác.')
-  //     }
-  //   }); 
-  // };
+  };
   
   onSubmitForm(event: Event) {
     event.preventDefault();
-  
+    this.isLoading = true;
     const { email, username, passWord } = this.formRegister.value;
   
     if (!email || !username || !passWord) {
       this.messService.showWarn('Please fill in all information', '');
+      this.isLoading = false;
       return;
     }
   
     this.subscript = this.userService.checkUserByEmail(email).pipe(
-      takeUntilDestroyed(this.destroyRef)
+      takeUntilDestroyed(this.destroyRef),
     ).subscribe({
       next: (isExist: boolean) => {
         if (isExist) {
           this.messService.showWarn('Email already exists', 'Please enter another Email.');
+          this.isLoading = false;
           return;
         }
   
@@ -149,12 +113,13 @@ export class Register {
         };
   
         this.userService.createUser(newUser).pipe(
-          takeUntilDestroyed(this.destroyRef)
+          takeUntilDestroyed(this.destroyRef),
+          finalize(() => this.isLoading = false)
         ).subscribe({
           next: (res) => {
-            this.messService.showSuccess('Registered successfully', '');
+            this.messService.showSuccess('Registered successfully', `Welcome ${username}, your account is ready to use.`);
             if (res) {
-              this.formRegister.reset();
+              this.goHome();
             }
           },
           error: (err) => {

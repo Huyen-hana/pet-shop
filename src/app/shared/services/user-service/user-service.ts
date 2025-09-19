@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { User } from '../../models/user.model';
-import { Observable, catchError, map, of } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Order } from '../../models/order.model';
 
 @Injectable({
@@ -20,12 +20,15 @@ export class UserService {
   };
 
   private getUserByEmail(email: string): Observable<User | null> {
-    const queryParams = new HttpParams().set('email', email.trim().toLowerCase());
+    const queryParams = new HttpParams().set('email', email.trim());
     return this.http.get<User[]>(`${this.url}`, { params: queryParams }).pipe(
       map(users => users.length > 0 ? users[0] : null),
       catchError(error => {
+        if (error.status === 404) {
+          return of(null);
+        };
         console.error('Cannot getUserByEmail:', error);
-        return of(null);
+        return throwError(() => error);
       })
     );
   };
@@ -71,9 +74,12 @@ export class UserService {
     };
     return this.getUserByEmail(email).pipe(
       map((user: User | null) => !!user),
-      catchError(error => {
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          return of(false);
+        }
         console.error('Lỗi khi kiểm tra email:', error);
-        return of(false);
+        return throwError(() => error);
       })
     );
   };
