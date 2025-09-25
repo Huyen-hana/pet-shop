@@ -19,7 +19,7 @@ export class UserService {
     return this.http.get<User>(`${this.url}/${id}`);
   };
 
-  private getUserByEmail(email: string): Observable<User | null> {
+  public getUserByEmail(email: string): Observable<User | null> {
     const queryParams = new HttpParams().set('email', email.trim());
     return this.http.get<User[]>(`${this.url}`, { params: queryParams }).pipe(
       map(users => users.length > 0 ? users[0] : null),
