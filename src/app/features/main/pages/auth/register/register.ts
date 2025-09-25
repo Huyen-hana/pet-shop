@@ -129,6 +129,7 @@ export class Register {
       },
       error: (err) => {
         this.messService.showError('Error checking email', err.error?.message || 'Cannot check email');
+        this.isLoading = false;
       }
     });
   };
