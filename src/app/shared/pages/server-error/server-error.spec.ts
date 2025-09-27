@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ServerError } from './server-error';
+import { provideRouter } from '@angular/router';
 
 describe('ServerError', () => {
   let component: ServerError;
@@ -8,7 +9,10 @@ describe('ServerError', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ServerError]
+      imports: [ServerError],
+      providers: [
+        provideRouter([])
+      ]
     })
     .compileComponents();
 
