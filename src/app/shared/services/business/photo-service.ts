@@ -1,4 +1,4 @@
-import { inject, Injectable, OnInit } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Image } from '../../models/common.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -64,8 +64,7 @@ export class Photo {
       }
     ]
 
-  //real api
-  getImages(): Observable<Image[]> {
-    return this.http.get<Image[]>(this.photoUrl)
-  }
+  // getImages(): Observable<Image[]> {
+  //   return this.http.get<Image[]>(this.photoUrl)
+  // }
 }
