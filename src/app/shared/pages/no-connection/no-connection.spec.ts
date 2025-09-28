@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NoConnection } from './no-connection';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('NoConnection', () => {
   let component: NoConnection;
@@ -8,7 +9,10 @@ describe('NoConnection', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NoConnection]
+      imports: [NoConnection],
+      providers: [
+        provideHttpClient()
+      ]
     })
     .compileComponents();
 

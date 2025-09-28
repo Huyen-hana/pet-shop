@@ -20,7 +20,7 @@ import { CartService } from '../../../../shared/services/cart-service/cart-servi
 })
 export class ProductDetail implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
-  private destroy$ = new Subject<void>;
+  public destroy$ = new Subject<void>;
   private productService = inject(ProductService);
   private messageService = inject(customMessageService);
   cartItemService = inject(CartService);

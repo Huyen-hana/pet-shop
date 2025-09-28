@@ -23,11 +23,11 @@ export class PanelMenu {
 
   renderPanelMenu() {
     this.menu = (this.category || []).map(parent => ({
-      label: parent.cateId,
+      label: parent.cateId ?? '',
       items: (parent.cateNameList || []).map((nameItem: any) => {
         const label = Array.isArray(nameItem.cateName)
           ? nameItem.cateName[0]
-          : nameItem.cateName;
+          : nameItem.cateName ?? '';
   
         const hasChild = Array.isArray(nameItem.cateChild) && nameItem.cateChild.length > 0;
   

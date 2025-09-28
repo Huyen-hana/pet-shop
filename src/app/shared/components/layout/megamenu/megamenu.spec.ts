@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Megamenu } from './megamenu';
+import { provideRouter } from '@angular/router';
 
 describe('Megamenu', () => {
   let component: Megamenu;
@@ -8,7 +9,10 @@ describe('Megamenu', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Megamenu]
+      imports: [Megamenu],
+      providers: [
+        provideRouter([])
+      ]
     })
     .compileComponents();
 
