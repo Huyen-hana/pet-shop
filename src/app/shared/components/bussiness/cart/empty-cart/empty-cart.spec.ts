@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EmptyCart } from './empty-cart';
+import { provideRouter } from '@angular/router';
 
 describe('EmptyCart', () => {
   let component: EmptyCart;
@@ -8,7 +9,10 @@ describe('EmptyCart', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EmptyCart]
+      imports: [EmptyCart],
+      providers: [
+        provideRouter([])
+      ]
     })
     .compileComponents();
 
