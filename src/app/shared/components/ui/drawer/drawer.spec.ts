@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Drawer } from 'primeng/drawer';
 
-import { Drawer } from './drawer';
 
 describe('Drawer', () => {
   let component: Drawer;

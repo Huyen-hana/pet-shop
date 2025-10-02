@@ -38,7 +38,7 @@ export class UserDrawer implements OnInit, OnDestroy {
   formLogin!: FormGroup;
   private formBuilder = inject(FormBuilder);
   private userService = inject(UserService);
-  private authService = inject(AuthService);
+  public authService = inject(AuthService);
   private customMessageService = inject(customMessageService);
   subscript: Subscription | undefined;
 

@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, Input, OnInit } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { Button } from "primeng/button";
 import { TagModule } from 'primeng/tag';
@@ -12,7 +12,8 @@ import { customMessageService } from '../../../../services/message-service/messa
   selector: 'app-product-card',
   imports: [RouterLink, CardModule, Button, TagModule, CommonModule],
   templateUrl: './product-card.html',
-  styleUrl: './product-card.scss'
+  styleUrl: './product-card.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ProductCard implements OnInit {
   @Input() product?: Product;

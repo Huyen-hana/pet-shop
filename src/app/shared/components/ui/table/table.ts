@@ -1,5 +1,5 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, NO_ERRORS_SCHEMA, TemplateRef, ViewChild } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Table } from 'primeng/table';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -13,7 +13,8 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-table',
   imports: [NgTemplateOutlet, CommonModule, TableModule, IconFieldModule, InputIconModule, InputTextModule, Button, ButtonModule],
   templateUrl: './table.html',
-  styleUrl: './table.scss'
+  styleUrl: './table.scss',
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class myTable {
   @Input() data!: any[];

@@ -16,13 +16,14 @@ import { Loading } from '../../../../shared/services/loading/loading';
   selector: 'app-product-list',
   imports: [ProductCard, Paginator, FilterPanel, DrawerModule],
   templateUrl: './product-list.html',
-  styleUrl: './product-list.scss'
+  styleUrl: './product-list.scss',
+
 })
 export class ProductList {
   productService = inject(ProductService);
   activatedRoute = inject(ActivatedRoute);
   messageService = inject(customMessageService);
-  private destroys$ = new Subject<void>();
+  public destroys$ = new Subject<void>();
   private timeoutId: any;
   private loadingService = inject(Loading);
   isShow: boolean = false;
@@ -86,7 +87,7 @@ export class ProductList {
     })
   };
 
-  private typeChange(type: string) {
+  public typeChange(type: string): void {
     if (type === 'all') {
       this.loadProducts();
     } else {
