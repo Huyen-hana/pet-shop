@@ -1,37 +1,48 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { App } from './app';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MainLayout } from './features/main/main-layout/main-layout';
-import { NavigationEnd, provideRouter, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 describe('App', () => {
 
   let component: App;
   let fixture: ComponentFixture<App>;
-  let router: Router;
+  let routerEvents$: Subject<any>;
   let scrollSpy: jasmine.Spy;
+  let routerMock: Partial<Router>;
 
   beforeEach(async () => {
+    routerEvents$ = new Subject<any>();
+    routerMock = {
+      events: routerEvents$,
+      navigate: jasmine.createSpy(),
+      navigateByUrl: jasmine.createSpy()
+    };
+
     await TestBed.configureTestingModule({
       imports: [App, MainLayout],
       providers: [
         MessageService,
         DialogService,
         ConfirmationService,
-        provideRouter([
-          { path: 'main/home', component: MainLayout },
-          { path: '', redirectTo: 'main/home', pathMatch: 'full' }
-        ])
+        { provide: Router, useValue: routerMock }
       ]
     }).compileComponents();
-
+  });
+  
+  beforeEach(() => {
     fixture = TestBed.createComponent(App);
     component = fixture.componentInstance;
-    router = TestBed.inject(Router);
     scrollSpy = spyOn(window, 'scrollTo');
     fixture.detectChanges();
+  });  
+
+  afterEach(() => {
+    scrollSpy.calls.reset();
+    component.ngOnDestroy();
   });
 
   it('should create the app', () => {
@@ -47,16 +58,17 @@ describe('App', () => {
     expect(compiled.querySelector('router-outlet')).toBeTruthy();
   });
 
-  it('should scroll to top on NavigationEnd', () => {
-    const navEnd = new NavigationEnd(1, '/main/home', '/main/home');
-    (router.events as Subject<any>).next(navEnd);
-    expect(scrollSpy).toHaveBeenCalled();
-  });
+  it('should scroll to top on NavigationEnd', fakeAsync(() => {
+    routerEvents$.next(new NavigationEnd(1, '/main/home', '/main/home'));
+    tick();
+    expect(scrollSpy).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' });
+  }));
 
-  it('should not scroll if event is not NavigationEnd', () => {
-    (router.events as Subject<any>).next({ type: 'OtherEvent' });
+  it('should not scroll if event is not NavigationEnd', fakeAsync(() => {
+    routerEvents$.next({ type: 'OtherEvent' });
+    tick();
     expect(scrollSpy).not.toHaveBeenCalled();
-  });
+  }));
 
   it('should have destroy$ as Subject', () => {
     expect((component as any).destroy$ instanceof Subject).toBeTrue();
@@ -70,10 +82,10 @@ describe('App', () => {
     expect(completeSpy).toHaveBeenCalled();
   });
 
-  it('should unsubscribe after destroy', () => {
+  it('should not scroll after destroy', fakeAsync(() => {
     component.ngOnDestroy();
-    (router.events as Subject<any>).next(new NavigationEnd(1, '', ''));
+    routerEvents$.next(new NavigationEnd(1, '', ''));
+    tick();
     expect(scrollSpy).not.toHaveBeenCalled();
-  });
-  
+  }));
 });
