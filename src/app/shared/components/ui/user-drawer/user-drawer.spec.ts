@@ -42,12 +42,15 @@ describe('UserDrawer', () => {
     fixture = TestBed.createComponent(UserDrawer);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
 
-  beforeEach(() => {
     spyOn(component.formLogin, 'reset');
     navigateSpy = spyOn(component['route'], 'navigateByUrl');
     scrollSpy = spyOn(window as any, 'scrollTo');
+  });
+
+  afterEach(() => {
+    navigateSpy.calls.reset();
+    scrollSpy.calls.reset();
   });
 
   it('should create', () => {
@@ -56,11 +59,7 @@ describe('UserDrawer', () => {
 
   describe('onSubmitForm', () => {
     it('should login and navigate to admin dashboard if user is admin', fakeAsync(() => {
-      const mockUser = {
-        fullName: 'Huyen Nguyen',
-        avatar: 'ava.png',
-        role: 'admin'
-      };
+      const mockUser = { fullName: 'Huyen Nguyen', avatar: 'ava.png', role: 'admin' };
       userSpy.checkHaveUser.and.returnValue(of(mockUser));
       authSpy.setCurrentUser.and.stub();
       authSpy.login.and.stub();
@@ -89,11 +88,7 @@ describe('UserDrawer', () => {
     }));
 
     it('should login and reset form if user is not admin', fakeAsync(() => {
-      const mockUser = {
-        fullName: 'Lan Pham',
-        avatar: 'ava.png',
-        role: 'customer'
-      };
+      const mockUser = { fullName: 'Lan Pham', avatar: 'ava.png', role: 'customer' };
       userSpy.checkHaveUser.and.returnValue(of(mockUser));
       authSpy.setCurrentUser.and.stub();
       authSpy.login.and.stub();
